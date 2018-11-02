@@ -1,7 +1,7 @@
-void random_resolution(){
-  const char * errors_fromresolution="DATA/results_from_resolution.dat";
-  const char * randata="/home/Thakur.Bhatta/seconddata/final/randomdata0.dat"; //storing the mean and sigma from toy mc
-  const char * saving_random="PLOT/randompd.pdf";
+void random_resolution3(){
+  const char * errors_fromresolution="DATA/results_from_resolution3.dat";
+  const char * randata="/home/Thakur.Bhatta/seconddata/final/randomdata3.dat"; //storing the mean and sigma from toy mc
+  const char * saving_random="PLOT/randompdf3.pdf";
 
   const int ENERGY=1332;
   const int TRIALS=pow(10,6);

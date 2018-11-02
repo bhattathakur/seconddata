@@ -1,5 +1,5 @@
 {
-  	 const char * filename="ROOTFILES/final1.root";
+  	 const char * filename="ROOTFILES/final3.root";
 	  TFile *MyFile = new TFile(filename,"READ");
 	  if(MyFile->IsOpen())cout<<filename<<" file opened successfully\n";
 	  TH1F *h = (TH1F*)MyFile->Get("histofinal");
