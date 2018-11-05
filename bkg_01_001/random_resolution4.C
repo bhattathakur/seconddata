@@ -1,6 +1,6 @@
 void random_resolution4(){
   const char * errors_fromresolution="DATA/results_from_resolution4.dat";
-  const char * randata="final/randomdata4.dat"; //storing the mean and sigma from toy mc
+  const char * randata="/home/Thakur.Bhatta/seconddata/final/randomdata4.dat"; //storing the mean and sigma from toy mc
   const char * saving_random="PLOT/randompdf4.pdf";
 
   const int ENERGY=1332;
