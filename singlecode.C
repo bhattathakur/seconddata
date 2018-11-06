@@ -3,18 +3,29 @@ const char * inputdatafile="bkg_01_001.dat"; //file with input data
 
 //Defining the files for initialroot file
 const char * initial_root_file="initialtest.root"; //for storing the histogram in rootbkg_01_000.dat
+const char * initialhisto="initialroothisto";
 const char * initialhistopdf="initialhistotest.pdf";//initial histogram as pdf file
 
 //Defining the files for finalroot file
 const char * final_root_file="finaltest.root"; //Stores the root file
+const char * finalhisto="finalroothisto";
 const char * intercept_slopefile="slope_intercept4.dat"; //This file contains the slope and intercept data created by etruevsecal macro
 const char * finalhistopdf="finalhistotest.pdf";
 
 //Files for initialcombofit
-//const char * filename=initial_root_file;//"initialt.root"; //access the original histogram
 const char * allhistogramsfile="allhistogramtest.root"; //Save the histogram in this root file
 const char * file_estimated_parameters="initialestimates.dat"; //file stores  the estimated parameters for fit
 const char * outputfile ="initialEnergyerrortest.dat"; //file storing errors 
+  
+//Files for finalcombofit
+const char * allhistogramsfinal="allhistogramfinal.root";
+const char * file_estimated_parameters_final="finalestimates.dat";
+const char * outputfilefinal="finalEnergyError.dat";
+
+//Files for getting etrue and ecalculated data
+const char * input1="initialEnergyerror4.dat"; //estimated energy from the fit parameters
+const  char * input2="tabulatedenergy.dat"; //true energy calculated from nudat2
+const char * output="E_estandE_true4.dat";//stores the  data manipulated from input1 and input2
   
 
 //Some constants
@@ -25,9 +36,9 @@ const int numberOfChannels=16384;
 double Emax=numberOfChannels;
 
 //Different Functions initialization:
-void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *pdfname,int chn,double emin,double emax);
+void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *,const char *pdfname,int chn,double emin,double emax);
 void initialrootfile();
-void combofit(const char *,const char *,const char *,const char *);
+void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results );
 void finalrootfile();
 
 
@@ -36,21 +47,20 @@ void finalrootfile();
 //Main function
 void singlecode()
 {
-
-  initialrootfile();
-  //initialrootfile();
-  // finalrootfile();
-  combofit(file_estimated_parameters,initial_root_file,allhistogramsfile,outputfile);
+   initialrootfile();
+   finalrootfile();
+   combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
+   combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
 }
 
 
 //This functin makes the root file based on the given information
-void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *pdfname,int chn,double emin,double emax)
+void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *histogram_name,const char *pdfname,int chn,double emin,double emax)
 {
    
   TCanvas *c = new TCanvas("c","Histogram",500,700);
   TFile *file=new TFile(rootfilename,"RECREATE"); //Root file to store the histograms
-  TH1F *histo=new TH1F("histo","#font[22]{Calibrated Energy Spectrum for original data}",chn,emin,emax);
+  TH1F *histo=new TH1F(histogram_name,"#font[22]{Calibrated Energy Spectrum for original data}",chn,emin,emax);
   
    ifstream input(originaldatafile);
    int nlines=0; //for counting the number of lines
@@ -92,16 +102,19 @@ void makingRootFile(const char *originaldatafile,const char *rootfilename,const 
   file->Close();
 }
 
+
+//Defining the initial root file
 void initialrootfile()
 {
   double correctedEmin=Emin*m1-b1;
   double correctedEmax=Emax*m1-b1;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
   cout<<"correctedEmax = "<<correctedEmax<<endl;
-
-  makingRootFile(inputdatafile,initial_root_file,initialhistopdf,numberOfChannels,correctedEmin,correctedEmax);
+  makingRootFile(inputdatafile,initial_root_file,initialhisto,initialhistopdf,numberOfChannels,correctedEmin,correctedEmax);
   
 }
+
+//Final root file
 void finalrootfile()
 {
   //Reading the intercept and slope form a file
@@ -132,11 +145,11 @@ void finalrootfile()
   cout<<"correctedEmax = "<<correctedEmax<<endl;
 
   //Creating root file
-  makingRootFile(inputdatafile,final_root_file,finalhistopdf,numberOfChannels,correctedEmin,correctedEmax);
+  makingRootFile(inputdatafile,final_root_file,finalhisto,finalhistopdf,numberOfChannels,correctedEmin,correctedEmax);
 
 }
 //Method for fitting all the peaks of the histogram and saving error parameters in  a File
-void combofit(const char * estimatedparameters,const char * fileroot,const char * resultroot,const char * results ){
+void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results ){
   const  int peakNo=23;
   const  int column=6;
   int row=peakNo/column+1;
@@ -188,18 +201,18 @@ void combofit(const char * estimatedparameters,const char * fileroot,const char 
   TFile *MyFile = new TFile(fileroot,"READ");
   if(MyFile->IsOpen())cout<<fileroot<<" file opened successfully\n";
 
-  TH1F *his = (TH1F*)MyFile->Get("histo"); //histo is the name of histogram stored in MyFile
+  TH1F *his = (TH1F*)MyFile->Get(histoname); //histo is the name of histogram stored in MyFile
   
   for(int i=0;i<peakNo;i++)
     {
-      f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
+      auto f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
       f[i]->SetParNames("A","#mu","#sigma","a1","b1");
       f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
 	cout<<endl;
 	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
 	cout<<endl;
       c1->cd(i+1);
-	h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
+	auto h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
       h[i]->GetXaxis()->SetTitle("Energy(keV)");
       h[i]->GetXaxis()->CenterTitle();
       h[i]->GetYaxis()->SetTitle("Counts/Channel");
@@ -225,8 +238,7 @@ void combofit(const char * estimatedparameters,const char * fileroot,const char 
 	//c->SaveAs(initialcanvaspdf);
 	h[i]->Write();
     }
-  //cout<<"Successfully saved the pdf version of histogram in the file "<<initialcanvaspdf<<endl;
-  // filename.close();
+    // filename.close();
   //delete filename;
   ///////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/////////////////////////////////////
 
@@ -251,3 +263,49 @@ void combofit(const char * estimatedparameters,const char * fileroot,const char 
  // filename.close();
  delete  MyFile;
  }
+
+//This macro helps to create e-true and e-calc data:
+void etruevsecaldata()
+{
+  ifstream file1(input1);
+  ifstream file2(input2);
+  if(file1.is_open())
+    {
+	cout<<input1<< " successfully opened"<<endl;
+    }
+  else
+    {
+	cout<<"failed to open"<< input1<<endl;
+	return 0;
+    }
+  if(file2.is_open())
+    {
+	cout<<input2<< " successfully opened"<<endl;
+    }
+  else
+    {
+	cout<<"failed to open"<< input2<<endl;
+	return 0;
+    }
+  double amplitude,mean,sigma,errorAmp,errorMean,errorSigma,N;  //input1
+  double trueE,errorE; //input2
+  //Open file to store the required data:
+  ofstream file4(output);
+  if(file4.is_open())
+    {
+	while(1)
+	  {
+	    file1>>amplitude>>mean>>sigma>>errorAmp>>errorMean>>errorSigma>>N;
+	    file2>>trueE>>errorE;
+	    if(!file1.good()|| !file2.good())break;
+	    // cout<<setw(10)<<mean<<setw(10)<<trueE<<setw(10)<<errorMean<<setw(10)<<errorE<<endl;
+	    file4<<setw(10)<<mean<<setw(10)<<trueE<<setw(10)<<errorMean<<setw(10)<<errorE<<endl;
+	  }
+	cout<<"successfully stored the E-Calc,E-true and erros in the file "<<output<<endl;
+    }
+  else
+    {
+	cout<<"Unable to open file "<<output<<endl;
+	return 0;
+    }
+}
