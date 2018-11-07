@@ -63,31 +63,32 @@ void etruevsecaldata();
 void etruevsecal();
 void resolution();
 void random_resolution();
-//void peakcheck(const char *, const char *);
-//void initialpeakcheck();
-//void finalpeakcheck();
+void peakcheck(const char *, const char *);
+void initialpeakcheck();
+void finalpeakcheck();
 
 //Main function
 void singlecode()
 {
-   initialrootfile();
-   finalrootfile();
-   combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); initial combo fit
-   combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);final combo fit
-   etruevsecaldata();
-   etruevsecal();
-   resolution();
-   random_resolution();
-   // peakcheck();
-  // initialpeakcheck();
-  //  finalpeakcheck();
+  initialrootfile();
+  finalrootfile();
+  combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
+  combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+  etruevsecaldata();
+  etruevsecal();
+  resolution();
+  random_resolution();
+      // initialpeakcheck();
+    //finalpeakcheck();
+  cout<<"successfully competed "<<endl;
+  exit(0);
+  
 }
 
 
 //This functin makes the root file based on the given information
 void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *histogram_name,const char *pdfname,int chn,double emin,double emax)
 {
-   
   TCanvas *c = new TCanvas("c","Histogram",500,700);
   TFile *file=new TFile(rootfilename,"RECREATE"); //Root file to store the histograms
   TH1F *histo=new TH1F(histogram_name,"#font[22]{Calibrated Energy Spectrum for original data}",chn,emin,emax);
@@ -107,7 +108,7 @@ void makingRootFile(const char *originaldatafile,const char *rootfilename,const 
 		  stringstream sstr(line);
 		  sstr>>x>>y; //Reading the data file into two columns
 		  histo->SetBinContent(x,y); //SetBinContent(bin,content)
-		  cout<<line<<endl;
+		  // cout<<line<<endl;
 		  nlines++;
 		}
 	     }
@@ -126,8 +127,8 @@ void makingRootFile(const char *originaldatafile,const char *rootfilename,const 
   histo->Draw();
   c->SaveAs(pdfname);
   histo->Write();
-  cout<<"stored histogram in the root file: "<<rootfilename<<endl;
-  cout<<"sotred the pdf plot in the file "<<pdfname<<endl;
+  cout<<"stored histogram in the root file : "<<rootfilename<<endl;
+  cout<<"sotred the pdf plot in the   file : "<<pdfname<<endl;
   file->Close();
 }
 
@@ -135,11 +136,13 @@ void makingRootFile(const char *originaldatafile,const char *rootfilename,const 
 //Defining the initial root file
 void initialrootfile()
 {
+  cout<<"Working on initial root file "<<endl;
   double correctedEmin=Emin*m1-b1;
   double correctedEmax=Emax*m1-b1;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
   cout<<"correctedEmax = "<<correctedEmax<<endl;
   makingRootFile(inputdatafile,initial_root_file,initialhisto,initialhistopdf,numberOfChannels,correctedEmin,correctedEmax);
+  cout<<"Initial root file created successfully "<<endl;
   
 }
 
@@ -147,6 +150,7 @@ void initialrootfile()
 void finalrootfile()
 {
   //Reading the intercept and slope form a file
+  cout<<"Working on final root file "<<endl;
   double b2,m2;
   ifstream intercepslope(intercept_slopefile);
   if(intercepslope.is_open())
@@ -167,7 +171,6 @@ void finalrootfile()
   
   double bnew=m2*b1+b2;
   double mnew=m1*m2;
-
   double correctedEmin=Emin*mnew-bnew;
   double correctedEmax=Emax*mnew-bnew;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
@@ -175,10 +178,13 @@ void finalrootfile()
 
   //Creating root file
   makingRootFile(inputdatafile,final_root_file,finalhisto,finalhistopdf,numberOfChannels,correctedEmin,correctedEmax);
-
+  cout<<"Final root file created successfully "<<endl;
 }
+
 //Method for fitting all the peaks of the histogram and saving error parameters in  a File
-void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results ){
+void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results )
+{
+  cout<<"Working on combo fit for the file "<<fileroot<<endl;
   const  int peakNo=23;
   const  int column=6;
   int row=peakNo/column+1;
@@ -192,7 +198,6 @@ void combofit(const char * estimatedparameters,const char * fileroot,const char 
 
   //Checking if data file with estimated parameters are opened
   ifstream datafile(estimatedparameters);
-  // datafile.open(estimatedparameters); //File containing the estimated fit parameters
   if(datafile.is_open())
 	{
 	  cout<<" File reading for estimated parameters is done successfully from the file "<<estimatedparameters<<endl;
@@ -267,8 +272,6 @@ void combofit(const char * estimatedparameters,const char * fileroot,const char 
 	//c->SaveAs(initialcanvaspdf);
 	h[i]->Write();
     }
-    // filename.close();
-  //delete filename;
   ///////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/////////////////////////////////////
 
   
@@ -291,11 +294,13 @@ void combofit(const char * estimatedparameters,const char * fileroot,const char 
  //xdelete  filename;
  // filename.close();
  delete  MyFile;
+ cout<<"Done with combo fit"<<endl;
  }
 
 //This macro helps to create e-true and e-calc data:
 void etruevsecaldata()
 {
+  cout<<"Working to get e true and e calcualted data:"<<endl;
   ifstream file1(input1);
   ifstream file2(input2);
   if(file1.is_open())
@@ -327,7 +332,6 @@ void etruevsecaldata()
 	    file1>>amplitude>>mean>>sigma>>errorAmp>>errorMean>>errorSigma>>N;
 	    file2>>trueE>>errorE;
 	    if(!file1.good()|| !file2.good())break;
-	    // cout<<setw(10)<<mean<<setw(10)<<trueE<<setw(10)<<errorMean<<setw(10)<<errorE<<endl;
 	    file4<<setw(10)<<mean<<setw(10)<<trueE<<setw(10)<<errorMean<<setw(10)<<errorE<<endl;
 	  }
 	cout<<"successfully stored the E-Calc,E-true and erros in the file "<<output<<endl;
@@ -337,9 +341,13 @@ void etruevsecaldata()
 	cout<<"Unable to open file "<<output<<endl;
 	return 0;
     }
+  cout<<"Done with etrue and ecalc data creation "<<endl;
 }
+
+//Macro to plot etrue vs ecalcualted
 void etruevsecal()
 {
+  cout<<"Working to plot etrue vs ecal"<<endl;
   auto c=new TCanvas();
   c->SetGrid();
   c->SetFillColor(42);
@@ -373,13 +381,19 @@ void etruevsecal()
   gStyle->SetLegendFillColor(7);
   legend->Draw();
   
-//Saving the plot in root file
+  //Saving the plot in root file
   auto file=new TFile(etruecalcrootfile,"RECREATE");
   if(file->IsOpen())cout<<etruecalcrootfile <<" opened successfully"<<endl;
+  else
+    {
+	cout<<"error in opeing the file "<< etruecalcrootfile <<endl;
+    }
   c->SaveAs(pdfetrue);
   graph->Write();
   c->Write();
-  //c->Close();
+
+  
+  //Files to save the slope and intercept from etrue vs ecalcualted plot
   ofstream outputgraph(filenamee);
   if(outputgraph.is_open())
    {
@@ -391,8 +405,13 @@ void etruevsecal()
      cout<<"Unable to open the file "<< filenamee<<endl;
      return 0;
    }
-} 
-void resolution(){
+  cout<<"etrue vs ecalc plot created "<<endl;
+}
+//Macro for getting resolution
+
+void resolution()
+{
+  cout<<"working on resolution "<<endl;
   //Data file containing final errors and parameters
   ifstream inputres(dataafile);
   if(inputres.is_open())
@@ -459,17 +478,19 @@ void resolution(){
 	cout<<"Successfully stored the m, dm , b and db in the file "<<resolution_results<<endl;
     }
   else cout<<"Unable to open the file "<<resolution_results<<endl;
-  /* auto legg=new TLegend(0.8,0.2,0.95,0.4);
-  legg->AddEntry("#sigma =2.4 ");
-  legg->Draw();*/
-		     
-}
+  cout<<"resolution successful"<<endl;
+ }
+
+///////$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$/////////
+
+//Macro for random resolution
 void random_resolution()
 {
- 
+  cout<<"working in random resolution "<<endl;
   const int ENERGY=1332;
   const int TRIALS=pow(10,6);
   double m,dm,b,db;
+  
   //Creating the canvas
   TCanvas *can=new TCanvas();
 
@@ -492,13 +513,13 @@ void random_resolution()
 	for(int i=0;i<TRIALS;i++)
 	  {
 	    double random_slope=gRandom->Gaus(m,dm);
-	    cout<<random_slope<<endl;
+	    // cout<<random_slope<<endl;
 	    double random_intercept=gRandom->Gaus(b,db);
-	    cout<<random_intercept<<endl;
+	    // cout<<random_intercept<<endl;
 	    double random_sigma=random_slope*ENERGY+random_intercept;
-	    cout<< random_sigma<<endl;
+	    // cout<< random_sigma<<endl;
 	    ranhis->Fill(random_sigma);
-	    
+	    // cout<<endl;
 	  }
 	ranhis->GetXaxis()->SetTitle("#sigma=m_{random}#times1332+b_{random}");
 	ranhis->GetYaxis()->SetTitle("Counts");
@@ -506,13 +527,14 @@ void random_resolution()
 	ranhis->Fit("gaus");
 	gStyle->SetOptFit(1111);
 	can->Update();
-		//Getting the paramters of the fit:
-	cout<<ranhis->GetFunction("gaus")->GetParameter(0)<<endl;
-	cout<<ranhis->GetFunction("gaus")->GetParameter(1)<<endl;
-	cout<<ranhis->GetFunction("gaus")->GetParameter(2)<<endl;
-	cout<<ranhis->GetFunction("gaus")->GetParError(0)<<endl;
-	cout<<ranhis->GetFunction("gaus")->GetParError(1)<<endl;
-	cout<<ranhis->GetFunction("gaus")->GetParError(2)<<endl;
+	
+	//Getting the paramters of the fit:
+	for(int i=0;i<3;i++)
+	  {
+	    cout<<ranhis->GetFunction("gaus")->GetParameter(i)<<setw(20)
+		  <<ranhis->GetFunction("gaus")->GetParError(i)<<endl;
+	  }
+	
 	//storing the parameter of fit in datafile
 	ofstream ranoutput(randata);
 	if(ranoutput.is_open())
@@ -527,22 +549,19 @@ void random_resolution()
 	    cout<<"Unable to open file "<<randata<<endl;
 	    return 0;
 	  }
-	
-	
     }
   else
     {
 	cout<<"Unable to open "<<errors_fromresolution<<endl;
 	return 0;
     }
+  cout<<"random resolution done successfully"<<endl;
 }
 
 //Macro for checking the fitting of the peak of the histogram 
-/*void peakcheck(const char * rootfilename,const char * histo_in_root)
+void peakcheck(const char * rootfilename,const char * histo_in_root)
 {
-  // const char * rootfilename="ROOTFILES/initial4.root"; //file contaiing original histogram created with initialroot.C
-  //	  const char * histo_in_root="initialhisto";
-	  TFile *MyFile = new TFile(rootfilename,"READ");
+ 	  TFile *MyFile = new TFile(rootfilename,"READ");
 	  if(MyFile->IsOpen())cout<<rootfilename<<" file opened successfully\n";
 	  else cout<<rootfilename<<" was not opened\n";
 	  
@@ -560,10 +579,12 @@ void random_resolution()
 }
 void initialpeakcheck()
 {
-  peakcheck(initial_root_file,initialhistoroot);
+  cout<<"working in initial peak check"<<endl;
+  peakcheck(initial_root_file,initialhisto); //name of root file and name of histo stored in the root file
 }
 void finalpeakcheck()
 {
-  peakcheck(finalrootfile,finalhisto);
+  cout<<"working in final peak check "<<endl;
+  peakcheck(final_root_file,finalhisto);//name of root file and name of histo stored in the root file
 }
-*/
+
