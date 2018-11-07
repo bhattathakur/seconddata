@@ -2,13 +2,13 @@
 const char * inputdatafile="bkg_01_001.dat"; //file with input data
 
 //Defining the files for initialroot file
-const char * initial_root_file="initialtest.root"; //for storing the histogram in rootbkg_01_000.dat
-const char * initialhisto="initialroothisto";
+const char * initial_root_file= "initialtest.root"; //for storing the histogram in rootbkg_01_000.dat
+const char * initialhisto="initialroothisto"; //name of histogram in rootfile
 const char * initialhistopdf="initialhistotest.pdf";//initial histogram as pdf file
 
 //Defining the files for finalroot file
 const char * final_root_file="finaltest.root"; //Stores the root file
-const char * finalhisto="finalroothisto";
+const char * finalhisto="finalroothisto"; //name of histogram in rootfile
 const char * intercept_slopefile="slope_intercept4.dat"; //This file contains the slope and intercept data created by etruevsecal macro
 const char * finalhistopdf="finalhistotest.pdf";
 
@@ -23,9 +23,28 @@ const char * file_estimated_parameters_final="finalestimates.dat";
 const char * outputfilefinal="finalEnergyError.dat";
 
 //Files for getting etrue and ecalculated data
-const char * input1="initialEnergyerror4.dat"; //estimated energy from the fit parameters
+const  char * input1=outputfile; //estimated energy from the fit parameters
 const  char * input2="tabulatedenergy.dat"; //true energy calculated from nudat2
-const char * output="E_estandE_true4.dat";//stores the  data manipulated from input1 and input2
+const  char * output="E_estandE_true.dat";//stores the  data manipulated from input1 and input2
+
+//Files for plotting etrue vs ecal
+const char * filedata=output; //File storing the estimated and true energy and their errors
+const char * etruecalcrootfile="true_estimated_enregyplot4.root"; //root file to save the plot
+const char * filenamee="slope_intercept.dat"; //file to store slope and intercept of plot
+const char * pdfetrue="EtrueECalc4.pdf"; //pdf file location
+
+//resolution files
+const char * dataafile=outputfilefinal;//A,mean,sigma,error in A,error in mean, error in sigma,N for final fit
+const char * pdfresoluton="resolutionplot4.pdf"; //pdf file to save the plot
+const char * resolution_results="results_from_resolution.dat";//stores the results obtained form the resolution plot
+const char * savingtoroot="resolution4.root";// saves the plot in the root file
+
+//random resolution files
+const char * errors_fromresolution=resolution_results; //"results_from_resolution.dat";
+const char * randata="randomdatatest.dat"; //storing the mean and sigma from toy mc
+const char * saving_random="randompdffile.pdf";
+
+  
   
 
 //Some constants
@@ -40,17 +59,28 @@ void makingRootFile(const char *originaldatafile,const char *rootfilename,const 
 void initialrootfile();
 void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results );
 void finalrootfile();
-
-
-
+void etruevsecaldata();
+void etruevsecal();
+void resolution();
+void random_resolution();
+//void peakcheck(const char *, const char *);
+//void initialpeakcheck();
+//void finalpeakcheck();
 
 //Main function
 void singlecode()
 {
    initialrootfile();
    finalrootfile();
-   combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
-   combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); initial combo fit
+   combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);final combo fit
+   etruevsecaldata();
+   etruevsecal();
+   resolution();
+   random_resolution();
+   // peakcheck();
+  // initialpeakcheck();
+  //  finalpeakcheck();
 }
 
 
@@ -68,7 +98,6 @@ void makingRootFile(const char *originaldatafile,const char *rootfilename,const 
    int x,y; //for storing the data in histogram
    if(input.is_open())
 	 {
-
 	   int flag=0;
 	   while(getline(input,line))
 	     {
@@ -205,14 +234,14 @@ void combofit(const char * estimatedparameters,const char * fileroot,const char 
   
   for(int i=0;i<peakNo;i++)
     {
-      auto f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
+      f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
       f[i]->SetParNames("A","#mu","#sigma","a1","b1");
       f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
 	cout<<endl;
 	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
 	cout<<endl;
       c1->cd(i+1);
-	auto h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
+      h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
       h[i]->GetXaxis()->SetTitle("Energy(keV)");
       h[i]->GetXaxis()->CenterTitle();
       h[i]->GetYaxis()->SetTitle("Counts/Channel");
@@ -309,3 +338,232 @@ void etruevsecaldata()
 	return 0;
     }
 }
+void etruevsecal()
+{
+  auto c=new TCanvas();
+  c->SetGrid();
+  c->SetFillColor(42);
+  auto graph=new TGraphErrors(filedata,"%lg%lg%lg%lg","");//E-calc,E-true,errorE-Calc,errorE-true
+  graph->SetTitle("E-True Vs  E-estimated  Plot;E_{estimated}(eV);E_{true}(eV);");
+  graph->GetYaxis()->SetTitleOffset(1.2);
+  graph->GetXaxis()->SetTitleOffset(1.2);
+  graph->SetMarkerColor(4);
+  graph->SetMarkerStyle(21);
+  graph->SetLineColor(9);
+  graph->SetLineWidth(2);
+  graph->Draw("AP");
+  graph->Fit("pol1");
+  graph->GetFunction("pol1")->SetLineStyle(2);
+  graph->GetFunction("pol1")->SetParName(0,"Intercept(P_{0})");
+  graph->GetFunction("pol1")->SetParName(1,"Slope(P_{1})");
+
+  c->GetFrame()->SetFillColor(21);
+  c->GetFrame()->SetBorderSize(12);
+  gStyle->SetStatX(0.9);
+  gStyle->SetStatY(0.92);
+  gStyle->SetOptFit();
+  c->Update();
+
+  //Legend
+  auto legend=new TLegend(0.1,0.8,0.3,0.9);//x1,y1,x2,y2
+  //legend->SetHeader("The Legend Title");
+  legend->AddEntry(graph->GetFunction("pol1"),"E_{estimated}=P_{0}+P_{1}E_{true}","l");
+  legend->AddEntry(graph,"Graph with error bars","lep");//line,errorbars,polymarker
+  gStyle->SetLegendFont(12);
+  gStyle->SetLegendFillColor(7);
+  legend->Draw();
+  
+//Saving the plot in root file
+  auto file=new TFile(etruecalcrootfile,"RECREATE");
+  if(file->IsOpen())cout<<etruecalcrootfile <<" opened successfully"<<endl;
+  c->SaveAs(pdfetrue);
+  graph->Write();
+  c->Write();
+  //c->Close();
+  ofstream outputgraph(filenamee);
+  if(outputgraph.is_open())
+   {
+     outputgraph<<setw(10)<<  graph->GetFunction("pol1")->GetParameter(0)<<setw(10)<<graph->GetFunction("pol1")->GetParameter(1)<<endl;
+     cout<<"Successfully stored intercept and slope in the file"<<filenamee<<endl;
+   }
+ else
+   {
+     cout<<"Unable to open the file "<< filenamee<<endl;
+     return 0;
+   }
+} 
+void resolution(){
+  //Data file containing final errors and parameters
+  ifstream inputres(dataafile);
+  if(inputres.is_open())
+    {
+	cout<<"successfully opend the file "<<dataafile<<endl;
+    }
+  else
+    {
+	cout<<"Unable to open the file "<<dataafile<<endl;
+    }
+  
+  auto c=new TCanvas();
+  c->SetGrid();
+  c->SetFillColor(29);
+  TGraphErrors *expgraph=new TGraphErrors(dataafile,"%*lg%lg%lg%*lg%lg%lg%*lg","");//A,mean,sigma,error in A,error in mean, error in sigma,N
+  expgraph->SetTitle("Energy Resolution plot;E(eV);(#sigma);");
+  expgraph->SetMarkerColor(4);
+  expgraph->SetMarkerStyle(21);
+  expgraph->SetLineColor(9);
+  expgraph->SetLineWidth(2);
+  expgraph->Draw("AP");
+  expgraph->Fit("pol1");
+  expgraph->GetFunction("pol1")->SetLineStyle(2);
+  expgraph->GetFunction("pol1")->SetParName(0,"Intercept(p_{0})");
+  expgraph->GetFunction("pol1")->SetParName(1,"Slope(p_{1})");
+
+  c->GetFrame()->SetFillColor(21);
+  c->GetFrame()->SetBorderSize(12);
+  gStyle->SetStatX(0.9);
+  gStyle->SetStatY(0.92);
+  gStyle->SetOptFit();
+  c->Update();
+
+  //Legend
+  auto leg=new TLegend(0.1,0.8,0.3,0.9);//x1,y1,x2,y2
+  leg->AddEntry(expgraph->GetFunction("pol1"),"#sigma=p_{0}+p_{1}E","l");
+  leg->AddEntry(expgraph,"Graph with error bars","lep");//line,errorbars,polymarker
+  gStyle->SetLegendFont(12);
+  gStyle->SetLegendFillColor(7);
+  leg->Draw();
+
+  c->SaveAs(pdfresoluton);//Using as the pdf file for the plot
+  const int E=1332;
+  cout<<fixed<<setprecision(8);
+  const double slope=expgraph->GetFunction("pol1")->GetParameter(1);
+  const double slope_error=expgraph->GetFunction("pol1")->GetParError(1);
+  cout<<"slope = "<<slope<<endl;
+  cout<<"slope error = "<<slope_error<<endl;
+  const double intercept=expgraph->GetFunction("pol1")->GetParameter(0);
+  const double intercept_error=expgraph->GetFunction("pol1")->GetParError(0);
+  cout<<"intercept = "<<intercept<<endl;
+  cout<<"intercept error = "<<intercept_error<<endl;
+  double sig=slope*E+intercept;
+  double FWHM=2.355*sig;
+  cout<<fixed<<setprecision(3);
+  cout<<"Corresponding to E = 1332 keV for (Co-60)): "<<endl;
+  cout<<"sigma = "<<sig<<endl;
+  cout<<"FWHM  = "<<FWHM<<endl;
+  /////////////////////Storing the Error and parameter error in a file////////////////////
+  ofstream resolution_error(resolution_results);
+  if(resolution_error.is_open())
+    {
+	resolution_error<<setw(12)<<slope<<setw(12)<<slope_error<<setw(12)<<intercept<<setw(12)<<intercept_error<<endl;
+	cout<<"Successfully stored the m, dm , b and db in the file "<<resolution_results<<endl;
+    }
+  else cout<<"Unable to open the file "<<resolution_results<<endl;
+  /* auto legg=new TLegend(0.8,0.2,0.95,0.4);
+  legg->AddEntry("#sigma =2.4 ");
+  legg->Draw();*/
+		     
+}
+void random_resolution()
+{
+ 
+  const int ENERGY=1332;
+  const int TRIALS=pow(10,6);
+  double m,dm,b,db;
+  //Creating the canvas
+  TCanvas *can=new TCanvas();
+
+  //Defining the histogram to will with random numbers
+  TH1F *  ranhis=new TH1F("ranhis","Histogram filled with Random resolution values",TRIALS/25,0.94,1.1);
+
+  //Checking if the input file is open
+  ifstream inputfromran(errors_fromresolution);
+  if(inputfromran.is_open())
+    {
+	cout<<"Successfully opened "<< errors_fromresolution<<endl;
+
+	//Reading the histogram
+	while(1)
+	  {
+	    inputfromran>>m>>dm>>b>>db;
+	    if(!inputfromran.good())break;
+	  }
+	  
+	for(int i=0;i<TRIALS;i++)
+	  {
+	    double random_slope=gRandom->Gaus(m,dm);
+	    cout<<random_slope<<endl;
+	    double random_intercept=gRandom->Gaus(b,db);
+	    cout<<random_intercept<<endl;
+	    double random_sigma=random_slope*ENERGY+random_intercept;
+	    cout<< random_sigma<<endl;
+	    ranhis->Fill(random_sigma);
+	    
+	  }
+	ranhis->GetXaxis()->SetTitle("#sigma=m_{random}#times1332+b_{random}");
+	ranhis->GetYaxis()->SetTitle("Counts");
+	ranhis->Draw();
+	ranhis->Fit("gaus");
+	gStyle->SetOptFit(1111);
+	can->Update();
+		//Getting the paramters of the fit:
+	cout<<ranhis->GetFunction("gaus")->GetParameter(0)<<endl;
+	cout<<ranhis->GetFunction("gaus")->GetParameter(1)<<endl;
+	cout<<ranhis->GetFunction("gaus")->GetParameter(2)<<endl;
+	cout<<ranhis->GetFunction("gaus")->GetParError(0)<<endl;
+	cout<<ranhis->GetFunction("gaus")->GetParError(1)<<endl;
+	cout<<ranhis->GetFunction("gaus")->GetParError(2)<<endl;
+	//storing the parameter of fit in datafile
+	ofstream ranoutput(randata);
+	if(ranoutput.is_open())
+	  {
+	    ranoutput<<fixed<<setprecision(5);
+	    ranoutput<<ranhis->GetFunction("gaus")->GetParameter(1)<<setw(10)<<ranhis->GetFunction("gaus")->GetParameter(2)<<endl;
+	    cout<<"successfully stored random resolution mc data into file "<<randata<<endl;
+	
+	  }
+	else
+	  {
+	    cout<<"Unable to open file "<<randata<<endl;
+	    return 0;
+	  }
+	
+	
+    }
+  else
+    {
+	cout<<"Unable to open "<<errors_fromresolution<<endl;
+	return 0;
+    }
+}
+
+//Macro for checking the fitting of the peak of the histogram 
+/*void peakcheck(const char * rootfilename,const char * histo_in_root)
+{
+  // const char * rootfilename="ROOTFILES/initial4.root"; //file contaiing original histogram created with initialroot.C
+  //	  const char * histo_in_root="initialhisto";
+	  TFile *MyFile = new TFile(rootfilename,"READ");
+	  if(MyFile->IsOpen())cout<<rootfilename<<" file opened successfully\n";
+	  else cout<<rootfilename<<" was not opened\n";
+	  
+	  TH1F *h = (TH1F*)MyFile->Get(histo_in_root);
+	  gStyle->SetOptStat(1000000001);
+	  h->Draw();
+	  TF1 *f=new TF1("f1","[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");  
+	  f->SetParNames("A","#mu","#sigma","a1","b1");
+	  double Amplitude,mean,SD,xmin,xmax;
+	  cout<<"Enter Amplitude, mean, SD, E-min, E-max"<<endl;
+	  cin>>Amplitude>>mean>>SD>>xmin>>xmax;
+	  f->SetParameters(Amplitude,mean,SD,0,0);
+	  h->Fit("f1","rem+","",xmin,xmax);
+	  gStyle->SetOptFit(1111);
+}
+void initialpeakcheck()
+{
+  peakcheck(initial_root_file,initialhistoroot);
+}
+void finalpeakcheck()
+{
+  peakcheck(finalrootfile,finalhisto);
+}
+*/
