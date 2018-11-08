@@ -1,52 +1,52 @@
 //Original Data File
-const char * filenumber="5";
 const char * inputdatafile="ORIGINAL_DATA/bkg_01_002.dat"; //file with input data
 
 //Defining the files for initialroot file
-const char * initial_root_file= strcat("ROOTFILES/initial",strcat(filenumber,".root")); //for storing the histogram in rootbkg_01_000.dat
+const char * initial_root_file= "ROOTFILES/initial.root"; //for storing the histogram in rootbkg_01_000.dat
 const char * initialhisto="initialroothisto"; //name of histogram in rootfile
-const char * initialhistopdf=strcat("PLOTS/initialhisto",strcat(filenumber,".pdf"));//initial histogram as pdf file
+const char * initialhistopdf="PLOTS/initialhisto5.pdf";//initial histogram as pdf file
 
-/*//Defining the files for finalroot file
-const char * final_root_file="ROOTFILES/final"+filenumber+".root"; //Stores the root file
-const char * finalhisto="finalroothisto"; //name of histogram in rootfile
-const char * intercept_slopefile="DATA/slopeinterceptdata"+filenumber+".dat"; //This file contains the slope and intercept data created by etruevsecal macro
-const char * finalhistopdf="PLOTS/finalhisto"+filenumber+".pdf";
 
 //Files for initialcombofit
-const char * allhistogramsfile="ROOTFILES/initialallhistograms"+filenumber+".root"; //Save the histogram in this root file
-const char * file_estimated_parameters="DATA/initialestimates"+filenumber+".dat"; //file stores  the estimated parameters for fit
-const char * outputfile ="DATA/initialEnergyerror"+filenumber+".dat"; //file storing errors 
+const char * allhistogramsfile="ROOTFILES/initialallhistograms5.root"; //Save the histogram in this root file
+const char * file_estimated_parameters="DATA/initialestimates5.dat"; //file stores  the estimated parameters for fit
+const char * outputfile ="DATA/initialEnergyerror5.dat"; //file storing errors 
 
-//Files for finalcombofit
-const char * allhistogramsfinal="ROOTFILES/finalallhistogram"+filenumber+".root";
-const char * file_estimated_parameters_final="DATA/finalestimates"+filenumber+".dat";
-const char * outputfilefinal="DATA/finalEnergyError"+filenumber+".dat";
 
 //Files for getting etrue and ecalculated data
 const  char * input1=outputfile; //estimated energy from the fit parameters
 const  char * input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat2
-const  char * output="EcalEtrue"+filenumber+".dat";//stores the  data manipulated from input1 and input2
+const  char * output="DATA/EcalEtrue5.dat";//stores the  data manipulated from input1 and input2
 
 //Files for plotting etrue vs ecal
 const char * filedata=output; //File storing the estimated and true energy and their errors
-const char * etruecalcrootfile="ROOTFILES/true_estimatedplot"+filenumber+".root"; //root file to save the plot
-const char * filenamee="DATA/slope_intercept"+filenumber+".dat"; //file to store slope and intercept of plot
-const char * pdfetrue="PLOT/EtrueECalc"+filenumber+".pdf"; //pdf file location
+const char * etruecalcrootfile="ROOTFILES/true_estimatedplot5.root"; //root file to save the plot
+const char * filenamee="DATA/slope_intercept5.dat"; //file to store slope and intercept of plot
+const char * pdfetrue="PLOT/EtrueECalc5.pdf"; //pdf file location
+
+//Defining the files for finalroot file
+const char * final_root_file="ROOTFILES/final5.root"; //Stores the root file
+const char * finalhisto="finalroothisto"; //name of histogram in rootfile
+const char * intercept_slopefile=filenamee;//This file contains the slope and intercept data created by etruevsecal macro
+const char * finalhistopdf="PLOT/finalhisto5.pdf";
+
+//Files for finalcombofit
+const char * allhistogramsfinal="ROOTFILES/finalallhistogram5.root";
+const char * file_estimated_parameters_final="DATA/finalestimates5.dat";
+const char * outputfilefinal="DATA/finalEnergyError5.dat";
+
+
 
 //resolution files
 const char * dataafile=outputfilefinal;//A,mean,sigma,error in A,error in mean, error in sigma,N for final fit
-const char * pdfresoluton="PLOT/resolutionplot"+filenumber+".pdf"; //pdf file to save the plot
-const char * resolution_results="DATA/results_from_resolution"+filenumber+".dat";//stores the results obtained form the resolution plot
-const char * savingtoroot="ROOTFILES/resolution"+filenumber+".root";// saves the plot in the root file
+const char * pdfresoluton="PLOT/resolutionplot5.pdf"; //pdf file to save the plot
+const char * resolution_results="DATA/results_from_resolution5.dat";//stores the results obtained form the resolution plot
+const char * savingtoroot="ROOTFILES/resolution5.root";// saves the plot in the root file
 
 //random resolution files
 const char * errors_fromresolution=resolution_results; //"results_from_resolution.dat";
-const char * randata="FINAL/randomdata"+filenumber+".dat"; //storing the mean and sigma from toy mc
-const char * saving_random="PLOT/randompdffile"+filenumber+".pdf";
-
-*/
-  
+const char * randata="FINAL/randomdata5.dat"; //storing the mean and sigma from toy mc
+const char * saving_random="PLOT/randompdffile5.pdf";
 
 //Some constants
 double b1=0.15448454;
@@ -71,17 +71,17 @@ void finalpeakcheck();
 //Main function
 void singlecode()
 {
-  initialrootfile();
-  /* finalrootfile();
+  /* initialrootfile();
   combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
-  combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-  etruevsecaldata();
+  /* etruevsecaldata();
   etruevsecal();
+  finalrootfile();
+  combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
   resolution();
-  random_resolution();
-      // initialpeakcheck();
-  //finalpeakcheck();*/
-  cout<<"successfully competed "<<endl;
+  random_resolution();*/
+  initialpeakcheck();
+  //finalpeakcheck();
+  cout<<"successfully completed "<<endl;
   exit(0);
   
 }
