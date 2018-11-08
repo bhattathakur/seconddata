@@ -1,6 +1,45 @@
 const char * timestamp="datetimeruntime.txt"; //file for storing final results:date time runtime
 ofstream timedateinfo(timestamp);
 
+
+//Function initialization
+string getMonth(string s);
+string modified(int a);
+void readingfile(string basicFormat,int iLimit,int jLimit);
+
+//main file
+void additionalreading()
+{
+  string file1="bkg_0";
+  string file2="bkg_01_0";
+  string file3="bkg_02_0";
+  string file4="bkg_03_0";
+  readingfile(file1,0,2);
+  readingfile(file2,1,9);
+  readingfile(file3,0,9);
+  readingfile(file4,0,6);
+}
+/*
+Given files:
+                                     
+bkg_000.dat                          bkg_03_000.dat
+bkg_001.dat          bkg_01_014.dat  bkg_03_001.dat
+bkg_002.dat          bkg_01_015.dat  bkg_03_002.dat
+bkg_01_000.dat       bkg_01_016.dat  bkg_03_003.dat
+bkg_01_001.dat       bkg_01_017.dat  bkg_03_004.dat
+bkg_01_002.dat       bkg_01_018.dat  bkg_03_005.dat
+bkg_01_003.dat       bkg_01_019.dat  bkg_03_006.dat
+bkg_01_004.dat       bkg_02_000.dat  
+bkg_01_005.dat       bkg_02_001.dat  
+bkg_01_006.dat       bkg_02_002.dat  
+bkg_01_007.dat       bkg_02_003.dat  
+bkg_01_008.dat       bkg_02_004.dat  
+bkg_01_009.dat       bkg_02_005.dat  
+bkg_01_010.dat       bkg_02_006.dat  
+bkg_01_011.dat       bkg_02_007.dat
+bkg_01_012.dat       bkg_02_008.dat
+bkg_01_013.dat       bkg_02_009.dat
+*/
 //Function to convert given string format of Month into integer form
 string getMonth(string s)
 {
@@ -22,7 +61,7 @@ void readingfile(string basicFormat,int iLimit,int jLimit)
     {
 	for(int j=0;j<=jLimit;j++)
 	  {
-	    string input=basicFormat+""+to_string(i)+""+to_string(j)+".dat";
+	    string input="ORIGINAL_DATA/"+basicFormat+""+to_string(i)+""+to_string(j)+".dat";
 	    //  cout<<"input = "<<input<<endl;
 	    ifstream inputfile(input);
 	    string line,line1;
@@ -81,35 +120,5 @@ void readingfile(string basicFormat,int iLimit,int jLimit)
 	  }
     }
 }
-//main file
-void additionalreading(){
-  string file1="bkg_0";
-  string file2="bkg_01_0";
-  string file3="bkg_02_0";
-  string file4="bkg_03_0";
-  readingfile(file1,0,2);
-  readingfile(file2,1,9);
-  readingfile(file3,0,9);
-  readingfile(file4,0,6);
-}
-/*
-Given files:
-                                     
-bkg_000.dat                          bkg_03_000.dat
-bkg_001.dat          bkg_01_014.dat  bkg_03_001.dat
-bkg_002.dat          bkg_01_015.dat  bkg_03_002.dat
-bkg_01_000.dat       bkg_01_016.dat  bkg_03_003.dat
-bkg_01_001.dat       bkg_01_017.dat  bkg_03_004.dat
-bkg_01_002.dat       bkg_01_018.dat  bkg_03_005.dat
-bkg_01_003.dat       bkg_01_019.dat  bkg_03_006.dat
-bkg_01_004.dat       bkg_02_000.dat  
-bkg_01_005.dat       bkg_02_001.dat  
-bkg_01_006.dat       bkg_02_002.dat  
-bkg_01_007.dat       bkg_02_003.dat  
-bkg_01_008.dat       bkg_02_004.dat  
-bkg_01_009.dat       bkg_02_005.dat  
-bkg_01_010.dat       bkg_02_006.dat  
-bkg_01_011.dat       bkg_02_007.dat
-bkg_01_012.dat       bkg_02_008.dat
-bkg_01_013.dat       bkg_02_009.dat
-*/
+
+
