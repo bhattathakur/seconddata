@@ -4,7 +4,7 @@ const char * inputdatafile="ORIGINAL_DATA/bkg_01_000.dat"; //file with input dat
 //Defining the files for initialroot file
 const char * initial_root_file= "ROOTFILES/initial1.root"; //for storing the histogram in rootbkg_01_000.dat
 const char * initialhisto="initialroothisto"; //name of histogram in rootfile
-const char * initialhistopdf="PLOTS/initialhisto1.pdf";//initial histogram as pdf file
+const char * initialhistopdf="PLOT/initialhisto1.pdf";//initial histogram as pdf file
 
 
 //Files for initialcombofit
@@ -421,11 +421,11 @@ void etruevsecal()
   ofstream outputgraph(filenamee);
   if(outputgraph.is_open())
    {
-     outputgraph<<setw(15)<<  graph->GetFunction("pol1")->GetParameter(0)<<setw(15)<<graph->GetFunction("pol1")->GetParameter(1)
-		    <<graph->GetFunction("pol1")->GetParError(0)<<setw(15)<<graph->GetFunction("pol1")->GetParError(1)<<endl;
+     outputgraph<<setw(20)<<graph->GetFunction("pol1")->GetParameter(0)<<setw(20)<<graph->GetFunction("pol1")->GetParameter(1)
+		    <<setw(20)<<graph->GetFunction("pol1")->GetParError(0)<<setw(20)<<graph->GetFunction("pol1")->GetParError(1)<<endl;
      cout<<"intercept slope  and errrors "<<endl;
-     cout<<setw(15)<<graph->GetFunction("pol1")->GetParameter(0)<<setw(15)<<graph->GetFunction("pol1")->GetParameter(1)
-	   <<setw(15)<<graph->GetFunction("pol1")->GetParError(0)<<setw(15)<<graph->GetFunction("pol1")->GetParError(1)<<endl;
+     cout<<setw(20)<<graph->GetFunction("pol1")->GetParameter(0)<<setw(20)<<graph->GetFunction("pol1")->GetParameter(1)
+	   <<setw(20)<<graph->GetFunction("pol1")->GetParError(0)<<setw(20)<<graph->GetFunction("pol1")->GetParError(1)<<endl;
      cout<<"Successfully stored intercept,slope and errors in the file"<<filenamee<<endl;
    }
  else
