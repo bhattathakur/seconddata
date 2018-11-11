@@ -72,15 +72,15 @@ void finalpeakcheck();
 //Main function
 void singlecodewithNewCalibration()
  {
-   initialrootfile();
+   /*initialrootfile();
    combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
    etruevsecaldata();
    etruevsecal();
    finalrootfile();
    combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
    resolution();
-   random_resolution();
-   //initialpeakcheck();
+   random_resolution();*/
+   initialpeakcheck();
    //finalpeakcheck();*/
    cout<<"successfully completed "<<endl;
    exit(0);
@@ -609,6 +609,8 @@ void peakcheck(const char * rootfilename,const char * histo_in_root)
   f->SetParameters(Amplitude,mean,SD,0,0);
   h->Fit("f1","rem+","",xmin,xmax);
   gStyle->SetOptFit(1111);
+  //  h->Update();
+  h->Draw();
 }
 void initialpeakcheck()
 {

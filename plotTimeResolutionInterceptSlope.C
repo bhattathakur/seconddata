@@ -23,26 +23,27 @@ const char * slopepar0Name="#bar{slope}";
 //slope vs time
 
 
-void getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,int setfillcolor,int framecolor=30,const char * datafile=inputdata);
+void getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,int setfillcolor,int pad,int framecolor=30,const char * datafile=inputdata);
 void checkFileOpening(const char *);
+auto can=new TCanvas();
  
 void plotTimeResolutionInterceptSlope()
 {
-  auto can=new TCanvas();
+  //  auto can=new TCanvas();
   can->Divide(1,3);
-  can->cd(1);
- 
-  getGraph(resolutionformat,titling,pdfresolution,resolutionpar0Name,20);
-  can->cd(2);
-  getGraph(interceptformat,intercepttitling,interceptpdf,interceptpar0Name,25);
-  can->cd(3);
-  getGraph(slopeformat,slopetitle,slopepdf,slopepar0Name,28);
+   
+  getGraph(resolutionformat,titling,pdfresolution,resolutionpar0Name,20,1);
+  
+   getGraph(interceptformat,intercepttitling,interceptpdf,interceptpar0Name,25,2);
+   // can->cd(3);
+  getGraph(slopeformat,slopetitle,slopepdf,slopepar0Name,28,3);
   can->Draw();
   can->SaveAs("all.pdf");
 }
-void getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,int setfillcolor,int framecolor=30,const char * datafile=inputdata)
+void getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,int setfillcolor,int pad,int framecolor=30,const char * datafile=inputdata)
 {
   checkFileOpening(inputdata);
+  can->cd(pad);
   auto c=new TCanvas();
   c->SetGrid();
   c->SetFillColor(setfillcolor); //setfillcolor 20
