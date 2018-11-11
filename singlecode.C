@@ -2,7 +2,7 @@
 const char * inputdatafile="ORIGINAL_DATA/bkg_01_002.dat"; //file with input data
 
 //Defining the files for initialroot file
-const char * initial_root_file= "ROOTFILES/initial.root"; //for storing the histogram in rootbkg_01_000.dat
+const char * initial_root_file= "ROOTFILES/initial1.root"; //for storing the histogram in rootbkg_01_000.dat
 const char * initialhisto="initialroothisto"; //name of histogram in rootfile
 const char * initialhistopdf="PLOTS/initialhisto5.pdf";//initial histogram as pdf file
 

@@ -72,16 +72,16 @@ void finalpeakcheck();
 //Main function
 void singlecodewithNewCalibration()
  {
-   /*initialrootfile();
-   combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
-   etruevsecaldata();
+   initialrootfile();
+    combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
+    etruevsecaldata();
    etruevsecal();
-   finalrootfile();
+    finalrootfile();
    combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   resolution();
-   random_resolution();*/
-   initialpeakcheck();
-   //finalpeakcheck();*/
+    resolution();
+   random_resolution();
+   //initialpeakcheck();
+   // finalpeakcheck();
    cout<<"successfully completed "<<endl;
    exit(0);
    
@@ -561,6 +561,7 @@ void random_resolution()
 	can->Update();
 	
 	//Getting the paramters of the fit:
+	cout<<"Parameters and random errors"<<endl;
 	for(int i=0;i<3;i++)
 	  {
 	    cout<<ranhis->GetFunction("gaus")->GetParameter(i)<<setw(20)
@@ -610,7 +611,7 @@ void peakcheck(const char * rootfilename,const char * histo_in_root)
   h->Fit("f1","rem+","",xmin,xmax);
   gStyle->SetOptFit(1111);
   //  h->Update();
-  h->Draw();
+  // h->Draw();
 }
 void initialpeakcheck()
 {
