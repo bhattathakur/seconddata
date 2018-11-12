@@ -1,51 +1,54 @@
 //Original Data File
-const char * inputdatafile="ORIGINAL_DATA/bkg_01_001.dat"; //file with input data
+const char * inputdatafile="ORIGINAL_DATA/bkg_01_000.dat"; //file with input data
+
 
 //Defining the files for initialroot file
-const char * initial_root_file= "ROOTFILES/initial2.root"; //for storing the histogram in rootbkg_01_000.dat
+const char * initial_root_file= "ROOTFILES/initial1.root"; //for storing the histogram in rootbkg_01_000.dat
 const char * initialhisto="initialroothisto"; //name of histogram in rootfile
-const char * initialhistopdf="PLOTS/initialhisto2.pdf";//initial histogram as pdf file
+const char * initialhistopdf="PLOTS/initialhisto1.pdf";//initial histogram as pdf file
 
 
 //Files for initialcombofit
-const char * allhistogramsfile="ROOTFILES/initialallhistograms2.root"; //Save the histogram in this root file
-const char * file_estimated_parameters="DATA/initialestimates2.dat"; //file stores  the estimated parameters for fit
-const char * outputfile ="DATA/initialEnergyerror2.dat"; //file storing errors 
+const char * allhistogramsfile="ROOTFILES/initialallhistograms1.root"; //Save the histogram in this root file
+//const char * intialestfile="DATA/initialestimates1.dat";//files storing the initial estimates of the previous file
+const char * file_estimated_parameters="DATA/initialestimates1.dat"; //file stores  the estimated parameters for fit
+const char * outputfile ="DATA/initialEnergyerror1.dat"; //file storing errors 
 
 
 //Files for getting etrue and ecalculated data
 const  char * input1=outputfile; //estimated energy from the fit parameters
 const  char * input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat2
-const  char * output="DATA/EcalEtrue2.dat";//stores the  data manipulated from input1 and input2
+const  char * output="DATA/EcalEtrue1.dat";//stores the  data manipulated from input1 and input1
 
 //Files for plotting etrue vs ecal
 const char * filedata=output; //File storing the estimated and true energy and their errors
-const char * etruecalcrootfile="ROOTFILES/true_estimatedplot2.root"; //root file to save the plot
-const char * etruecalinput="DATA/Ecaltrue1.dat"; //Data to use for modifying the calibration funciton 
-const char * filenamee="DATA/Ecaltrue2.dat"; //file to store slope and intercept of plot
-const char * pdfetrue="PLOTS/EtrueECalc2.pdf"; //pdf file location
+const char * etruecalcrootfile="ROOTFILES/true_estimatedplot1.root"; //root file to save the plot
+const char * etruecalinput="DATA/Ecaltrue0.dat"; //Data to use for modifying the calibration funciton 
+const char * filenamee="DATA/Ecaltrue1.dat"; //file to store slope and intercept of plot
+const char * pdfetrue="PLOTS/EtrueECalc1.pdf"; //pdf file location
 
 //Defining the files for finalroot file
-const char * final_root_file="ROOTFILES/final2.root"; //Stores the root file
+const char * bmfile="DATA/bnewmnew1.dat";
+const char * final_root_file="ROOTFILES/final1.root"; //Stores the root file
 const char * finalhisto="finalroothisto"; //name of histogram in rootfile
 const char * intercept_slopefile=filenamee;//This file contains the slope and intercept data created by etruevsecal macro
-const char * finalhistopdf="PLOTS/finalhisto2.pdf";
+const char * finalhistopdf="PLOTS/finalhisto1.pdf";
 
 //Files for finalcombofit
-const char * allhistogramsfinal="ROOTFILES/finalallhistogram2.root";
-const char * file_estimated_parameters_final="DATA/finalestimates2.dat";
-const char * outputfilefinal="DATA/finalEnergyError2.dat";
+const char * allhistogramsfinal="ROOTFILES/finalallhistogram1.root";
+const char * file_estimated_parameters_final="DATA/finalestimates1.dat";
+const char * outputfilefinal="DATA/finalEnergyError1.dat";
 
 //resolution files
 const char * dataafile=outputfilefinal;//A,mean,sigma,error in A,error in mean, error in sigma,N for final fit
-const char * pdfresoluton="PLOTS/resolutionplot2.pdf"; //pdf file to save the plot
-const char * resolution_results="DATA/results_from_resolution2.dat";//stores the results obtained form the resolution plot
-const char * savingtoroot="ROOTFILES/resolution2.root";// saves the plot in the root file
+const char * pdfresoluton="PLOTS/resolutionplot1.pdf"; //pdf file to save the plot
+const char * resolution_results="DATA/results_from_resolution1.dat";//stores the results obtained form the resolution plot
+const char * savingtoroot="ROOTFILES/resolution1.root";// saves the plot in the root file
 
 //random resolution files
 const char * errors_fromresolution=resolution_results; //"results_from_resolution.dat";
-const char * randata="FINAL/randomdata2.dat"; //storing the mean and sigma from toy mc
-const char * saving_random="PLOTS/randompdffile2.pdf";
+const char * randata="FINAL/randomdata1.dat"; //storing the mean and sigma from toy mc
+const char * saving_random="PLOTS/randompdffile1.pdf";
 
 //Some constants
 double b1,m1,b2,m2,bError,mError; //=0.15448454;
@@ -58,6 +61,7 @@ double Emax=numberOfChannels;
 //Different Functions initialization:
 void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *,const char *pdfname,int chn,double emin,double emax);
 void initialrootfile();
+void modifyEstimates(const char * estimatesfile,const char * outputestfile, double ma, double ba);
 void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results );
 void finalrootfile();
 void etruevsecaldata();
@@ -67,26 +71,27 @@ void random_resolution();
 void peakcheck(const char *, const char *);
 void initialpeakcheck();
 void finalpeakcheck();
-//void readCalibration(const char *,double &b,double &m);
 
 //Main function
 void singlecodewithNewCalibration()
  {
-   // initialrootfile();
-   // combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
-    /*  etruevsecaldata();
+   initialrootfile();
+  // modifyEstimates(intialestfile,file_estimated_parameters, m1, b1);
+ 
+    combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
+    etruevsecaldata();
    etruevsecal();
     finalrootfile();
-   combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+    /* combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
     resolution();
     random_resolution();*/
-    initialpeakcheck();
+   // initialpeakcheck();
    // finalpeakcheck();*/
    cout<<"successfully completed "<<endl;
    // exit(0);
    
 }
-
+//This function reads the calibration values stored in the form b, m , bError, m Error
 void readCalibration(const char * calibrationfile,double &b,double &m)
 {
   ifstream inputcali(calibrationfile);
@@ -103,7 +108,42 @@ void readCalibration(const char * calibrationfile,double &b,double &m)
     }
   
 }
-
+//This function modifies the estimates stored in the file and saves in the file
+void modifyEstimates(const char * estimatesfile,const char * outputestfile, double ma, double ba)
+{
+  cout<<"--------------------------working on estimates modification------------------------------"<<endl;
+  ofstream outfile(outputestfile);
+  if(outfile.is_open())
+    {
+	cout<<"Successfully opened the file :"<<outputestfile<<endl;
+    }
+  else
+    {
+	cout<<"Error opening the file :"<<outputestfile<<endl;
+	return 0;
+    }
+  ifstream inputestfile(estimatesfile);
+  if(inputestfile.is_open())
+    {
+	cout<<"Successfully opened the file: "<<estimatesfile<<endl;
+	double A,mean,sigma,min,max;
+	cout<<fixed<<setprecision(2);
+	while(inputestfile>>A>>mean>>sigma>>min>>max)
+	  {
+	    cout<<"Input data:"<<endl;
+	    cout<<setw(10)<<A<<setw(10)<<mean<<setw(10)<<sigma<<setw(10)<<min<<setw(10)<<max<<endl;
+	    outfile<<setw(10)<<A<<setw(10)<<mean*ma-ba<<setw(10)<<sigma<<setw(10)<<min*ma-ba<<setw(10)<<max*ma-ba<<endl;
+	    cout<<"Output data:"<<endl;
+	    cout<<setw(10)<<A<<setw(10)<<mean*ma-ba<<setw(10)<<sigma<<setw(10)<<min*ma-ba<<setw(10)<<max*ma-ba<<endl;
+	  }
+    }
+  else
+    {
+	cout<<"Error opening the file: "<<estimatesfile<<endl;
+	return 0;
+    }
+  
+}
 //This functin makes the root file based on the given information
 void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *histogram_name,const char *pdfname,int chn,double emin,double emax)
 {
@@ -160,7 +200,7 @@ void initialrootfile()
   cout<<"Reading the calibration"<<endl;
   readCalibration(etruecalinput,b1,m1);//Reading the cabration stored in the file
   cout<<"Working on initial root file "<<endl;
-   correctedEmin=Emin*m1-b1;
+  correctedEmin=Emin*m1-b1;
   correctedEmax=Emax*m1-b1;
   cout<<" b1 = "<<b1<<" m1 = "<<m1<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
@@ -179,20 +219,37 @@ void finalrootfile()
   //Reading the intercept and slope form a file
   cout<<"Reading the slope and intercept of the plot "<<endl;
   readCalibration(intercept_slopefile,b2,m2);
+
+  cout<<" b1 = "<<b1<<" m1 = "<<m1<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   
   cout<<" b2 = "<<b2<<" m2 = "<<m2<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
-  correctedEmin=Emin*m2-b2;
-  correctedEmax=Emax*m2-b2;
-  cout<<" b2 = "<<b2<<" m2 = "<<m2<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
-   
+  
+  
+  //Calculating bnew mnew
   double bnew=m2*b1+b2;
   double mnew=m1*m2;
-  cout<<"bnew = " <<bnew<<" mnew = "<<mnew<<endl;
+  cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
   double correctedEmin=Emin*mnew-bnew;
   double correctedEmax=Emax*mnew-bnew;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
   cout<<"correctedEmax = "<<correctedEmax<<endl;
 
+  //Storing new bnew and mnew in the file
+  ofstream bmnewfile(bmfile);
+  if(bmnewfile.is_open())
+    {
+	cout<<"Successfully opened the file :"<<bmfile<<endl;
+	bmnewfile<<bnew<<setw(10)<<mnew<<endl;
+	cout<<"bnew<<setw(10)<<mnew"<<endl;
+	cout<<bnew<<setw(10)<<mnew<<endl;
+	
+    }
+  else
+    {
+	cout<<"Error opening the file "<<bmfile<<endl;
+	return 0;
+    }
+ 
   //Creating root file
   makingRootFile(inputdatafile,final_root_file,finalhisto,finalhistopdf,numberOfChannels,correctedEmin,correctedEmax);
   cout<<"Final root file created successfully "<<endl;
