@@ -1,58 +1,56 @@
 //Original Data File
-const char * inputdatafile="ORIGINAL_DATA/bkg_01_000.dat"; //file with input data
+const char * inputdatafile="ORIGINAL_DATA/bkg_01_001.dat"; //file with input data
 
 
 //Defining the files for initialroot file
-const char * initial_root_file= "ROOTFILES/initial1.root"; //for storing the histogram in rootbkg_01_000.dat
-const char * initialhisto="initialroothisto"; //name of histogram in rootfile
-const char * initialhistopdf="PLOTS/initialhisto1.pdf";//initial histogram as pdf file
+const char * inputCalibration="DATA/bnewmnew1.dat"; //Stores data b, m , berror and m error used to find initial initial root file 
+const char * initial_root_file= "ROOTFILES/initial2.root"; //for storing the histogram in rootbkg_01_000.dat
+const char * initialhistoname="initialroothisto"; //name of histogram in rootfile
+const char * initialhistopdf="PLOTS/initialhisto2.pdf";//initial histogram as pdf file
 
 
 //Files for initialcombofit
-const char * allhistogramsfile="ROOTFILES/initialallhistograms1.root"; //Save the histogram in this root file
-//const char * intialestfile="DATA/initialestimates1.dat";//files storing the initial estimates of the previous file
-const char * file_estimated_parameters="DATA/initialestimates1.dat"; //file stores  the estimated parameters for fit
-const char * outputfile ="DATA/initialEnergyerror1.dat"; //file storing errors 
+const char * initialallhistoroot="ROOTFILES/initialallhistograms2.root"; //Save the histogram in this root file
+const char * initialEstimatedParameters="DATA/initialestimates2.dat"; //file stores  the estimated parameters for fit
+const char * outputErrorFile ="DATA/initialEnergyerror2.dat"; //file storing errors 
 
 
 //Files for getting etrue and ecalculated data
-const  char * input1=outputfile; //estimated energy from the fit parameters
+const  char * input1=outputErrorFile; //estimated energy from the fit parameters
 const  char * input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat2
-const  char * output="DATA/EcalEtrue1.dat";//stores the  data manipulated from input1 and input1
+const  char * output="DATA/dataEcalEtrue2.dat";//stores the  data manipulated from input1 and input1
 
 //Files for plotting etrue vs ecal
 const char * filedata=output; //File storing the estimated and true energy and their errors
-const char * etruecalcrootfile="ROOTFILES/true_estimatedplot1.root"; //root file to save the plot
-const char * etruecalinput="DATA/Ecaltrue0.dat"; //Data to use for modifying the calibration funciton 
-const char * filenamee="DATA/Ecaltrue1.dat"; //file to store slope and intercept of plot
-const char * pdfetrue="PLOTS/EtrueECalc1.pdf"; //pdf file location
+const char * etruecalcrootfile="ROOTFILES/true_estimatedplot2.root"; //root file to save the plot
+const char * filenamee="DATA/slopeintercept2.dat"; //file to store slope and intercept of plot
+const char * pdfetrue="PLOTS/EtrueECalc2.pdf"; //pdf file location
 
 //Defining the files for finalroot file
-const char * bmfile="DATA/bnewmnew1.dat";
-const char * final_root_file="ROOTFILES/final1.root"; //Stores the root file
+const char * outputCalibration="DATA/bnewmnew2.dat";
+const char * final_root_file="ROOTFILES/final2.root"; //Stores the root file
 const char * finalhisto="finalroothisto"; //name of histogram in rootfile
 const char * intercept_slopefile=filenamee;//This file contains the slope and intercept data created by etruevsecal macro
-const char * finalhistopdf="PLOTS/finalhisto1.pdf";
+const char * finalhistopdf="PLOTS/finalhisto2.pdf";
 
 //Files for finalcombofit
-const char * allhistogramsfinal="ROOTFILES/finalallhistogram1.root";
-const char * file_estimated_parameters_final="DATA/finalestimates1.dat";
-const char * outputfilefinal="DATA/finalEnergyError1.dat";
+const char * allhistogramsfinal="ROOTFILES/finalallhistogram2.root";
+const char * finalEstimatedParameters="DATA/finalestimates2.dat";
+const char * outputfilefinal="DATA/finalEnergyError2.dat";
 
 //resolution files
 const char * dataafile=outputfilefinal;//A,mean,sigma,error in A,error in mean, error in sigma,N for final fit
-const char * pdfresoluton="PLOTS/resolutionplot1.pdf"; //pdf file to save the plot
-const char * resolution_results="DATA/results_from_resolution1.dat";//stores the results obtained form the resolution plot
-const char * savingtoroot="ROOTFILES/resolution1.root";// saves the plot in the root file
+const char * pdfresoluton="PLOTS/resolutionplot2.pdf"; //pdf file to save the plot
+const char * resolution_results="DATA/results_from_resolution2.dat";//stores the results obtained form the resolution plot
+const char * savingtoroot="ROOTFILES/resolution2.root";// saves the plot in the root file
 
 //random resolution files
 const char * errors_fromresolution=resolution_results; //"results_from_resolution.dat";
-const char * randata="FINAL/randomdata1.dat"; //storing the mean and sigma from toy mc
-const char * saving_random="PLOTS/randompdffile1.pdf";
+const char * randata="FINAL/randomdata2.dat"; //storing the mean and sigma from toy mc
+const char * saving_random="PLOTS/randompdffile2.pdf";
 
 //Some constants
-double b1,m1,b2,m2,bError,mError; //=0.15448454;
-  //double m1=0.38903224;
+double b1,m1,b2,m2,b1Error,m1Error,b2Error,m2Error;
 double Emin=0;
 double correctedEmin,correctedEmax;
 const int numberOfChannels=16384;
@@ -61,7 +59,6 @@ double Emax=numberOfChannels;
 //Different Functions initialization:
 void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *,const char *pdfname,int chn,double emin,double emax);
 void initialrootfile();
-void modifyEstimates(const char * estimatesfile,const char * outputestfile, double ma, double ba);
 void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results );
 void finalrootfile();
 void etruevsecaldata();
@@ -76,23 +73,22 @@ void finalpeakcheck();
 void singlecodewithNewCalibration()
  {
    initialrootfile();
-  // modifyEstimates(intialestfile,file_estimated_parameters, m1, b1);
- 
-    combofit(file_estimated_parameters,initial_root_file,initialhisto,allhistogramsfile,outputfile); //initial combo fit
+   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
     etruevsecaldata();
-   etruevsecal();
+    etruevsecal();
     finalrootfile();
-    /* combofit(file_estimated_parameters_final,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-    resolution();
+    combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+    /*resolution();
     random_resolution();*/
    // initialpeakcheck();
-   // finalpeakcheck();*/
+    //finalpeakcheck();
    cout<<"successfully completed "<<endl;
-   // exit(0);
+   exit(0);
    
 }
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //This function reads the calibration values stored in the form b, m , bError, m Error
-void readCalibration(const char * calibrationfile,double &b,double &m)
+void readCalibration(const char * calibrationfile,double &b,double &m,double &bError,double &mError)
 {
   ifstream inputcali(calibrationfile);
   if(inputcali.is_open())
@@ -108,42 +104,7 @@ void readCalibration(const char * calibrationfile,double &b,double &m)
     }
   
 }
-//This function modifies the estimates stored in the file and saves in the file
-void modifyEstimates(const char * estimatesfile,const char * outputestfile, double ma, double ba)
-{
-  cout<<"--------------------------working on estimates modification------------------------------"<<endl;
-  ofstream outfile(outputestfile);
-  if(outfile.is_open())
-    {
-	cout<<"Successfully opened the file :"<<outputestfile<<endl;
-    }
-  else
-    {
-	cout<<"Error opening the file :"<<outputestfile<<endl;
-	return 0;
-    }
-  ifstream inputestfile(estimatesfile);
-  if(inputestfile.is_open())
-    {
-	cout<<"Successfully opened the file: "<<estimatesfile<<endl;
-	double A,mean,sigma,min,max;
-	cout<<fixed<<setprecision(2);
-	while(inputestfile>>A>>mean>>sigma>>min>>max)
-	  {
-	    cout<<"Input data:"<<endl;
-	    cout<<setw(10)<<A<<setw(10)<<mean<<setw(10)<<sigma<<setw(10)<<min<<setw(10)<<max<<endl;
-	    outfile<<setw(10)<<A<<setw(10)<<mean*ma-ba<<setw(10)<<sigma<<setw(10)<<min*ma-ba<<setw(10)<<max*ma-ba<<endl;
-	    cout<<"Output data:"<<endl;
-	    cout<<setw(10)<<A<<setw(10)<<mean*ma-ba<<setw(10)<<sigma<<setw(10)<<min*ma-ba<<setw(10)<<max*ma-ba<<endl;
-	  }
-    }
-  else
-    {
-	cout<<"Error opening the file: "<<estimatesfile<<endl;
-	return 0;
-    }
-  
-}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%MAKING ROOT FILE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //This functin makes the root file based on the given information
 void makingRootFile(const char *originaldatafile,const char *rootfilename,const char *histogram_name,const char *pdfname,int chn,double emin,double emax)
 {
@@ -192,20 +153,21 @@ void makingRootFile(const char *originaldatafile,const char *rootfilename,const 
   cout<<"---------------------------------------------------"<<endl;
 }
 
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%INITIAL ROOT FILE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //Defining the initial root file
 void initialrootfile()
 {
   cout<<"---------------------------------------------------"<<endl;
   cout<<"Reading the calibration"<<endl;
-  readCalibration(etruecalinput,b1,m1);//Reading the cabration stored in the file
+  readCalibration(inputCalibration,b1,m1,b1Error,m1Error);//Reading the cabration stored in the file
   cout<<"Working on initial root file "<<endl;
   correctedEmin=Emin*m1-b1;
   correctedEmax=Emax*m1-b1;
-  cout<<" b1 = "<<b1<<" m1 = "<<m1<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
+  cout<<" b1 = "<<b1<<" m1 = "<<m1<<" b1Error = "<<b1Error<<" m1Error = "<<m1Error
+	<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
   cout<<"correctedEmax = "<<correctedEmax<<endl;
-  makingRootFile(inputdatafile,initial_root_file,initialhisto,initialhistopdf,numberOfChannels,correctedEmin,correctedEmax);
+  makingRootFile(inputdatafile,initial_root_file,initialhistoname,initialhistopdf,numberOfChannels,correctedEmin,correctedEmax);
   cout<<"Initial root file created successfully "<<endl;
   cout<<"---------------------------------------------------"<<endl;
   
@@ -218,35 +180,41 @@ void finalrootfile()
   cout<<"Working on final root file "<<endl;
   //Reading the intercept and slope form a file
   cout<<"Reading the slope and intercept of the plot "<<endl;
-  readCalibration(intercept_slopefile,b2,m2);
-
-  cout<<" b1 = "<<b1<<" m1 = "<<m1<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
+  readCalibration(intercept_slopefile,b2,m2,b2Error,m2Error);
+cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error
+	<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
+ cout<<"Finally we have :\n";
+  cout<<" b1 = "<<b1<<" m1 = "<<m1<<" b1Error = "<<b1Error<<" m1Error = "<<m1Error<<endl;
+    cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error<<endl;
   
-  cout<<" b2 = "<<b2<<" m2 = "<<m2<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
+  cout<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   
   
-  //Calculating bnew mnew
+  //Calculating bnew mnew and errors
   double bnew=m2*b1+b2;
   double mnew=m1*m2;
+  double bnewError=m2Error*b1+b2Error;
+  double mnewError=m1*m2Error;
   cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
+  cout<<"bnewError=m2Error*b1+b2Error:  "<<bnewError<<endl;
+  cout<<"mnewError=m1*m2Error: "<<mnewError<<endl;
   double correctedEmin=Emin*mnew-bnew;
   double correctedEmax=Emax*mnew-bnew;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
   cout<<"correctedEmax = "<<correctedEmax<<endl;
 
   //Storing new bnew and mnew in the file
-  ofstream bmnewfile(bmfile);
+  ofstream bmnewfile(outputCalibration);
   if(bmnewfile.is_open())
     {
-	cout<<"Successfully opened the file :"<<bmfile<<endl;
-	bmnewfile<<bnew<<setw(10)<<mnew<<endl;
-	cout<<"bnew<<setw(10)<<mnew"<<endl;
-	cout<<bnew<<setw(10)<<mnew<<endl;
-	
+	cout<<"Successfully opened the file :"<<outputCalibration<<endl;
+	bmnewfile<<bnew<<setw(20)<<mnew<<setw(20)<<bnewError<<setw(20)<<mnewError<<endl;
+	cout<<"bnew<<setw(20)<<mnew<<setw(20)<<bnewError<<setw(20)<<mnewError"<<endl;
+	cout<<bnew<<setw(20)<<mnew<<setw(20)<<bnewError<<setw(20)<<mnewError<<endl;
     }
   else
     {
-	cout<<"Error opening the file "<<bmfile<<endl;
+	cout<<"Error opening the file "<<outputCalibration<<endl;
 	return 0;
     }
  
@@ -256,123 +224,8 @@ void finalrootfile()
   cout<<"---------------------------------------------------"<<endl;
 }
 
-//Method for fitting all the peaks of the histogram and saving error parameters in  a File
-void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results )
-{
-  cout<<"---------------------------------------------------"<<endl;
-  cout<<"Working on combo fit for the file "<<fileroot<<endl;
-  const  int peakNo=23;
-  const  int column=6;
-  int row=peakNo/column+1;
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ETRUE ECAL DATA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-  //Defining the array to read the paramertes
-  double firstParameter[peakNo]={};
-  double secondParameter[peakNo]={};
-  double thirdParameter[peakNo]={};
-  double firstLimit[peakNo]={};
-  double secondLimit[peakNo]={};
-
-  //Checking if data file with estimated parameters are opened
-  ifstream datafile(estimatedparameters);
-  if(datafile.is_open())
-	{
-	  cout<<" File reading for estimated parameters is done successfully from the file "<<estimatedparameters<<endl;
-	  int peakCount=0;
-	  while(peakCount<=peakNo)
-		{
-		  datafile>>firstParameter[peakCount]>>secondParameter[peakCount]>>thirdParameter[peakCount]>>firstLimit[peakCount]>>secondLimit[peakCount];
-		  peakCount++;
-		}
-	  datafile.close();
-	}
-  else
-	{
-	  cout<<"Error in reading the file"<<estimatedparameters<<"  for estimated paramters"<<endl;
-	  return 0;
-	}
-
-  //Creating the canvas and rootfile to store different histograms 
-  TCanvas *c1 = new TCanvas("c1","Histogram",500,700);
-  c1->SetGrid();
-  c1->Divide(column,row);
-  TFile *filee=new TFile(resultroot,"RECREATE");
-  //checking if Tfile is opened scuccessfully
-  if(filee->IsOpen())cout<<"Successfully created a file "<<resultroot<< " to store all histograms with fit"<<endl;
-  else
-    {
-	cout<<"Unable to open the file "<<resultroot<< endl;
-	return 0;
-    }
-  //array for histogram and functions
-  TF1 * f[peakNo];
-  TH1F * h[peakNo];
-
-  //Checking if TFiles is opened successfully
-  TFile *MyFile = new TFile(fileroot,"READ");
-  if(MyFile->IsOpen())cout<<fileroot<<" file opened successfully\n";
-
-  TH1F *his = (TH1F*)MyFile->Get(histoname); //histo is the name of histogram stored in MyFile
-  
-  for(int i=0;i<peakNo;i++)
-    {
-      f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
-      f[i]->SetParNames("A","#mu","#sigma","a1","b1");
-      f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
-	cout<<endl;
-	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
-	cout<<endl;
-      c1->cd(i+1);
-      h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
-      h[i]->GetXaxis()->SetTitle("Energy(keV)");
-      h[i]->GetXaxis()->CenterTitle();
-      h[i]->GetYaxis()->SetTitle("Counts/Channel");
-      h[i]->GetYaxis()->CenterTitle();
-      h[i]->Fit(f[i],"rem+","",firstLimit[i],secondLimit[i]);
-	gStyle->SetOptStat("n");//Name of histogram
-	h[i]->Draw();
-   	h[i]->Sumw2();
-	TPaveStats* stat =(TPaveStats*)h[i]->FindObject("stats");
-	stat->SetOptFit(1111);
-	// Set stat options
-	gStyle->SetStatY(0.9);                
-	// Set y-position (fraction of pad size)
-	gStyle->SetStatX(0.9);                
-	// Set x-position (fraction of pad size)
-	gStyle->SetStatW(0.2);                
-	// Set width of stat-box (fraction of pad size)
-	gStyle->SetStatH(0.4);                
-	// Set height of stat-box (fraction of pad size)
-	c1->Update();
-	c1->Modified();
-     	filee->cd();
-	//c->SaveAs(initialcanvaspdf);
-	h[i]->Write();
-    }
-  ///////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/////////////////////////////////////
-
-  
- ofstream myfile(results);
- const double binWidth=his->GetBinWidth(1);
- if(myfile.is_open())
- {
-   cout<<"Creating the file with A,eA,u,eu,6,e6,N"<<endl;
-  myfile<<fixed<<setprecision(2);
-     for(int i=0;i<peakNo;i++)
-       {
-         myfile<<setw(10)<< f[i]->GetParameter(0)<<setw(12)<<f[i]->GetParameter(1)<<setw(12)<<f[i]->GetParameter(2)<<setw(12)<<f[i]->GetParError(0)
-			   <<setw(12)<<f[i]->GetParError(1)<<setw(12)<<f[i]->GetParError(2)<<setw(12)<<f[i]->GetParameter(0)/binWidth<<endl;
-       }
-     cout<<"successfully stored output data in the file "<<results<<endl;
-     myfile.close();
- }
- else cout<<"unable to open the file "<<results <<endl;
- //Closing the root file
- //xdelete  filename;
- // filename.close();
- delete  MyFile;
- cout<<"Done with combo fit"<<endl;
- cout<<"---------------------------------------------------"<<endl;
- }
 
 //This macro helps to create e-true and e-calc data:
 void etruevsecaldata()
@@ -422,7 +275,7 @@ void etruevsecaldata()
   cout<<"Done with etrue and ecalc data creation "<<endl;
   cout<<"---------------------------------------------------"<<endl;
 }
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ETRUE VS ECAL PLOT MACRO%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //Macro to plot etrue vs ecalcualted
 void etruevsecal()
 {
@@ -494,7 +347,7 @@ void etruevsecal()
   cout<<"---------------------------------------------------"<<endl;
 }
 //Macro for getting resolution
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Resolution%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void resolution()
 {
   cout<<"---------------------------------------------------"<<endl;
@@ -648,6 +501,7 @@ void random_resolution()
   cout<<"random resolution done successfully"<<endl;
   cout<<"---------------------------------------------------"<<endl;
 }
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Peak Check%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 //Macro for checking the fitting of the peak of the histogram 
 void peakcheck(const char * rootfilename,const char * histo_in_root)
@@ -667,17 +521,138 @@ void peakcheck(const char * rootfilename,const char * histo_in_root)
   f->SetParameters(Amplitude,mean,SD,0,0);
   h->Fit("f1","rem+","",xmin,xmax);
   gStyle->SetOptFit(1111);
-  //  h->Update();
-  // h->Draw();
 }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Initial Peak Check%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void initialpeakcheck()
 {
   cout<<"working in initial peak check"<<endl;
-  peakcheck(initial_root_file,initialhisto); //name of root file and name of histo stored in the root file
+  peakcheck(initial_root_file,initialhistoname); //name of root file and name of histo stored in the root file
 }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Final Peak Check%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void finalpeakcheck()
 {
   cout<<"working in final peak check "<<endl;
   peakcheck(final_root_file,finalhisto);//name of root file and name of histo stored in the root file
 }
 
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%COMBO FIT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//Method for fitting all the peaks of the histogram and saving error parameters in  a File
+void combofit(const char * estimatedparameters,const char * fileroot,const char * histoname,const char * resultroot,const char * results )
+{
+  cout<<"---------------------------------------------------"<<endl;
+  cout<<"Working on combo fit for the file "<<fileroot<<endl;
+  const  int peakNo=23;
+  const  int column=6;
+  int row=peakNo/column+1;
+  
+  //Defining the array to read the paramertes
+  double firstParameter[peakNo]={};
+  double secondParameter[peakNo]={};
+  double thirdParameter[peakNo]={};
+  double firstLimit[peakNo]={};
+  double secondLimit[peakNo]={};
+
+  //Checking if data file with estimated parameters are opened
+  ifstream datafile(estimatedparameters);
+  if(datafile.is_open())
+	{
+	  cout<<" File reading for estimated parameters is done successfully from the file "<<estimatedparameters<<endl;
+	  int peakCount=0;
+	  while(peakCount<=peakNo)
+		{
+		  datafile>>firstParameter[peakCount]>>secondParameter[peakCount]>>thirdParameter[peakCount]>>firstLimit[peakCount]>>secondLimit[peakCount];
+		  peakCount++;
+		}
+	  datafile.close();
+	}
+  else
+	{
+	  cout<<"Error in reading the file"<<estimatedparameters<<"  for estimated paramters"<<endl;
+	  return 0;
+	}
+
+  //Creating the canvas and rootfile to store different histograms 
+  TCanvas *c1 = new TCanvas("c1","Histogram",500,700);
+  c1->SetGrid();
+  c1->Divide(column,row);
+  TFile *filee=new TFile(resultroot,"RECREATE");
+  //checking if Tfile is opened scuccessfully
+  if(filee->IsOpen())cout<<"Successfully created a file "<<resultroot<< " to store all histograms with fit"<<endl;
+  else
+    {
+	cout<<"Unable to open the file "<<resultroot<< endl;
+	return 0;
+    }
+  //array for histogram and functions
+  TF1 * f[peakNo];
+  TH1F * h[peakNo];
+
+  //Checking if TFiles is opened successfully
+  TFile *MyFile = new TFile(fileroot,"READ");
+  if(MyFile->IsOpen())cout<<fileroot<<" file opened successfully\n";
+
+  TH1F *his = (TH1F*)MyFile->Get(histoname); //histo is the name of histogram stored in MyFile
+  
+  for(int i=0;i<peakNo;i++)
+    {
+      f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
+      f[i]->SetParNames("A","#mu","#sigma","a1","b1");
+      f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
+	cout<<endl;
+	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
+	cout<<endl;
+      c1->cd(i+1);
+      h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
+      h[i]->GetXaxis()->SetTitle("Energy(keV)");
+      h[i]->GetXaxis()->CenterTitle();
+      h[i]->GetYaxis()->SetTitle("Counts/Channel");
+      h[i]->GetYaxis()->CenterTitle();
+      h[i]->Fit(f[i],"rem+","",firstLimit[i],secondLimit[i]);
+	gStyle->SetOptStat("n");//Name of histogram
+	h[i]->Draw();
+   	h[i]->Sumw2();
+	TPaveStats* stat =(TPaveStats*)h[i]->FindObject("stats");
+	stat->SetOptFit(1111);
+	// Set stat options
+	gStyle->SetStatY(0.9);                
+	// Set y-position (fraction of pad size)
+	gStyle->SetStatX(0.9);                
+	// Set x-position (fraction of pad size)
+	gStyle->SetStatW(0.2);                
+	// Set width of stat-box (fraction of pad size)
+	gStyle->SetStatH(0.4);                
+	// Set height of stat-box (fraction of pad size)
+	c1->Update();
+	c1->Modified();
+     	filee->cd();
+	//c->SaveAs(initialcanvaspdf);
+	h[i]->Write();
+    }
+  ///////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/////////////////////////////////////
+ ofstream myfile(results);
+ const double binWidth=his->GetBinWidth(1);
+ if(myfile.is_open())
+ {
+   cout<<"Creating the file with A,eA,u,eu,6,e6,N"<<endl;
+  myfile<<fixed<<setprecision(2);
+     for(int i=0;i<peakNo;i++)
+       {
+         myfile<<setw(10)<< f[i]->GetParameter(0)<<setw(12)<<f[i]->GetParameter(1)<<setw(12)<<f[i]->GetParameter(2)<<setw(12)<<f[i]->GetParError(0)
+			   <<setw(12)<<f[i]->GetParError(1)<<setw(12)<<f[i]->GetParError(2)<<setw(12)<<f[i]->GetParameter(0)/binWidth<<endl;
+       }
+     cout<<"successfully stored output data in the file "<<results<<endl;
+     myfile.close();
+ }
+ else cout<<"unable to open the file "<<results <<endl;
+ //Closing the root file
+ //xdelete  filename;
+ // filename.close();
+ delete  MyFile;
+ cout<<"Done with combo fit"<<endl;
+ cout<<"---------------------------------------------------"<<endl;
+ }
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
