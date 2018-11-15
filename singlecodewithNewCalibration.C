@@ -17,7 +17,7 @@ const char * outputErrorFile ="DATA/initialEnergyerror5.dat"; //file storing err
 
 //Files for getting etrue and ecalculated data
 const  char * input1=outputErrorFile; //estimated energy from the fit parameters
-const  char * input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat2
+const  char * input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat5
 const  char * output="DATA/dataEcalEtrue5.dat";//stores the  data manipulated from input1 and input1
 
 //Files for plotting etrue vs ecal
@@ -72,18 +72,18 @@ void finalpeakcheck();
 //Main function
 void singlecodewithNewCalibration()
  {
-   initialrootfile();
-    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-     etruevsecaldata();
+   /* initialrootfile();
+   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+      etruevsecaldata();
    etruevsecal();
     finalrootfile();
     combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-     resolution();
-	 random_resolution();
-	 //  initialpeakcheck();*/
-	 // finalpeakcheck();
+    /*resolution();
+     //random_resolution();*/
+   // initialpeakcheck();
+	 finalpeakcheck();
    cout<<"successfully completed "<<endl;
-    exit(0);
+   //   exit(0);
    
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
