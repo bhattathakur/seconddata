@@ -78,11 +78,11 @@ void singlecodewithNewCalibration()
    etruevsecal();
     finalrootfile();
     combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-    /* resolution();
-	 random_resolution();*/
-    // initialpeakcheck();
-    // finalpeakcheck();
-   cout<<"successfully completed "<<endl;*/
+     resolution();
+	 random_resolution();
+	 //  initialpeakcheck();*/
+	 // finalpeakcheck();
+   cout<<"successfully completed "<<endl;
     exit(0);
    
 }
