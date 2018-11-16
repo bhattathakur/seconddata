@@ -3,54 +3,54 @@ string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files
 string inputfilelist="ORIGINAL_DATA/originalfilelist.dat"; //This file has the list of all files
 
 string  inputdatafile;  //="ORIGINAL_DATA/bkg_01_001.dat"; //file with input data
-int file=4;
+int file=6;
 
 //Defining the files for initialroot file
-string  inputCalibration="DATA/bnewmnew"+to_string(file-1)+".dat"; //Stores data b, m , berror and m error used to find initial initial root file 
-string  initial_root_file= "ROOTFILES/initial"+to_string(file)+".root"; //for storing the histogram in rootbkg_01_000.dat
-string  initialhistoname="initialroothisto"; //name of histogram in rootfile
-string  initialhistopdf="PLOTS/initialhisto"+to_string(file)+".pdf";//initial histogram as pdf file
+string  inputCalibration;
+string  initial_root_file;
+string  initialhistoname;
+string  initialhistopdf;
 
 
 //Files for initialcombofit
-string  initialallhistoroot="ROOTFILES/initialallhistograms"+to_string(file)+".root"; //Save the histogram in this root file
-string  initialEstimatedParameters="DATA/initialestimates"+to_string(file)+".dat"; //file stores  the estimated parameters for fit
-string  outputErrorFile ="DATA/initialEnergyerror"+to_string(file)+".dat"; //file storing errors 
+string  initialallhistoroot;
+string  initialEstimatedParameters;
+string  outputErrorFile;
 
 
 //Files for getting etrue and ecalculated data
-string input1=outputErrorFile; //estimated energy from the fit parameters
-string input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat"+file+"
-string output="DATA/dataEcalEtrue"+to_string(file)+".dat";//stores the  data manipulated from input1 and input1
+string input1;
+string input2;
+string output;
 
-//Files for plotting etrue vs ecal
-string  filedata=output; //File storing the estimated and true energy and their errors
-string  etruecalcrootfile="ROOTFILES/true_estimatedplot"+to_string(file)+".root"; //root file to save the plot
-string  filenamee="DATA/slopeintercept"+to_string(file)+".dat"; //file to store slope and intercept of plot
-string  pdfetrue="PLOTS/EtrueECalc"+to_string(file)+".pdf"; //pdf file location
+//Files for plotting etrue vs ecal;
+string  filedata;
+string  etruecalcrootfile;
+string  filenamee;
+string  pdfetrue;
 
 //Defining the files for finalroot file
-string  outputCalibration="DATA/bnewmnew"+to_string(file)+".dat";
-string  final_root_file="ROOTFILES/final"+to_string(file)+".root"; //Stores the root file
-string  finalhisto="finalroothisto"; //name of histogram in rootfile
-string  intercept_slopefile=filenamee;//This file contains the slope and intercept data created by etruevsecal macro
-string  finalhistopdf="PLOTS/finalhisto"+to_string(file)+".pdf";
+string  outputCalibration;
+string  final_root_file;
+string  finalhisto;
+string  intercept_slopefile;
+string  finalhistopdf;
 
 //Files for finalcombofit
-string  allhistogramsfinal="ROOTFILES/finalallhistogram"+to_string(file)+".root";
-string  finalEstimatedParameters="DATA/finalestimates"+to_string(file)+".dat";
-string  outputfilefinal="DATA/finalEnergyError"+to_string(file)+".dat";
+string  allhistogramsfinal;
+string  finalEstimatedParameters;
+string  outputfilefinal;
 
 //resolution files
-string  dataafile=outputfilefinal;//A,mean,sigma,error in A,error in mean, error in sigma,N for final fit
-string  pdfresoluton="PLOTS/resolutionplot"+to_string(file)+".pdf"; //pdf file to save the plot
-string  resolution_results="DATA/results_from_resolution"+to_string(file)+".dat";//stores the results obtained form the resolution plot
-string  savingtoroot="ROOTFILES/resolution"+to_string(file)+".root";// saves the plot in the root file
+string  dataafile;
+string  pdfresoluton;
+string  resolution_results;
+string  savingtoroot;
 
 //random resolution files
-string  errors_fromresolution=resolution_results; //"results_from_resolution.dat";
-string  randata="FINAL/randomdata"+to_string(file)+".dat"; //storing the mean and sigma from toy mc
-string  saving_random="PLOTS/randompdffile"+to_string(file)+".pdf";
+string  errors_fromresolution;
+string  randata;
+string  saving_random;
 
 //Some constants
 double b1,m1,b2,m2,b1Error,m1Error,b2Error,m2Error;
@@ -60,8 +60,11 @@ const int numberOfChannels=16384;
 double Emax=numberOfChannels;
 const int NUMBER_OF_FILES =40;
 string desiredFile[]={};
+string  File[]={};
 
-//Different Functions initialization:
+
+string * arrayForFiles(const char *,int );
+void checkfileOpening(string fileIn);
 void makingRootFile(string originaldatafile,string rootfilename,string ,string pdfname,int chn,double emin,double emax);
 void initialrootfile();
 void combofit(string  estimatedparameters,string  fileroot,string  histoname,string  resultroot,string  results );
@@ -76,16 +79,20 @@ void finalpeakcheck();
 void fileArray(string files[],int size);
 void checkfileOpening(string fileIn);
 void readFile(int fileNo);
+string toString(int n);
+void modifyFiles();
 //Main function
 void finalCode()
  {
-   //readFile(1);
-   fileArray(desiredFile,NUMBER_OF_FILES);
-   // string inputdatafile;
-   inputdatafile=desiredFile[file-1];
-   cout<<"inputdatfile :"<<inputdatafile<<endl;
-   checkfileOpening(inputdatafile);
-  
+   modifyFiles();
+   string * filelist=arrayForFiles(inputfilelist.c_str(),NUMBER_OF_FILES);
+  for(int i=0;i<NUMBER_OF_FILES;i++)
+    {
+	printf("filelist %2d :%s \n",i+1,filelist[i].c_str());
+    }
+  string inputFile=fileDirectory+filelist[2];
+  cout<<"inputFile: "<<inputFile<<endl;
+  checkfileOpening(inputFile);
    initialrootfile();
    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
       etruevsecaldata();
@@ -104,7 +111,7 @@ void finalCode()
 //This function reads the calibration values stored in the form b, m , bError, m Error
 void readCalibration(string  calibrationfile,double &b,double &m,double &bError,double &mError)
 {
-  ifstream inputcali(calibrationfile);
+  ifstream inputcali(calibrationfile.c_str());
   if(inputcali.is_open())
     {
 	cout<<"successfully opened: "<<calibrationfile<<endl;
@@ -127,7 +134,7 @@ void makingRootFile(string originaldatafile,string rootfilename,string histogram
   TFile *file=new TFile(rootfilename.c_str(),"RECREATE"); //Root file to store the histograms
   TH1F *histo=new TH1F(histogram_name.c_str(),"#font[22]{Calibrated Energy Spectrum for original data}",chn,emin,emax);
   
-   ifstream input(originaldatafile);
+  ifstream input(originaldatafile.c_str());
    int nlines=0; //for counting the number of lines
    string line;   //reads the line as string
    int x,y; //for storing the data in histogram
@@ -571,7 +578,7 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
   double secondLimit[peakNo]={};
 
   //Checking if data file with estimated parameters are opened
-  ifstream datafile(estimatedparameters);
+  ifstream datafile(estimatedparameters.c_str());
   if(datafile.is_open())
 	{
 	  cout<<" File reading for estimated parameters is done successfully from the file "<<estimatedparameters<<endl;
@@ -669,47 +676,36 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
 
 //This macro helps to read the given file which contains the number of files in the string format and form an array out of them
-void readFile(int fileNo)
+ //Reads the files and stores the files in the form of string array
+string * arrayForFiles(const char * fileName,int fileNum)
 {
-  
-  string File[NUMBER_OF_FILES];
-  fileArray(File,NUMBER_OF_FILES);
-  cout<<"Second File "<<File[1]<<endl;
-  cout<<"Last File "<<File[39]<<endl;
-  checkfileOpening(File[fileNo]);
-}
-
-//Creates the array of files which are stored in the input file in the form of strings
-void fileArray(string files[],int size)
-{
-  
-  ifstream input(inputfilelist);
-  if(input.is_open())
+  ifstream inputfile(fileName);
+  string nameOfFile;
+  int count=0;
+    if(inputfile.is_open())
     {
-	cout<<"Successfully opened the file: "<<inputfilelist<<endl;
-	cout<<"Reading the names of files in  the array form :"<<endl;
-	string filename;
-	int i=0;
-	while(input>>filename)
+	cout<<"Successfully opened the file "<<fileName<<endl;
+	string * intermed =new string[fileNum];
+	while(inputfile>>nameOfFile)
 	  {
-	    files[i]=filename;
-	    printf("File%3d   %s\n",i+1,filename.c_str());
-	    i++;
+	    // getline(inputfile,intermed[count]);
+	    intermed[count]=nameOfFile;
+	    count++;
 	  }
     }
   else
     {
-	cout<<"Unable to open the file "<<inputfilelist<<endl;
-	return 0;
+	cout<<"Unable to open the file "<<fileName<<endl;
+    }
+    return intermed;
   }
-
-}
-//Checks if the given file is opened properly from the list of input files
+//Checks if the file is opened or not
 void checkfileOpening(string fileIn)
 {
-  fileIn=fileDirectory+fileIn;
+  // fileIn=fileDirectory+fileIn;
   cout<<"Trying to open the file :"<<fileIn<<endl;
-  ifstream input(fileIn);
+  ifstream input;
+  input.open(fileIn.c_str());
   if(input.is_open())
     {
 	cout<<"Successfully opened the file :"<<fileIn<<endl;
@@ -719,3 +715,58 @@ void checkfileOpening(string fileIn)
 	cout<<"Unable to open the file :"<<fileIn<<endl;
     }
 }
+string toString(int n)
+{
+  stringstream ss;
+  ss<<n;
+  return ss.str();
+}
+
+   void modifyFiles()
+   {
+       inputCalibration="DATA/bnewmnew"+toString(file-1)+".dat"; //Stores data b, m , berror and m error used to find initial initial root file 
+       initial_root_file= "ROOTFILES/initial"+toString(file)+".root"; //for storing the histogram in rootbkg_01_000.dat
+       initialhistoname="initialroothisto"; //name of histogram in rootfile
+       initialhistopdf="PLOTS/initialhisto"+toString(file)+".pdf";//initial histogram as pdf file
+
+
+     //Files for initialcombofit
+       initialallhistoroot="ROOTFILES/initialallhistograms"+toString(file)+".root"; //Save the histogram in this root file
+       initialEstimatedParameters="DATA/initialestimates"+toString(file)+".dat"; //file stores  the estimated parameters for fit
+       outputErrorFile ="DATA/initialEnergyerror"+toString(file)+".dat"; //file storing errors 
+
+
+     //Files for getting etrue and ecalculated data
+      input1=outputErrorFile; //estimated energy from the fit parameters
+      input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat"+file+"
+      output="DATA/dataEcalEtrue"+toString(file)+".dat";//stores the  data manipulated from input1 and input1
+
+     //Files for plotting etrue vs ecal
+       filedata=output; //File storing the estimated and true energy and their errors
+       etruecalcrootfile="ROOTFILES/true_estimatedplot"+toString(file)+".root"; //root file to save the plot
+       filenamee="DATA/slopeintercept"+toString(file)+".dat"; //file to store slope and intercept of plot
+       pdfetrue="PLOTS/EtrueECalc"+toString(file)+".pdf"; //pdf file location
+
+     //Defining the files for finalroot file
+       outputCalibration="DATA/bnewmnew"+toString(file)+".dat";
+       final_root_file="ROOTFILES/final"+toString(file)+".root"; //Stores the root file
+       finalhisto="finalroothisto"; //name of histogram in rootfile
+	 intercept_slopefile=filenamee;//This file contains the slope and intercept data created by etruevsecal macro
+       finalhistopdf="PLOTS/finalhisto"+toString(file)+".pdf";
+
+     //Files for finalcombofit
+       allhistogramsfinal="ROOTFILES/finalallhistogram"+toString(file)+".root";
+       finalEstimatedParameters="DATA/finalestimates"+toString(file)+".dat";
+       outputfilefinal="DATA/finalEnergyError"+toString(file)+".dat";
+
+     //resolution files
+       dataafile=outputfilefinal;//A,mean,sigma,error in A,error in mean, error in sigma,N for final fit
+       pdfresoluton="PLOTS/resolutionplot"+toString(file)+".pdf"; //pdf file to save the plot
+       resolution_results="DATA/results_from_resolution"+toString(file)+".dat";//stores the results obtained form the resolution plot
+       savingtoroot="ROOTFILES/resolution"+toString(file)+".root";// saves the plot in the root file
+
+     //random resolution files
+       errors_fromresolution=resolution_results; //"results_from_resolution.dat";
+       randata="FINAL/randomdata"+toString(file)+".dat"; //storing the mean and sigma from toy mc
+       saving_random="PLOTS/randompdffile"+toString(file)+".pdf";
+   }
