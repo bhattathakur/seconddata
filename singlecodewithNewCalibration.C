@@ -1,10 +1,10 @@
 //Original Data File
 const char * inputdatafile="ORIGINAL_DATA/bkg_01_001.dat"; //file with input data
-
+const char * inputCalibration="DATA/bnewmnew4.dat"; //Stores data b, m , berror and m error used to find initial initial root file 
 
 //Defining the files for initialroot file
-const char * inputCalibration="DATA/bnewmnew4.dat"; //Stores data b, m , berror and m error used to find initial initial root file 
-const char * initial_root_file= "ROOTFILES/initial5.root"; //for storing the histogram in rootbkg_01_000.dat
+
+const char * initial_root_file= "ROOTFILES/initial5.root"; //for storing the histogram in rootbkg_03_000.dat
 const char * initialhistoname="initialroothisto"; //name of histogram in rootfile
 const char * initialhistopdf="PLOTS/initialhisto5.pdf";//initial histogram as pdf file
 
@@ -74,16 +74,16 @@ void singlecodewithNewCalibration()
  {
    /* initialrootfile();
    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-      etruevsecaldata();
+    etruevsecaldata();
    etruevsecal();
     finalrootfile();
-    combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-    /*resolution();
-     //random_resolution();*/
-   // initialpeakcheck();
-	 finalpeakcheck();
+     combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+     //resolution();
+     // random_resolution();*/
+   //initialpeakcheck();
+   finalpeakcheck();
    cout<<"successfully completed "<<endl;
-   //   exit(0);
+   // exit(0);
    
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
