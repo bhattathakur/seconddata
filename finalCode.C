@@ -1,9 +1,9 @@
+int file=5;
+
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
 string inputfilelist="ORIGINAL_DATA/originalfilelist.dat"; //This file has the list of all files
-
 string  inputdatafile;
-int file=6;
 
 //Defining the files for initialroot file
 string  inputCalibration;
@@ -11,12 +11,10 @@ string  initial_root_file;
 string  initialhistoname;
 string  initialhistopdf;
 
-
 //Files for initialcombofit
 string  initialallhistoroot;
 string  initialEstimatedParameters;
 string  outputErrorFile;
-
 
 //Files for getting etrue and ecalculated data
 string input1;
@@ -62,7 +60,7 @@ const int NUMBER_OF_FILES =40;
 string desiredFile[]={};
 string  File[]={};
 
-
+//Function Initializtion
 string * arrayForFiles(const char *,int );
 void checkfileOpening(string fileIn);
 void makingRootFile(string originaldatafile,string rootfilename,string ,string pdfname,int chn,double emin,double emax);
@@ -81,30 +79,32 @@ void checkfileOpening(string fileIn);
 void readFile(int fileNo);
 string toString(int n);
 void modifyFiles();
+
 //Main function
 void finalCode()
  {
    modifyFiles();
    string * filelist=arrayForFiles(inputfilelist.c_str(),NUMBER_OF_FILES);
-  for(int i=0;i<NUMBER_OF_FILES;i++)
+   for(int i=0;i<NUMBER_OF_FILES;i++)
     {
-	printf("filelist %2d :%s \n",i+1,filelist[i].c_str());
+   	printf("filelist %2d :%s \n",i+1,filelist[i].c_str());
     }
-  inputdatafile=fileDirectory+filelist[file-1];
-  cout<<"inputFile: "<<inputdatafile<<endl;
-  checkfileOpening(inputdatafile);
-   initialrootfile();
-   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-      etruevsecaldata();
-   etruevsecal();
-    finalrootfile();
-    combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-    resolution();
-    random_resolution();
-	// initialpeakcheck();
-   //	 finalpeakcheck();
+   inputdatafile=fileDirectory+filelist[file-1];
+   cout<<"inputFile: "<<inputdatafile<<endl;
+   checkfileOpening(inputdatafile);
+   // initialrootfile();
+   // combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   // etruevsecaldata();
+   // etruevsecal();
+   // finalrootfile();
+   // combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   // resolution();
+   // random_resolution();
+   //  initialpeakcheck();
+    finalpeakcheck();
    cout<<"successfully completed "<<endl;
-     exit(0);
+   // exit(0);
+     
    
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -202,13 +202,12 @@ void finalrootfile()
   //Reading the intercept and slope form a file
   cout<<"Reading the slope and intercept of the plot "<<endl;
   readCalibration(intercept_slopefile,b2,m2,b2Error,m2Error);
-cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error
+  cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error
 	<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
  cout<<"Finally we have :\n";
-  cout<<" b1 = "<<b1<<" m1 = "<<m1<<" b1Error = "<<b1Error<<" m1Error = "<<m1Error<<endl;
-    cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error<<endl;
-  
-  cout<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
+ cout<<" b1 = "<<b1<<" m1 = "<<m1<<" b1Error = "<<b1Error<<" m1Error = "<<m1Error<<endl;
+ cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error<<endl;
+ cout<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   
   
   //Calculating bnew mnew and errors
@@ -225,7 +224,7 @@ cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error
   cout<<"correctedEmax = "<<correctedEmax<<endl;
 
   //Storing new bnew and mnew in the file
-  ofstream bmnewfile(outputCalibration);
+  ofstream bmnewfile(outputCalibration.c_str());
   if(bmnewfile.is_open())
     {
 	cout<<"Successfully opened the file :"<<outputCalibration<<endl;
@@ -253,8 +252,8 @@ void etruevsecaldata()
 {
   cout<<"---------------------------------------------------"<<endl;
   cout<<"Working to get e true and e calcualted data:"<<endl;
-  ifstream file1(input1);
-  ifstream file2(input2);
+  ifstream file1(input1.c_str());
+  ifstream file2(input2.c_str());
   if(file1.is_open())
     {
 	cout<<input1<< " successfully opened"<<endl;
@@ -276,7 +275,7 @@ void etruevsecaldata()
   double amplitude,mean,sigma,errorAmp,errorMean,errorSigma,N;  //input1
   double trueE,errorE; //input2
   //Open file to store the required data:
-  ofstream file4(output);
+  ofstream file4(output.c_str());
   if(file4.is_open())
     {
 	while(1)
@@ -327,9 +326,8 @@ void etruevsecal()
   c->Update();
 
   //Legend
-  auto legend=new TLegend(0.1,0.8,0.3,0.9);//x1,y1,x2,y2
-  //legend->SetHeader("The Legend Title");
-  legend->AddEntry(graph->GetFunction("pol1"),"E_{estimated}=P_{0}+P_{1}E_{true}","l");
+  TLegend * legend=new TLegend(0.1,0.8,0.3,0.9);//x1,y1,x2,y2
+   legend->AddEntry(graph->GetFunction("pol1"),"E_{estimated}=P_{0}+P_{1}E_{true}","l");
   legend->AddEntry(graph,"Graph with error bars","lep");//line,errorbars,polymarker
   gStyle->SetLegendFont(12);
   gStyle->SetLegendFillColor(7);
@@ -337,7 +335,7 @@ void etruevsecal()
   
   //Saving the plot in root file
   cout<<"Writing the etrue-ecalc plot in the root file"<<endl;
-  auto file=new TFile(etruecalcrootfile.c_str(),"RECREATE");
+  TFile * file=new TFile(etruecalcrootfile.c_str(),"RECREATE");
   if(file->IsOpen())cout<<etruecalcrootfile <<" opened successfully"<<endl;
   else
     {
@@ -349,7 +347,7 @@ void etruevsecal()
 
   
   //Files to save the slope and intercept from etrue vs ecalcualted plot
-  ofstream outputgraph(filenamee);
+   ofstream outputgraph(filenamee.c_str());
   if(outputgraph.is_open())
    {
      outputgraph<<setw(20)<<graph->GetFunction("pol1")->GetParameter(0)<<setw(20)<<graph->GetFunction("pol1")->GetParameter(1)
@@ -374,7 +372,7 @@ void resolution()
   cout<<"---------------------------------------------------"<<endl;
   cout<<"working on resolution "<<endl;
   //Data file containing final errors and parameters
-  ifstream inputres(dataafile);
+  ifstream inputres(dataafile.c_str());
   if(inputres.is_open())
     {
 	cout<<"successfully opend the file "<<dataafile<<endl;
@@ -407,7 +405,7 @@ void resolution()
   c->Update();
 
   //Legend
-  auto leg=new TLegend(0.1,0.8,0.3,0.9);//x1,y1,x2,y2
+  TLegend * leg=new TLegend(0.1,0.8,0.3,0.9);//x1,y1,x2,y2
   leg->AddEntry(expgraph->GetFunction("pol1"),"#sigma=p_{0}+p_{1}E","l");
   leg->AddEntry(expgraph,"Graph with error bars","lep");//line,errorbars,polymarker
   gStyle->SetLegendFont(12);
@@ -432,7 +430,7 @@ void resolution()
   cout<<"sigma = "<<sig<<endl;
   cout<<"FWHM  = "<<FWHM<<endl;
   /////////////////////Storing the Error and parameter error in a file////////////////////
-  ofstream resolution_error(resolution_results);
+  ofstream resolution_error(resolution_results.c_str());
   if(resolution_error.is_open())
     {
 	resolution_error<<setw(12)<<slope<<setw(12)<<slope_error<<setw(12)<<intercept<<setw(12)<<intercept_error<<endl;
@@ -654,7 +652,7 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
 	h[i]->Write();
     }
   ///////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/////////////////////////////////////
- ofstream myfile(results);
+  ofstream myfile(results.c_str());
  const double binWidth=his->GetBinWidth(1);
  if(myfile.is_open())
  {
