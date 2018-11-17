@@ -13,9 +13,11 @@ void readFile()
     {
 	printf("filelist %2d :%s \n",i+1,filelist[i].c_str());
     }
-  string inputFile=fileDirectory+filelist[2];
+  for(int i=0;i<NUMBER_OF_FILES;i++){
+  string inputFile=fileDirectory+filelist[i];
   cout<<"inputFile: "<<inputFile<<endl;
   checkfileOpening(inputFile);
+  }
   exit (0);
 }
  //Reads the files and stores the files in the form of string array
@@ -23,11 +25,12 @@ string * arrayForFiles(const char * fileName,int fileNum)
 {
   ifstream inputfile(fileName);
   string nameOfFile;
+  string * intermed =new string[fileNum];
   int count=0;
     if(inputfile.is_open())
     {
 	cout<<"Successfully opened the file "<<fileName<<endl;
-	string * intermed =new string[fileNum];
+
 	while(inputfile>>nameOfFile)
 	  {
 	    // getline(inputfile,intermed[count]);

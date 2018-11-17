@@ -2,7 +2,7 @@
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
 string inputfilelist="ORIGINAL_DATA/originalfilelist.dat"; //This file has the list of all files
 
-string  inputdatafile;  //="ORIGINAL_DATA/bkg_01_001.dat"; //file with input data
+string  inputdatafile;
 int file=6;
 
 //Defining the files for initialroot file
@@ -90,9 +90,9 @@ void finalCode()
     {
 	printf("filelist %2d :%s \n",i+1,filelist[i].c_str());
     }
-  string inputFile=fileDirectory+filelist[2];
-  cout<<"inputFile: "<<inputFile<<endl;
-  checkfileOpening(inputFile);
+  inputdatafile=fileDirectory+filelist[file-1];
+  cout<<"inputFile: "<<inputdatafile<<endl;
+  checkfileOpening(inputdatafile);
    initialrootfile();
    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
       etruevsecaldata();
@@ -461,7 +461,7 @@ void random_resolution()
   TH1F *  ranhis=new TH1F("ranhis","Histogram filled with Random resolution values",TRIALS/25,0.94,1.1);
 
   //Checking if the input file is open
-  ifstream inputfromran(errors_fromresolution);
+  ifstream inputfromran(errors_fromresolution.c_str());
   if(inputfromran.is_open())
     {
 	cout<<"Successfully opened "<< errors_fromresolution<<endl;
@@ -492,7 +492,7 @@ void random_resolution()
 	can->Update();
 	
 	//Getting the paramters of the fit:
-	cout<<"Parameters and random errors"<<endl;
+	cout<<"Parameters and random errors: "<<endl;
 	for(int i=0;i<3;i++)
 	  {
 	    cout<<ranhis->GetFunction("gaus")->GetParameter(i)<<setw(20)
@@ -500,7 +500,7 @@ void random_resolution()
 	  }
 	
 	//storing the parameter of fit in datafile
-	ofstream ranoutput(randata);
+	ofstream ranoutput(randata.c_str());
 	if(ranoutput.is_open())
 	  {
 	    ranoutput<<fixed<<setprecision(5);
@@ -679,13 +679,14 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
  //Reads the files and stores the files in the form of string array
 string * arrayForFiles(const char * fileName,int fileNum)
 {
+  string * intermed =new string[fileNum];
   ifstream inputfile(fileName);
   string nameOfFile;
   int count=0;
     if(inputfile.is_open())
     {
 	cout<<"Successfully opened the file "<<fileName<<endl;
-	string * intermed =new string[fileNum];
+
 	while(inputfile>>nameOfFile)
 	  {
 	    // getline(inputfile,intermed[count]);
