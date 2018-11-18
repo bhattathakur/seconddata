@@ -1,4 +1,4 @@
-int file=6;
+int file=8;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -90,21 +90,21 @@ void finalCode()
    //  {
    	printf("filelist %2d :%s \n",file,filelist[file-1].c_str());
 	//  }
-   // inputdatafile=fileDirectory+filelist[file-1];
-   // cout<<"inputFile: "<<inputdatafile<<endl;
-   // checkfileOpening(inputdatafile);
-   // initialrootfile();
-   // combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   inputdatafile=fileDirectory+filelist[file-1];
+   cout<<"inputFile: "<<inputdatafile<<endl;
+   checkfileOpening(inputdatafile);
+   initialrootfile();
+   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
    // etruevsecaldata();
    // etruevsecal();
    // finalrootfile();
    // combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   // resolution();
+   //  resolution();
    // random_resolution();
-    initialpeakcheck();
+   //initialpeakcheck();
    // finalpeakcheck();
    cout<<"successfully completed "<<endl;
-   // exit(0);
+    exit(0);
  }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //This function reads the calibration values stored in the form b, m , bError, m Error
