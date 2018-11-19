@@ -1,4 +1,4 @@
-int file=8;
+int file=4;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -95,12 +95,12 @@ void finalCode()
    checkfileOpening(inputdatafile);
    initialrootfile();
    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-   // etruevsecaldata();
-   // etruevsecal();
-   // finalrootfile();
-   // combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   //  resolution();
-   // random_resolution();
+   etruevsecaldata();
+   etruevsecal();
+   finalrootfile();
+   combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+    resolution();
+   random_resolution();
    //initialpeakcheck();
    // finalpeakcheck();
    cout<<"successfully completed "<<endl;
@@ -181,8 +181,8 @@ void initialrootfile()
   cout<<"Reading the calibration"<<endl;
   readCalibration(inputCalibration,b1,m1,b1Error,m1Error);//Reading the cabration stored in the file
   cout<<"Working on initial root file "<<endl;
-  correctedEmin=Emin*m1-b1;
-  correctedEmax=Emax*m1-b1;
+  correctedEmin=Emin*m1+b1;
+  correctedEmax=Emax*m1+b1;
   cout<<" b1 = "<<b1<<" m1 = "<<m1<<" b1Error = "<<b1Error<<" m1Error = "<<m1Error
 	<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
@@ -217,8 +217,8 @@ void finalrootfile()
   cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
   cout<<"bnewError=m2Error*b1+b2Error:  "<<bnewError<<endl;
   cout<<"mnewError=m1*m2Error: "<<mnewError<<endl;
-  double correctedEmin=Emin*mnew-bnew;
-  double correctedEmax=Emax*mnew-bnew;
+  double correctedEmin=Emin*mnew+bnew;
+  double correctedEmax=Emax*mnew+bnew;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
   cout<<"correctedEmax = "<<correctedEmax<<endl;
 
@@ -282,7 +282,8 @@ void etruevsecaldata()
 	    file1>>amplitude>>mean>>sigma>>errorAmp>>errorMean>>errorSigma>>N;
 	    file2>>trueE>>errorE;
 	    if(!file1.good()|| !file2.good())break;
-	    file4<<setw(10)<<trueE<<setw(10)<<mean<<setw(10)<<errorE<<setw(10)<<errorMean<<endl;
+	    // file4<<setw(10)<<trueE<<setw(10)<<mean<<setw(10)<<errorE<<setw(10)<<errorMean<<endl;
+	    file4<<setw(10)<<mean<<setw(10)<<trueE<<setw(10)<<errorMean<<setw(10)<<errorE<<endl; //For Eestimated vs E-true plot
 	  }
 	cout<<"successfully stored the E-true,E-Calc,E-true-error and E-Calc-error in the file "<<output<<endl;
     }
@@ -304,7 +305,7 @@ void etruevsecal()
   c->SetGrid();
   c->SetFillColor(42);
   auto graph=new TGraphErrors(filedata.c_str(),"%lg%lg%lg%lg","");//E-calc,E-true,errorE-Calc,errorE-true
-  graph->SetTitle("E-True Vs  E-estimated  Plot;E_{true}(eV);E_{calculated}(eV);");
+  graph->SetTitle("E-True Vs  E-estimated  Plot;E_{calculated}(eV);E_{true}(eV);");
   graph->GetYaxis()->SetTitleOffset(1.2);
   graph->GetXaxis()->SetTitleOffset(1.2);
   graph->SetMarkerColor(4);
