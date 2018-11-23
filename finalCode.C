@@ -1,4 +1,4 @@
-int file=6;
+int file=1;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -6,49 +6,28 @@ string inputfilelist="ORIGINAL_DATA/originalfilelist.dat"; //This file has the l
 string  inputdatafile;
 
 //Defining the files for initialroot file
-string  inputCalibration;
-string  initial_root_file;
-string  initialhistoname;
-string  initialhistopdf;
+string  inputCalibration,initial_root_file, initialhistoname,initialhistopdf;
 
 //Files for initialcombofit
-string  initialallhistoroot;
-string  initialEstimatedParameters;
-string  outputErrorFile;
+string  initialallhistoroot,  initialEstimatedParameters,  outputErrorFile;
 
 //Files for getting etrue and ecalculated data
-string input1;
-string input2;
-string output;
+string input1, input2, output;
 
 //Files for plotting etrue vs ecal;
-string  filedata;
-string  etruecalcrootfile;
-string  filenamee;
-string  pdfetrue;
+string  filedata,  etruecalcrootfile,  filenamee,  pdfetrue;
 
 //Defining the files for finalroot file
-string  outputCalibration;
-string  final_root_file;
-string  finalhisto;
-string  intercept_slopefile;
-string  finalhistopdf;
+string  outputCalibration,  final_root_file,  finalhisto,  intercept_slopefile,  finalhistopdf;
 
 //Files for finalcombofit
-string  allhistogramsfinal;
-string  finalEstimatedParameters;
-string  outputfilefinal;
+string  allhistogramsfinal,  finalEstimatedParameters,  outputfilefinal;
 
 //resolution files
-string  dataafile;
-string  pdfresoluton;
-string  resolution_results;
-string  savingtoroot;
+string  dataafile,  pdfresoluton,  resolution_results,  savingtoroot;
 
 //random resolution files
-string  errors_fromresolution;
-string  randata;
-string  saving_random;
+string  errors_fromresolution,  randata,  saving_random;
 
 //Some constants
 double b1,m1,b2,m2,b1Error,m1Error,b2Error,m2Error;
@@ -93,18 +72,22 @@ void finalCode()
    inputdatafile=fileDirectory+filelist[file-1];
    cout<<"inputFile: "<<inputdatafile<<endl;
    checkfileOpening(inputdatafile);
+   
    initialrootfile();
-   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-   etruevsecaldata();
-   etruevsecal();
-   finalrootfile();
-   combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-    resolution();
-   random_resolution();
-   //initialpeakcheck();
-   // finalpeakcheck();
+   //  combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   // etruevsecaldata();
+   //  etruevsecal();
+   //  finalrootfile();
+   //  combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   //  //resolution();
+   // random_resolution();
+   
+   // initialpeakcheck();
+   finalpeakcheck();
+   
    cout<<"successfully completed "<<endl;
-    exit(0);
+   // exit(0);
+    return 0;
  }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //This function reads the calibration values stored in the form b, m , bError, m Error
@@ -282,8 +265,8 @@ void etruevsecaldata()
 	    file1>>amplitude>>mean>>sigma>>errorAmp>>errorMean>>errorSigma>>N;
 	    file2>>trueE>>errorE;
 	    if(!file1.good()|| !file2.good())break;
-	    // file4<<setw(10)<<trueE<<setw(10)<<mean<<setw(10)<<errorE<<setw(10)<<errorMean<<endl;
-	    file4<<setw(10)<<mean<<setw(10)<<trueE<<setw(10)<<errorMean<<setw(10)<<errorE<<endl; //For Eestimated vs E-true plot
+	    file4<<setw(10)<<trueE<<setw(10)<<mean<<setw(10)<<errorE<<setw(10)<<errorMean<<endl;
+	    // file4<<setw(10)<<mean<<setw(10)<<trueE<<setw(10)<<errorMean<<setw(10)<<errorE<<endl; //For Eestimated vs E-true plot
 	  }
 	cout<<"successfully stored the E-true,E-Calc,E-true-error and E-Calc-error in the file "<<output<<endl;
     }
@@ -305,7 +288,7 @@ void etruevsecal()
   c->SetGrid();
   c->SetFillColor(42);
   auto graph=new TGraphErrors(filedata.c_str(),"%lg%lg%lg%lg","");//E-calc,E-true,errorE-Calc,errorE-true
-  graph->SetTitle("E-True Vs  E-estimated  Plot;E_{calculated}(eV);E_{true}(eV);");
+  graph->SetTitle("E-True Vs  E-estimated  Plot;E_{true}(eV);E_{calculated}(eV);");
   graph->GetYaxis()->SetTitleOffset(1.2);
   graph->GetXaxis()->SetTitleOffset(1.2);
   graph->SetMarkerColor(4);
