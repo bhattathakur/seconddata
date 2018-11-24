@@ -1,4 +1,4 @@
-int file=1;
+int file=3;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -74,20 +74,20 @@ void finalCode()
    checkfileOpening(inputdatafile);
    
    initialrootfile();
-   //  combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-   // etruevsecaldata();
-   //  etruevsecal();
-   //  finalrootfile();
-   //  combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   //  //resolution();
-   // random_resolution();
+    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   etruevsecaldata();
+    etruevsecal();
+    finalrootfile();
+    combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   resolution();
+   random_resolution();
    
    // initialpeakcheck();
-   finalpeakcheck();
+   //finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
-   // exit(0);
-    return 0;
+    exit(0);
+   //return 0;
  }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //This function reads the calibration values stored in the form b, m , bError, m Error
@@ -708,7 +708,7 @@ string toString(int n)
    {
        inputCalibration="DATA/bnewmnew"+toString(file-1)+".dat"; //Stores data b, m , berror and m error used to find initial initial root file 
        initial_root_file= "ROOTFILES/initial"+toString(file)+".root"; //for storing the histogram in rootbkg_01_000.dat
-       initialhistoname="initialroothisto"; //name of histogram in rootfile
+       initialhistoname="initialroothisto"+toString(file); //name of histogram in rootfile
        initialhistopdf="PLOTS/initialhisto"+toString(file)+".pdf";//initial histogram as pdf file
 
 
@@ -732,7 +732,7 @@ string toString(int n)
      //Defining the files for finalroot file
        outputCalibration="DATA/bnewmnew"+toString(file)+".dat";
        final_root_file="ROOTFILES/final"+toString(file)+".root"; //Stores the root file
-       finalhisto="finalroothisto"; //name of histogram in rootfile
+       finalhisto="finalroothisto"+toString(file); //name of histogram in rootfile
 	 intercept_slopefile=filenamee;//This file contains the slope and intercept data created by etruevsecal macro
        finalhistopdf="PLOTS/finalhisto"+toString(file)+".pdf";
 
