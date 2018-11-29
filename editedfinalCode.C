@@ -1,4 +1,4 @@
-int file=1;
+int file=3;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -62,7 +62,7 @@ string toString(int n);
 void modifyFiles();
 
 //Main function
-void finalCode()
+void editedfinalCode()
  {
    cout<<"####################### "<<"file: "<< file<<" ####################################"<<endl;
    modifyFiles();
@@ -133,7 +133,7 @@ void makingRootFile(string originaldatafile,string rootfilename,string histogram
 		  stringstream sstr(line);
 		  sstr>>x>>y; //Reading the data file into two columns
 		  histo->SetBinContent(x,y); //SetBinContent(bin,content)
-		  cout<<line<<endl;
+		  //  cout<<line<<endl;
 		  nlines++;
 		}
 	     }
@@ -195,8 +195,11 @@ void finalrootfile()
   
   
   //Calculating bnew mnew and errors
-  double bnew=m2*b1+b2;
-  double mnew=m1*m2;
+ // double bnew=m2*b1+b2;
+ // double mnew=m1*m2;
+ double bnew=-(b2/m2)+b1;//b=-bnew/mnew+bold
+ double mnew=m1/m2; //m=mold*1/mnew
+ 
   double bnewError=m2Error*b1+b2Error;
   double mnewError=m1*m2Error;
   cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
@@ -554,9 +557,9 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
   int row=peakNo/column+1;
   
   //Defining the array to read the paramertes
-  double firstParameter[peakNo]={};
-  double secondParameter[peakNo]={};
-  double thirdParameter[peakNo]={};
+  // double firstParameter[peakNo]={};
+  //double secondParameter[peakNo]={};
+  // double thirdParameter[peakNo]={};
   double firstLimit[peakNo]={};
   double secondLimit[peakNo]={};
 
@@ -568,7 +571,7 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
 	  int peakCount=0;
 	  while(peakCount<=peakNo)
 		{
-		  datafile>>firstParameter[peakCount]>>secondParameter[peakCount]>>thirdParameter[peakCount]>>firstLimit[peakCount]>>secondLimit[peakCount];
+		  datafile>>firstLimit[peakCount]>>secondLimit[peakCount];
 		  peakCount++;
 		}
 	  datafile.close();
@@ -603,19 +606,31 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
   
   for(int i=0;i<peakNo;i++)
     {
-      f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
-      f[i]->SetParNames("A","#mu","#sigma","a1","b1");
-      f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
-	cout<<endl;
-	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
-	cout<<endl;
-      c1->cd(i+1);
-      h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
+	h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
       h[i]->GetXaxis()->SetTitle("Energy(keV)");
       h[i]->GetXaxis()->CenterTitle();
       h[i]->GetYaxis()->SetTitle("Counts/Channel");
       h[i]->GetYaxis()->CenterTitle();
-      h[i]->Fit(f[i],"rem+","",firstLimit[i],secondLimit[i]);
+	
+	//Fitting h with gaus function
+	double eLow=firstLimit[i];
+	double eHigh=secondLimit[i];
+	cout<<"eLow\t = "<<eLow<<" \t eHigh = "<<eHigh<<endl;
+	h[i]->Fit("gaus","rem+","",eLow,eHigh);
+	f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
+      f[i]->SetParNames("A","#mu","#sigma","a1","b1");
+	// f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
+	f[i]->SetParameters(gaus->Integral(eLow,eHigh)/h[i]->GetBinWidth(1),gaus->GetParameter(1),gaus->GetParameter(2),0,0);
+	cout<<endl;
+	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
+	cout<<endl;
+      c1->cd(i+1);
+      // h[i]=(TH1F*)his->Clone(Form("h%d",i+1));
+      // h[i]->GetXaxis()->SetTitle("Energy(keV)");
+      // h[i]->GetXaxis()->CenterTitle();
+      // h[i]->GetYaxis()->SetTitle("Counts/Channel");
+      // h[i]->GetYaxis()->CenterTitle();
+	// h[i]->Fit(f[i],"rem+","",firstLimit[i],secondLimit[i]);
 	gStyle->SetOptStat("n");//Name of histogram
 	h[i]->Draw();
    	h[i]->Sumw2();
@@ -638,7 +653,7 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
     }
   ///////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/////////////////////////////////////
   ofstream myfile(results.c_str());
- const double binWidth=his->GetBinWidth(1);
+  const double binWidth=his->GetBinWidth(1);
  if(myfile.is_open())
  {
    cout<<"Creating the file with A,eA,u,eu,6,e6,N"<<endl;
@@ -716,7 +731,7 @@ string toString(int n)
 
      //Files for initialcombofit
        initialallhistoroot="ROOTFILES/initialallhistograms"+toString(file)+".root"; //Save the histogram in this root file
-       initialEstimatedParameters="DATA/initialestimates"+toString(file)+".dat"; //file stores  the estimated parameters for fit
+       initialEstimatedParameters="DATA/limit_initial"+toString(file)+".dat"; //file stores  the estimated parameters for fit
        outputErrorFile ="DATA/initialEnergyerror"+toString(file)+".dat"; //file storing errors 
 
 
@@ -740,7 +755,7 @@ string toString(int n)
 
      //Files for finalcombofit
        allhistogramsfinal="ROOTFILES/finalallhistogram"+toString(file)+".root";
-       finalEstimatedParameters="DATA/finalestimates"+toString(file)+".dat";
+       finalEstimatedParameters="DATA/limit_final"+toString(file)+".dat";
        outputfilefinal="DATA/finalEnergyError"+toString(file)+".dat";
 
      //resolution files
