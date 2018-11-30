@@ -1,4 +1,4 @@
-int file=3;
+int file=1;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -259,7 +259,8 @@ void etruevsecaldata()
 	cout<<"failed to open"<< input2<<endl;
 	return 0;
     }
-  double amplitude,mean,sigma,errorAmp,errorMean,errorSigma,N;  //input1
+  // double amplitude,mean,sigma,errorAmp,errorMean,errorSigma,N;  //input1
+  double mean,errorMean; //input1
   double trueE,errorE; //input2
   //Open file to store the required data:
   ofstream file4(output.c_str());
@@ -267,7 +268,8 @@ void etruevsecaldata()
     {
 	while(1)
 	  {
-	    file1>>amplitude>>mean>>sigma>>errorAmp>>errorMean>>errorSigma>>N;
+	    // file1>>amplitude>>mean>>sigma>>errorAmp>>errorMean>>errorSigma>>N;
+	    file1>>mean>>errorMean;
 	    file2>>trueE>>errorE;
 	    if(!file1.good()|| !file2.good())break;
 	    file4<<setw(10)<<trueE<<setw(10)<<mean<<setw(10)<<errorE<<setw(10)<<errorMean<<endl;
@@ -620,7 +622,7 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
 	f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
       f[i]->SetParNames("A","#mu","#sigma","a1","b1");
 	// f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
-	f[i]->SetParameters(gaus->Integral(eLow,eHigh)/h[i]->GetBinWidth(1),gaus->GetParameter(1),gaus->GetParameter(2),0,0);
+	f[i]->SetParameters(TMath::gaus->Integral(eLow,eHigh)/h[i]->GetBinWidth(1),TMath::gaus->GetParameter(1),TMath::gaus->GetParameter(2),0,0);
 	cout<<endl;
 	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
 	cout<<endl;
@@ -656,12 +658,15 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
   const double binWidth=his->GetBinWidth(1);
  if(myfile.is_open())
  {
-   cout<<"Creating the file with A,eA,u,eu,6,e6,N"<<endl;
+   cout<<"Creating the file with u and eu"<<endl;
   myfile<<fixed<<setprecision(2);
      for(int i=0;i<peakNo;i++)
        {
-         myfile<<setw(10)<< f[i]->GetParameter(0)<<setw(12)<<f[i]->GetParameter(1)<<setw(12)<<f[i]->GetParameter(2)<<setw(12)<<f[i]->GetParError(0)
-			   <<setw(12)<<f[i]->GetParError(1)<<setw(12)<<f[i]->GetParError(2)<<setw(12)<<f[i]->GetParameter(0)/binWidth<<endl;
+	   /* myfile<<setw(10)<< f[i]->GetParameter(0)<<setw(12)<<f[i]->GetParameter(1)<<setw(12)<<f[i]->GetParameter(2)<<setw(12)<<f[i]->GetParError(0)
+		<<setw(12)<<f[i]->GetParError(1)<<setw(12)<<f[i]->GetParError(2)<<setw(12)<<f[i]->GetParameter(0)/binWidth<<endl;*/
+	   myfile<<setw(10)<<f[i]->GetParameter(1)<<setw(10)<<f[i]->GetParError(1)<<endl;
+	   cout<<setw(10)<<"mean"<<setw(10)<<"mean error"<<endl;
+	   cout<<setw(10)<<f[i]->GetParameter(1)<<setw(10)<<f[i]->GetParError(1)<<endl;
        }
      cout<<"successfully stored output data in the file "<<results<<endl;
      myfile.close();
