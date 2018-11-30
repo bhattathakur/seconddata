@@ -200,9 +200,11 @@ void finalrootfile()
  double bnew=-(b2/m2)+b1;//b=-bnew/mnew+bold
  double mnew=m1/m2; //m=mold*1/mnew
  
-  double bnewError=m2Error*b1+b2Error;
-  double mnewError=m1*m2Error;
-  cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
+ double bnewError=bnew*TMath::Sqrt(TMath::Power(b2Error/b2,2)+TMath::Power(m2Error/m2,2)); //This steps has been illustrated in the latex file(https://www.overleaf.com/project/5c016e87e519a806b7c73f48)
+				     
+ double mnewError=mnew*m2Error/m2;//m1 b1 are assumed constant in error calculation
+    
+  cout<<"bnew (b2/m2+b1) = " <<bnew<<" mnew (m1/m2) = "<<mnew<<endl;
   cout<<"bnewError=m2Error*b1+b2Error:  "<<bnewError<<endl;
   cout<<"mnewError=m1*m2Error: "<<mnewError<<endl;
   double correctedEmin=Emin*mnew+bnew;
@@ -259,8 +261,8 @@ void etruevsecaldata()
 	cout<<"failed to open"<< input2<<endl;
 	return 0;
     }
-  // double amplitude,mean,sigma,errorAmp,errorMean,errorSigma,N;  //input1
-  double mean,errorMean; //input1
+  // mean,errorMean;  //input1
+  double mean,sigma,errorMean,errorSigma; //input1
   double trueE,errorE; //input2
   //Open file to store the required data:
   ofstream file4(output.c_str());
@@ -269,7 +271,7 @@ void etruevsecaldata()
 	while(1)
 	  {
 	    // file1>>amplitude>>mean>>sigma>>errorAmp>>errorMean>>errorSigma>>N;
-	    file1>>mean>>errorMean;
+	    file1>>mean>>sigma>>errorMean>>errorSigma;
 	    file2>>trueE>>errorE;
 	    if(!file1.good()|| !file2.good())break;
 	    file4<<setw(10)<<trueE<<setw(10)<<mean<<setw(10)<<errorE<<setw(10)<<errorMean<<endl;
@@ -294,7 +296,7 @@ void etruevsecal()
   auto c=new TCanvas();
   c->SetGrid();
   c->SetFillColor(42);
-  auto graph=new TGraphErrors(filedata.c_str(),"%lg%lg%lg%lg","");//E-calc,E-true,errorE-Calc,errorE-true
+  auto graph=new TGraphErrors(filedata.c_str(),"%lg%lg%lg%lg","");//E-true,E-calc,errorE-true,errorE-calc
   graph->SetTitle("E-True Vs  E-estimated  Plot;E_{true}(eV);E_{calculated}(eV);");
   graph->GetYaxis()->SetTitleOffset(1.2);
   graph->GetXaxis()->SetTitleOffset(1.2);
@@ -375,7 +377,7 @@ void resolution()
   auto c=new TCanvas();
   c->SetGrid();
   c->SetFillColor(29);
-  TGraphErrors *expgraph=new TGraphErrors(dataafile.c_str(),"%*lg%lg%lg%*lg%lg%lg%*lg","");//A,mean,sigma,error in A,error in mean, error in sigma,N
+  TGraphErrors *expgraph=new TGraphErrors(dataafile.c_str(),"%lg%lg%lg%lg","");//mean,sigma,error in mean, error in sigma
   expgraph->SetTitle("Energy Resolution plot;E(eV);(#sigma);");
   expgraph->SetMarkerColor(4);
   expgraph->SetMarkerStyle(21);
@@ -618,11 +620,14 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
 	double eLow=firstLimit[i];
 	double eHigh=secondLimit[i];
 	cout<<"eLow\t = "<<eLow<<" \t eHigh = "<<eHigh<<endl;
-	h[i]->Fit("gaus","rem+","",eLow,eHigh);
+	//Defining the gauss function
+	TF1 *fgaus=new TF1("fgaus","gaus",eLow,eHigh);
+	//	h[i]->Fit("gaus","rem+","",eLow,eHigh);
+		h[i]->Fit(fgaus,"rem+","",eLow,eHigh);
 	f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
       f[i]->SetParNames("A","#mu","#sigma","a1","b1");
 	// f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
-	f[i]->SetParameters(TMath::gaus->Integral(eLow,eHigh)/h[i]->GetBinWidth(1),TMath::gaus->GetParameter(1),TMath::gaus->GetParameter(2),0,0);
+	f[i]->SetParameters(fgaus->Integral(eLow,eHigh)/h[i]->GetBinWidth(1),fgaus->GetParameter(1),fgaus->GetParameter(2),0,0);
 	cout<<endl;
 	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
 	cout<<endl;
@@ -658,15 +663,16 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
   const double binWidth=his->GetBinWidth(1);
  if(myfile.is_open())
  {
-   cout<<"Creating the file with u and eu"<<endl;
-  myfile<<fixed<<setprecision(2);
+   cout<<"Creating the file with mean,sigma, mean-error and sigma-error"<<endl;
+   myfile<<fixed<<setprecision(2);
      for(int i=0;i<peakNo;i++)
        {
 	   /* myfile<<setw(10)<< f[i]->GetParameter(0)<<setw(12)<<f[i]->GetParameter(1)<<setw(12)<<f[i]->GetParameter(2)<<setw(12)<<f[i]->GetParError(0)
 		<<setw(12)<<f[i]->GetParError(1)<<setw(12)<<f[i]->GetParError(2)<<setw(12)<<f[i]->GetParameter(0)/binWidth<<endl;*/
-	   myfile<<setw(10)<<f[i]->GetParameter(1)<<setw(10)<<f[i]->GetParError(1)<<endl;
-	   cout<<setw(10)<<"mean"<<setw(10)<<"mean error"<<endl;
-	   cout<<setw(10)<<f[i]->GetParameter(1)<<setw(10)<<f[i]->GetParError(1)<<endl;
+	   myfile<<setw(10)<<f[i]->GetParameter(1)<<setw(10)<<f[i]->GetParameter(2)<<setw(10)<<f[i]->GetParError(1)<<setw(10)<<f[i]->GetParError(2)<<endl;
+	   cout<<setw(10)<<"mean"<<setw(10)<<"sigma"<<setw(10)<<"mean error"<<setw(10)<<"sigma error"<<endl;
+	   cout<<setw(10)<<f[i]->GetParameter(1)<<setw(10)<<f[i]->GetParameter(2)<<setw(10)<<f[i]->GetParError(1)<<setw(10)<<f[i]->GetParError(2)<<endl;
+
        }
      cout<<"successfully stored output data in the file "<<results<<endl;
      myfile.close();
@@ -736,7 +742,8 @@ string toString(int n)
 
      //Files for initialcombofit
        initialallhistoroot="ROOTFILES/initialallhistograms"+toString(file)+".root"; //Save the histogram in this root file
-       initialEstimatedParameters="DATA/limit_initial"+toString(file)+".dat"; //file stores  the estimated parameters for fit
+       //initialEstimatedParameters="DATA/limit_initial"+toString(file)+".dat"; //file stores  the estimated parameters for fit
+	 initialEstimatedParameters="DATA/limits.dat"; //file stores  the estimated parameters for fit
        outputErrorFile ="DATA/initialEnergyerror"+toString(file)+".dat"; //file storing errors 
 
 
@@ -760,7 +767,8 @@ string toString(int n)
 
      //Files for finalcombofit
        allhistogramsfinal="ROOTFILES/finalallhistogram"+toString(file)+".root";
-       finalEstimatedParameters="DATA/limit_final"+toString(file)+".dat";
+	 // finalEstimatedParameters="DATA/limit_final"+toString(file)+".dat";
+	 finalEstimatedParameters="DATA/limits.dat";
        outputfilefinal="DATA/finalEnergyError"+toString(file)+".dat";
 
      //resolution files
