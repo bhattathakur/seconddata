@@ -1,4 +1,4 @@
-int file=2;
+int file=7;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -88,7 +88,7 @@ void finalCode()
    //finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
-   // exit(0);
+   //exit(0);
    return 0;
  }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,7 +133,7 @@ void makingRootFile(string originaldatafile,string rootfilename,string histogram
 		  stringstream sstr(line);
 		  sstr>>x>>y; //Reading the data file into two columns
 		  histo->SetBinContent(x,y); //SetBinContent(bin,content)
-		  cout<<line<<endl;
+		  // cout<<line<<endl;
 		  nlines++;
 		}
 	     }
