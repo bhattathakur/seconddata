@@ -1,4 +1,4 @@
-int file=1;
+int file=2;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -88,8 +88,8 @@ void finalCode()
    //finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
-    exit(0);
-   //return 0;
+   // exit(0);
+   return 0;
  }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% READ CALIBRATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //This function reads the calibration values stored in the form b, m , bError, m Error
@@ -194,18 +194,34 @@ void finalrootfile()
  cout<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   
   
-  //Calculating bnew mnew and errors
-  double bnew=m2*b1+b2;
-  double mnew=m1*m2;
-  double bnewError=m2Error*b1+b2Error;
-  double mnewError=m1*m2Error;
-  cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
-  cout<<"bnewError=m2Error*b1+b2Error:  "<<bnewError<<endl;
-  cout<<"mnewError=m1*m2Error: "<<mnewError<<endl;
+  // //Calculating bnew mnew and errors
+  // double bnew=m2*b1+b2;
+  // double mnew=m1*m2;
+  // double bnewError=m2Error*b1+b2Error;
+  // double mnewError=m1*m2Error;
+  // cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
+  // cout<<"bnewError=m2Error*b1+b2Error:  "<<bnewError<<endl;
+  // cout<<"mnewError=m1*m2Error: "<<mnewError<<endl;
+  // double correctedEmin=Emin*mnew+bnew;
+  // double correctedEmax=Emax*mnew+bnew;
+  // cout<<"correctedEmin = "<<correctedEmin<<endl;
+  // cout<<"correctedEmax = "<<correctedEmax<<endl;
+ 
+double bnew=-(b2/m2)+b1;//b=-bnew/mnew+bold
+ double mnew=m1/m2; //m=mold*1/mnew
+
+  double bnewError=bnew*TMath::Sqrt(TMath::Power(b2Error/b2,2)+TMath::Power(m2Error/m2,2)); //This steps has been illustrated in the latex file(https://www.overleaf.com/project/5c016e87e519a806b7c73f48)
+				     
+ double mnewError=mnew*m2Error/m2;//m1 b1 are assumed constant in error calculation
+    
+  cout<<"bnew (b2/m2+b1) = " <<bnew<<" mnew (m1/m2) = "<<mnew<<endl;
+  cout<<"bnewError:  "<<bnewError<<endl;
+  cout<<"mnewError:  "<<mnewError<<endl;
   double correctedEmin=Emin*mnew+bnew;
   double correctedEmax=Emax*mnew+bnew;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
   cout<<"correctedEmax = "<<correctedEmax<<endl;
+
 
   //Storing new bnew and mnew in the file
   ofstream bmnewfile(outputCalibration.c_str());

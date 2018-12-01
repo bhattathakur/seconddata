@@ -1,4 +1,4 @@
-int file=1;
+int file=2;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -205,8 +205,8 @@ void finalrootfile()
  double mnewError=mnew*m2Error/m2;//m1 b1 are assumed constant in error calculation
     
   cout<<"bnew (b2/m2+b1) = " <<bnew<<" mnew (m1/m2) = "<<mnew<<endl;
-  cout<<"bnewError=m2Error*b1+b2Error:  "<<bnewError<<endl;
-  cout<<"mnewError=m1*m2Error: "<<mnewError<<endl;
+  cout<<"bnewError:  "<<bnewError<<endl;
+  cout<<"mnewError:  "<<mnewError<<endl;
   double correctedEmin=Emin*mnew+bnew;
   double correctedEmax=Emax*mnew+bnew;
   cout<<"correctedEmin = "<<correctedEmin<<endl;
@@ -627,6 +627,8 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
 	f[i]=new TF1(Form("f%d",i),"[0]*TMath::Gaus(x,[1],[2],1)+pol0(3)*(x<[1])+pol0(4)*(x>=[1])");
       f[i]->SetParNames("A","#mu","#sigma","a1","b1");
 	// f[i]->SetParameters(firstParameter[i],secondParameter[i],thirdParameter[i],0,0);
+	double firstParameter=fgaus->Integral(eLow,eHigh)/h[i]->GetBinWidth(1);
+	cout<<"firstParameter : "<<firstParameter<<endl;
 	f[i]->SetParameters(fgaus->Integral(eLow,eHigh)/h[i]->GetBinWidth(1),fgaus->GetParameter(1),fgaus->GetParameter(2),0,0);
 	cout<<endl;
 	cout<<"########################  Peak "<<(i+1)<<"  #########################     "<<endl;
