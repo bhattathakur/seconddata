@@ -1,4 +1,4 @@
-int file=7;
+int file=11;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -75,12 +75,12 @@ void finalCode()
    cout<<"inputFile: "<<inputdatafile<<endl;
    checkfileOpening(inputdatafile);
    
-   initialrootfile();
-    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+      initialrootfile();
+   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
    etruevsecaldata();
-    etruevsecal();
-    finalrootfile();
-    combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   etruevsecal();
+   finalrootfile();
+   combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
    resolution();
    random_resolution();
    
