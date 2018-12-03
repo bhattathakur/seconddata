@@ -29,7 +29,7 @@ TCanvas * CheckAllPeaks(int fileNumber,int status)
   cout<<"mean:"<<setfill(' ')<<setw(11)<<mean<<endl;
   double sigma=h->GetFunction("gaus")->GetParameter(2);
   cout<<"sigma:"<<setfill(' ')<<setw(10)<<sigma<<endl<<"\v";
- 
+  
   h->Draw();
   return can;
   file->Close();
