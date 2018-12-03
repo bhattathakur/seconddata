@@ -1,4 +1,4 @@
-int file=15;
+int file=11;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -84,8 +84,8 @@ void finalCode()
    // resolution();
    // random_resolution();
     
-   //  initialpeakcheck();
-   finalpeakcheck();
+   initialpeakcheck();
+   // finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
    //exit(0);
