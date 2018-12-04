@@ -17,17 +17,17 @@ TCanvas * CheckAllPeaks(int fileNumber,int status)
   double min,max;
   cin>>min>>max;
   cout<<"\v";
-  h->Fit("gaus","rem","",min,max);
+  h->Fit("gausn","rem","",min,max);
   cout<<fixed<<setprecision(2)<<"\v";
-  double constant=h->GetFunction("gaus")->GetParameter(0);
+  double constant=h->GetFunction("gausn")->GetParameter(0);
   //  double divisor=h->GetBinWidth(1);
   //  cout<<"BinWidth = :"<<divisor<<endl;
-  double constant1=h->GetFunction("gaus")->Integral(min,max)/ h->GetBinWidth(1);
+  double constant1=h->GetFunction("gausn")->Integral(min,max)/ h->GetBinWidth(1);
   cout<<"constant:"<<setfill(' ')<<setw(7)<<constant<<endl;
   cout<<"constant1:"<<setfill(' ')<<setw(7)<<constant1<<endl;
-  double mean=h->GetFunction("gaus")->GetParameter(1);
+  double mean=h->GetFunction("gausn")->GetParameter(1);
   cout<<"mean:"<<setfill(' ')<<setw(11)<<mean<<endl;
-  double sigma=h->GetFunction("gaus")->GetParameter(2);
+  double sigma=h->GetFunction("gausn")->GetParameter(2);
   cout<<"sigma:"<<setfill(' ')<<setw(10)<<sigma<<endl<<"\v";
   
   h->Draw();
