@@ -30,19 +30,19 @@ TCanvas * FinalPlotModified()
   c->Divide(1,3);
   
   c->cd(1);
-   getGraph(resolutionformat,titling,pdfresolution,resolutionpar0Name,0);//Kspring+10
+   getGraph(resolutionformat,titling,pdfresolution,resolutionpar0Name);//Kspring+10
   // c1->Draw();
   c->Modified();
   c->Update();
  
   c->cd(2);
-   getGraph(interceptformat,intercepttitling,interceptpdf,interceptpar0Name,0);//422->Cyan-10
+  getGraph(interceptformat,intercepttitling,interceptpdf,interceptpar0Name);//422->Cyan-10
   // c2->Draw();
    c->Modified();
    c->Update();
   
    c->cd(3);
-    getGraph(slopeformat,slopetitle,slopepdf,slopepar0Name,0);//400-Yellow
+   getGraph(slopeformat,slopetitle,slopepdf,slopepar0Name);//400-Yellow
    //  c3->Draw();
     c->Modified();
     c->Update();
@@ -56,6 +56,7 @@ TCanvas * getGraph(const char * formatting,const char * title,const char * pdfna
 			 int setfillcolor=0,int framecolor=10,const char * datafile=inputdata) //frame color and input data default
 {
   TCanvas* can=new TCanvas();
+  // gPad->SetTicks(1,1);
   checkFileOpening(inputdata);
   can->SetGrid();
   can->SetFillColor(setfillcolor); //setfillcolor 20

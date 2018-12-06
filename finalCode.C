@@ -1,4 +1,5 @@
 int file=25;
+const  int peakNo=16;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -75,8 +76,8 @@ void finalCode()
    cout<<"inputFile: "<<inputdatafile<<endl;
    checkfileOpening(inputdatafile);
    
-   // initialrootfile();
-   // combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   initialrootfile();
+    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
    // etruevsecaldata();
    // etruevsecal();
    // finalrootfile();
@@ -84,7 +85,7 @@ void finalCode()
    // resolution();
    // random_resolution();
     
-    initialpeakcheck();
+   // initialpeakcheck();
    // finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
@@ -193,24 +194,12 @@ void finalrootfile()
  cout<<" b2 = "<<b2<<" m2 = "<<m2<<" b2Error = "<<b2Error<<" m2Error = "<<m2Error<<endl;
  cout<<" Emin = "<<Emin<<" Emax = "<<Emax<<endl;
   
-  
-  // //Calculating bnew mnew and errors
-  // double bnew=m2*b1+b2;
-  // double mnew=m1*m2;
-  // double bnewError=m2Error*b1+b2Error;
-  // double mnewError=m1*m2Error;
-  // cout<<"bnew (m2*b1+b2) = " <<bnew<<" mnew (m1*m2) = "<<mnew<<endl;
-  // cout<<"bnewError=m2Error*b1+b2Error:  "<<bnewError<<endl;
-  // cout<<"mnewError=m1*m2Error: "<<mnewError<<endl;
-  // double correctedEmin=Emin*mnew+bnew;
-  // double correctedEmax=Emax*mnew+bnew;
-  // cout<<"correctedEmin = "<<correctedEmin<<endl;
-  // cout<<"correctedEmax = "<<correctedEmax<<endl;
- 
-double bnew=-(b2/m2)+b1;//b=-bnew/mnew+bold
+   
+ double bnew=-(b2/m2)+b1;//b=-bnew/mnew+bold
  double mnew=m1/m2; //m=mold*1/mnew
 
-  double bnewError=bnew*TMath::Sqrt(TMath::Power(b2Error/b2,2)+TMath::Power(m2Error/m2,2)); //This steps has been illustrated in the latex file(https://www.overleaf.com/project/5c016e87e519a806b7c73f48)
+  double bnewError=bnew*TMath::Sqrt(TMath::Power(b2Error/b2,2)+TMath::Power(m2Error/m2,2));
+  //This steps has been illustrated in the latex file(https://www.overleaf.com/project/5c016e87e519a806b7c73f48)
 				     
  double mnewError=mnew*m2Error/m2;//m1 b1 are assumed constant in error calculation
     
@@ -565,7 +554,7 @@ void combofit(string  estimatedparameters,string  fileroot,string  histoname,str
 {
   cout<<"---------------------------------------------------"<<endl;
   cout<<"Working on combo fit for the file "<<fileroot<<endl;
-  const  int peakNo=23;
+  
   const  int column=6;
   int row=peakNo/column+1;
   
@@ -738,7 +727,7 @@ string toString(int n)
 
      //Files for getting etrue and ecalculated data
       input1=outputErrorFile; //estimated energy from the fit parameters
-      input2="DATA/tabulatedenergy.dat"; //true energy calculated from nudat"+file+"
+      input2="DATA/tabulatedenergy"+toString(file)+".dat"; //true energy calculated from nudat"+file+"
       output="DATA/dataEcalEtrue"+toString(file)+".dat";//stores the  data manipulated from input1 and input1
 
      //Files for plotting etrue vs ecal
