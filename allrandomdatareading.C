@@ -10,7 +10,7 @@ void readingfile(string basicFormat,int jLimit);
 
 void allrandomdatareading()
 {
-  readingfile("randomdata",5);
+  readingfile("randomdata",24);
 }
 
 void readingfile(string basicFormat,int jLimit)

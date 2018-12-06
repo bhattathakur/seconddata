@@ -35,7 +35,7 @@ void readingfile(TString basicFormat,int jLimit)
 		  while(inputfile>>b>>m>>berror>>merror)
 		    {
 			
-			cout<<"\vb = "<<b<< " \tb error = "<<berror<<"\nm = "<<m<< "\t m error = "<<merror<<endl<<"\v";
+			cout<<"\vb = "<<b<< " \tb error = "<<berror<<"\nm = "<<m<< "\tm error = "<<merror<<endl<<"\v";
 			
 			if(outputslope.is_open())
 			  {

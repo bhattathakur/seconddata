@@ -60,15 +60,19 @@ void getTimeInterceptSlopeResolution()
 	    if(!datainput.good())break;
 	    if(!datain.good())break;
 	    if(!intslope.good())break;
-	    cout<<"original output from resolution file = "<<endl;
+	    cout<<"\v";
+	    cout<<"original output from resolution file: "<<endl;
 	    cout<<"(resolution->resolutionerror)"<<endl;
 	    cout<<resolution<<'\t'<<error_resolution<<endl;
-	    cout<<"original output from time file ="<<endl;
+	    cout<<"\v";
+	    cout<<"original output from time file:"<<endl;
 	    cout<<"(date->time->runtime)"<<endl;
 	    cout<<date<<'\t'<<tim<<'\t'<<runtime<<'\t'<<endl;
-	    cout<<"original output from intercept file ="<<endl;
+	    cout<<"\v";
+	    cout<<"original output from intercept file:"<<endl;
 	    cout<<"(intercpet->slope->intercepterror->slopeerror)"<<endl;
 	    cout<<intercept<<'\t'<<slope<<'\t'<<errorintercept<<'\t'<<errorslope<<endl;
+	    cout<<"\v";
 	   auto timestamp=new TTimeStamp(date,tim,nanosec,kTRUE,0);
 	    // timestamp.Set(date,time,nanosec,kTRUE,-6*3600);//offset between CDT and UTC = 6hrs
 	    //cout<<"time = ";
@@ -89,12 +93,13 @@ void getTimeInterceptSlopeResolution()
 	    ofstream timeresointercept(outfile,ios::app);
 	    if(timeresointercept.is_open())
 		{
+		  cout<<fixed<<setprecision(5)<<showpoint;
 		  cout<<"successfully opened the file "<<outfile<<endl;
 		  cout<<"newtime-basetime->FWHM->intercpet->slope->errortime->errorFWHM->errorintercept->errorslope"<<endl;
-		  cout<<setw(10)<<newtime-basetimesec<<setw(15)<<resolution*SIGMA_TO_FWHM<<setw(10)<<intercept<<setw(20)<<slope
-			<<setw(20)<<runtime/2<<setw(10)<<error_resolution*SIGMA_TO_FWHM<<setw(20)<<errorintercept<<setw(20)<<errorslope<<endl; //newtime-basetime
-		   timeresointercept<<setw(10)<<newtime-basetimesec<<setw(15)<<resolution*SIGMA_TO_FWHM<<setw(10)<<intercept<<setw(20)<<slope
-					  <<setw(20)<<runtime/2<<setw(10)<<error_resolution*SIGMA_TO_FWHM<<setw(20)<<errorintercept<<setw(20)<<errorslope<<endl; //newtime-basetime
+		  cout<<setw(10)<<newtime-basetimesec<<setw(15)<<resolution*SIGMA_TO_FWHM<<setw(15)<<intercept<<setw(20)<<slope
+			<<setw(20)<<runtime/2<<setw(15)<<error_resolution*SIGMA_TO_FWHM<<setw(25)<<errorintercept<<setw(20)<<errorslope<<endl; //newtime-basetime
+		  timeresointercept<<fixed<<setprecision(5)<<showpoint<<setw(10)<<newtime-basetimesec<<setw(15)<<resolution*SIGMA_TO_FWHM<<setw(15)<<intercept<<setw(20)<<slope
+					  <<setw(20)<<runtime/2<<setw(15)<<error_resolution*SIGMA_TO_FWHM<<setw(25)<<errorintercept<<setw(20)<<errorslope<<endl; //newtime-basetime
 		 
 		}
 	    else

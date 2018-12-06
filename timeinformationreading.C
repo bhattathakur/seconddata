@@ -62,7 +62,9 @@ void readingfile(string basicFormat,int iLimit,int jLimit)
 	for(int j=0;j<=jLimit;j++)
 	  {
 	    string input="ORIGINAL_DATA/"+basicFormat+""+to_string(i)+""+to_string(j)+".dat";
-	    //  cout<<"input = "<<input<<endl;
+	    cout<<"**************************************************************"<<endl;
+	    
+	    cout<<"\vinput file = "<<input<<endl;
 	    ifstream inputfile(input);
 	    string line,line1;
 

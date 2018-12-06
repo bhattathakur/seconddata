@@ -43,10 +43,12 @@ void timedata_resolutioncompilation()
 	   
 	    if(!datainput.good())break;
 	    if(!datain.good())break;
-	    cout<<"original output from resolution file = "<<endl;
+	    cout<<"original output from resolution file:"<<endl;
 	    cout<<resolution<<'\t'<<error_resolution<<endl;
-	    cout<<"original output from time file ="<<endl;
+	    cout<<"\v";
+	    cout<<"original output from time file:"<<endl;
 	    cout<<date<<'\t'<<tim<<'\t'<<runtime<<'\t'<<endl;
+	    cout<<"\v";
 	   auto timestamp=new TTimeStamp(date,tim,nanosec,kTRUE,0);
 	    // timestamp.Set(date,time,nanosec,kTRUE,-6*3600);//offset between CDT and UTC = 6hrs
 	    //cout<<"time = ";
