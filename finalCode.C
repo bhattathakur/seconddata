@@ -78,12 +78,12 @@ void finalCode()
    
    initialrootfile();
     combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-   // etruevsecaldata();
-   // etruevsecal();
-   // finalrootfile();
-   // combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   // resolution();
-   // random_resolution();
+   etruevsecaldata();
+   etruevsecal();
+   finalrootfile();
+   combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   resolution();
+   random_resolution();
     
    // initialpeakcheck();
    // finalpeakcheck();
