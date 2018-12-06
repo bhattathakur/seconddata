@@ -3,8 +3,8 @@ ofstream timedateinfo(timestamp);
 
 
 //Function initialization
-string getMonth(string s);
-string modified(int a);
+string getMonth(string s);//get month
+string modified(int a); 
 void readingfile(string basicFormat,int iLimit,int jLimit);
 
 //main file

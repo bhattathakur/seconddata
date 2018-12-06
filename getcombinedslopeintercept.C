@@ -1,4 +1,4 @@
-const char * slopedata="FINAL/allinterceptslope.dat";
+TString slopedata="FINAL/allinterceptslope.dat"; //this is the file to store all the  intercepts and slopes in one file
 
 double m,merror,b,berror; //data in the sequence b, berror, m , merror
 
@@ -7,20 +7,23 @@ ofstream outputslope(slopedata);
 
 //Initialize the function
 
-void readingfile(string basicFormat,int jLimit);
+void readingfile(TString basicFormat,int jLimit);
 
 void getcombinedslopeintercept()
 {
-  readingfile("Ecaltrue",1);
+  readingfile("slopeintercept",24);
+  return;
 }
 
-void readingfile(string basicFormat,int jLimit)
+//Function reads all the files with some basic format, j limit is the maximum number of files to be read
+void readingfile(TString basicFormat,int jLimit)
 {
   cout<<" ------------------------------------------------------------"<<endl;
-    	for(int j=0;j<=jLimit;j++)
+    	for(int j=1;j<=jLimit;j++)
 	  {
-	    string input="DATA/"+basicFormat+""+to_string(j)+".dat";
-	    cout<<"input = "<<input<<endl;
+	    TString input="DATA/"+basicFormat+""+Form("%d",j)+".dat";
+	    cout<<"************************** File "<<j<<" **************************"<<endl;
+	    cout<<"\vinput = "<<input<<endl;
 	    ifstream inputfile(input);
 	    
 
@@ -28,21 +31,21 @@ void readingfile(string basicFormat,int jLimit)
 	    if(inputfile.is_open())
 		{
 		  cout<<"Successfully opened the file "<< input<<endl;
+		  
 		  while(inputfile>>b>>m>>berror>>merror)
 		    {
-			//			inputfile>>b>>berror>>m>>merror;
-			//	inputfile>>b>>m>>berror>>merror;
-
-			//	if(!inputfile.good())break;
-			cout<<"b = "<<b<< " b error = "<<berror<<" m = "<<m<< " m error = "<<merror<<endl;
+			
+			cout<<"\vb = "<<b<< " \tb error = "<<berror<<"\nm = "<<m<< "\t m error = "<<merror<<endl<<"\v";
 			
 			if(outputslope.is_open())
 			  {
-			    cout<<"Successfully opened  the file "<<slopedata<<endl;
+			    cout<<"Successfully opened  the file!\nStoring given data in the file: "<<slopedata<<endl;
+			    cout<<"\v";
 			    
-			    outputslope<<setw(20)<<b<<setw(20)<<m<<setw(20)<<berror<<setw(20)<<merror<<endl;
-			    cout<<"b m berror merror"<<endl;
-			    cout<<setw(20)<<b<<setw(20)<<m<<setw(20)<<berror<<setw(20)<<merror<<endl;
+			    outputslope<<b<<setw(20)<<m<<setw(20)<<berror<<setw(20)<<merror<<endl;
+			    cout<<"b \t\tm \t\tberror\t\t merror"<<endl;
+			    cout<<b<<setw(10)<<m<<setw(20)<<berror<<setw(20)<<merror<<endl;
+			    cout<<"\v\v";
 			    
 			  }
 			else cout<<"Unable to open the file "<<slopedata<<endl;
@@ -52,7 +55,7 @@ void readingfile(string basicFormat,int jLimit)
 	    else
 		{
 		  cout<<"failed to open the file "<<input<<endl;
-		  return 0;
+		  return ;
 		}
 	    
 	  }
