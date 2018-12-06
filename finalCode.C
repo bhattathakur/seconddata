@@ -1,4 +1,4 @@
-int file=25;
+int file=32;
 const  int peakNo=16;
 
 //Original Data File
@@ -77,13 +77,14 @@ void finalCode()
    checkfileOpening(inputdatafile);
    
    initialrootfile();
-    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-   etruevsecaldata();
-   etruevsecal();
-   finalrootfile();
-   combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   resolution();
-   random_resolution();
+   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   
+   // truevsecaldata();
+   // etruevsecal();
+   // finalrootfile();
+   // combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   // resolution();
+   // random_resolution();
     
    // initialpeakcheck();
    // finalpeakcheck();
@@ -129,6 +130,12 @@ void makingRootFile(string originaldatafile,string rootfilename,string histogram
 	   while(getline(input,line))
 	     {
 		 flag++;
+		 //Trying to print date given in the file:
+		 if(flag==1)
+		   {
+		     stringstream ss(line);
+		     cout<<line<<endl;
+		   }
 		 if(flag>6 && flag<16391)
 		{
 		  stringstream sstr(line);
