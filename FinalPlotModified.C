@@ -68,6 +68,10 @@ TCanvas * getGraph(const char * formatting,const char * title,const char * pdfna
   graph->SetMarkerStyle(21);
   graph->SetLineColor(9);
   graph->SetLineWidth(2);
+  //Trying to draw line to seperate peaks before 25 th and after 25 th line
+  TLine *line=new TLine(3500000,0,3500000,1);
+  line->SetLineColor(kBlue);
+  line->Draw();
   graph->Draw("AP");
   graph->Fit("pol0");
   graph->GetFunction("pol0")->SetParName(0,par0name); //par0name
@@ -76,6 +80,7 @@ TCanvas * getGraph(const char * formatting,const char * title,const char * pdfna
   gStyle->SetStatX(0.9);
   gStyle->SetStatY(0.92);
   gStyle->SetOptFit();
+  gPad->SetTicks(1,1);
   can->Update();
   can->SaveAs(pdfname);
   return can;

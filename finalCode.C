@@ -76,8 +76,8 @@ void finalCode()
    cout<<"inputFile: "<<inputdatafile<<endl;
    checkfileOpening(inputdatafile);
    
-   initialrootfile();
-   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   //initialrootfile();
+   //combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
    
    // truevsecaldata();
    // etruevsecal();
@@ -86,7 +86,7 @@ void finalCode()
    // resolution();
    // random_resolution();
     
-   // initialpeakcheck();
+    initialpeakcheck();
    // finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
