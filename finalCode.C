@@ -1,4 +1,4 @@
-int file=36;
+int file=40;
 const  int peakNo=17;
 
 //Original Data File
@@ -76,17 +76,17 @@ void finalCode()
    cout<<"inputFile: "<<inputdatafile<<endl;
    checkfileOpening(inputdatafile);
    
-   // initialrootfile();
-   // combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-   // etruevsecaldata();
-   // etruevsecal();
-   // finalrootfile();
-   // combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   // resolution();
-   // random_resolution();
+   initialrootfile();
+   combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
+   etruevsecaldata();
+   etruevsecal();
+   finalrootfile();
+   combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+   resolution();
+   random_resolution();
     
    // initialpeakcheck();
-    finalpeakcheck();
+   // finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
    //exit(0);
