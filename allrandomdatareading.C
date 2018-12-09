@@ -1,4 +1,8 @@
-const char * resultofrandomdata="FINAL/allrandomdata.dat";
+/*
+This script reads all the random data i.e. resolution generated from toy mc and mean of that resolution.
+We need to supply the highest filenumber of random data.It reads from 1 to that file number and stores the output in the single file
+ */
+const char * resultofrandomdata="FINAL/allrandomdata.dat"; //file which stores all the random data
 
 double resolution,resolution_error;
 
@@ -10,10 +14,11 @@ void readingfile(string basicFormat,int jLimit);
 
 void allrandomdatareading()
 {
-  readingfile("randomdata",24);
+  readingfile("randomdata",40);
 }
 
-void readingfile(string basicFormat,int jLimit)
+//reads all the files starting with basic formit upto jLimit//
+void readingfile(string basicFormat,int jLimit) 
 {
   cout<<" ------------------------------------------------------------"<<endl;
     	for(int j=0;j<=jLimit;j++)
@@ -31,11 +36,15 @@ void readingfile(string basicFormat,int jLimit)
 		    {
 			inputfile>>resolution>>resolution_error;
 			if(!inputfile.good())break;
-			cout<<"resoultion = "<<resolution<< " & resolution error = "<<resolution_error<<endl;
+			cout<<"\v";
+			cout<<fixed<<setprecision(5)<<showpoint;
+			cout<<"resoultion:\t\t"<<resolution<< "\nresolution error:\t"<<resolution_error<<endl;
+			cout<<"\v";
 			if(outputrandomdata.is_open())
 			  {
 			    cout<<"Successfully opened  the file "<<resultofrandomdata<<endl;
-			    outputrandomdata<<resolution<<setw(10)<<resolution_error<<endl;
+			    outputrandomdata<<fixed<<setprecision(5)<<showpoint;
+			    outputrandomdata<<setw(8)<<resolution<<setw(10)<<resolution_error<<endl;
 			    
 			  }
 			else cout<<"Unable to open the file "<<resultofrandomdata<<endl;

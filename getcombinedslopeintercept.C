@@ -1,8 +1,11 @@
+/*
+This script reads intercepts from individual files and stores in a single file
+ */
 TString slopedata="FINAL/allinterceptslope.dat"; //this is the file to store all the  intercepts and slopes in one file
 
 double m,merror,b,berror; //data in the sequence b, berror, m , merror
 
-ofstream outputslope(slopedata);
+ofstream outputslope(slopedata); //file for storing all the intercept,slope and their errors
 
 
 //Initialize the function
@@ -11,7 +14,7 @@ void readingfile(TString basicFormat,int jLimit);
 
 void getcombinedslopeintercept()
 {
-  readingfile("slopeintercept",24);
+  readingfile("slopeintercept",40); //total number of files 40
   return;
 }
 
@@ -41,11 +44,12 @@ void readingfile(TString basicFormat,int jLimit)
 			  {
 			    cout<<"Successfully opened  the file!\nStoring given data in the file: "<<slopedata<<endl;
 			    cout<<"\v";
-			    
-			    outputslope<<b<<setw(20)<<m<<setw(20)<<berror<<setw(20)<<merror<<endl;
-			    cout<<"b \t\tm \t\tberror\t\t merror"<<endl;
-			    cout<<b<<setw(10)<<m<<setw(20)<<berror<<setw(20)<<merror<<endl;
-			    cout<<"\v\v";
+			    outputslope<<fixed<<setprecision(5)<<showpoint;
+			    outputslope<<setw(10)<<b<<setw(10)<<m<<setw(10)<<berror<<setw(10)<<merror<<endl;
+			    cout<<fixed<<setprecision(5)<<showpoint;
+			    cout<<"\tb \tm \tberror\t merror"<<endl;
+			    cout<<setw(10)<<b<<setw(10)<<m<<setw(10)<<berror<<setw(10)<<merror<<endl;
+			    cout<<"\v";
 			    
 			  }
 			else cout<<"Unable to open the file "<<slopedata<<endl;

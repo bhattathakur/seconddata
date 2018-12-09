@@ -1,9 +1,9 @@
-void checkFileOpening(const char *filename)
+void checkFileOpening(TString filename)
 {
   ifstream inputfile(filename);
-  if(inputfile.is_open())
+  if(inputfile)
     {
-	cout<<"Successfully opened the file: "<<filename<<endl;
+    cout<<"Successfully opened the file: "<<filename<<endl;
     }
   else
     {

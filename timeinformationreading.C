@@ -1,5 +1,13 @@
+/*
+This scripts helps to read the time and run number stored in different files
+error in time is taken as runnumber/2
+This script also puts zero infront of numbers which are less than 10.
+This script changes literal name of month into numeric form: sep->09
+ */
 const char * timestamp="FINAL/datetimeruntime.dat"; //file for storing final results:date time runtime
 ofstream timedateinfo(timestamp);
+static int countFile=1;
+
 
 
 //Function initialization
@@ -56,14 +64,15 @@ string modified(int a)
 //Reads the data file based on basicformat, ilimit, jlimit
 void readingfile(string basicFormat,int iLimit,int jLimit)
 {
-  
+
   for(int i=0;i<=iLimit;i++)
     {
 	for(int j=0;j<=jLimit;j++)
 	  {
 	    string input="ORIGINAL_DATA/"+basicFormat+""+to_string(i)+""+to_string(j)+".dat";
 	    cout<<"**************************************************************"<<endl;
-	    
+	    cout<<"File number :\t"<<countFile<<endl;
+	    countFile++;
 	    cout<<"\vinput file = "<<input<<endl;
 	    ifstream inputfile(input);
 	    string line,line1;
@@ -104,20 +113,22 @@ void readingfile(string basicFormat,int iLimit,int jLimit)
 
 	    //editing time and date for less than 10
 	    string time1=modified(hour)+modified(minute)+modified(second);
-	    cout<<"time = "<<time1<<endl;
+	    cout<<"time:    \t "<<time1<<endl;
 	    string date=modified(year)+getMonth(month)+modified(day);//getMonth helps to get in integer form
-	    cout<<"date = "<<date<<endl;
-	    cout<<"runtime = "<<runtime<<endl;
+	    cout<<"date:    \t "<<date<<endl;
+	    cout<<"runtime: \t "<<runtime<<endl;
 	    
 	    //Checking if the given file is open for storing the manipulated data
-	     if(timedateinfo.is_open())cout<<timestamp<<" opened successfully "<<endl;
+	     if(timedateinfo.is_open())cout<<timestamp<<" opened successfully to store output\v"<<endl;
 	     else
 		 {
 		   cout<<"Could not open "<<timestamp<<endl;
 		   return 0;
 		 }
 	    //Storing the data in this file seperated by tab
-	    timedateinfo<<date<<'\t'<<time1<<'\t'<<runtime<<endl;
+	     timedateinfo<<fixed<<setprecision(1)<<showpoint;
+	     
+	     timedateinfo<<setw(10)<<date<<setw(15)<<time1<<setw(15)<<runtime<<endl;
 	    
 	  }
     }

@@ -1,4 +1,4 @@
-int file=2;
+int file=;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 

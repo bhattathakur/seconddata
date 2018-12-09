@@ -1,28 +1,28 @@
 #include "Checkingfile.h" //preprocessor for checking if the file is opened successfully or not
 //inputfile
-const char * inputdata="FINAL/TimeInterceptSlopeResolution.dat"; //input data file has time->resolution->intercept->slope->timeerror->resolutionerror->intercept error->slope error
+TString inputdata="FINAL/TimeInterceptSlopeResolution.dat"; //input data file has time->resolution->intercept->slope->timeerror->resolutionerror->intercept error->slope error
 //resolution vs time
-const char * pdfresolution="FINAL/resolutionvstime.pdf"; //pdf file location
-const char * resolutionformat="%lg%lg%*lg%*lg%lg%lg%*lg%*lg";
-const char * titling="FWHM vs Time  Plot;time (s); FWHM (eV);";
-const char * resolutionpar0Name="<FWHM>";
+TString pdfresolution="FINAL/resolutionvstime.pdf"; //pdf file location
+TString resolutionformat="%lg%lg%*lg%*lg%lg%lg%*lg%*lg";
+TString titling="FWHM vs Time  Plot;time (s); FWHM (eV);";
+TString resolutionpar0Name="<FWHM>";
 
 //intercpet vs time
-const char * interceptpdf="FINAL/interceptvstime.pdf"; //pdf file location
-const char * interceptformat="%lg%*lg%lg%*lg%lg%*lg%lg%*lg";
-const char * intercepttitling="Intercept vs Time  Plot;time (s); Intercept(keV) ;";
-const char * interceptpar0Name="<Intercept>";
+TString interceptpdf="FINAL/interceptvstime.pdf"; //pdf file location
+TString interceptformat="%lg%*lg%lg%*lg%lg%*lg%lg%*lg";
+TString intercepttitling="Intercept vs Time  Plot;time (s); Intercept(keV) ;";
+TString interceptpar0Name="<Intercept>";
 
 //slope vs time
-const char * slopepdf="FINAL/slopevstime.pdf";
-const char * slopeformat="%lg%*lg%*lg%lg%lg%*lg%*lg%lg";
-const char * slopetitle="Slope vs Time Plot;time(s);Slope(keV/chn);";
-const char * slopepar0Name="<slope>";
+TString slopepdf="FINAL/slopevstime.pdf";
+TString slopeformat="%lg%*lg%*lg%lg%lg%*lg%*lg%lg";
+TString slopetitle="Slope vs Time Plot;time(s);Slope(keV/chn);";
+TString slopepar0Name="<slope>";
 
 
-TCanvas * getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,
-		  int  setfillcolor=0,int framecolor=30,const char * datafile=inputdata);
-void checkFileOpening(const char *);
+TCanvas * getGraph(TString formatting,TString title,TString pdfname,TString par0name,int markerColor=4,int markerStyle=21,
+		  int  setfillcolor=0,int framecolor=30,TString datafile=inputdata);
+void checkFileOpening(TString);
  
 TCanvas * FinalPlotModified()
 {
@@ -30,13 +30,13 @@ TCanvas * FinalPlotModified()
   c->Divide(1,3);
   
   c->cd(1);
-   getGraph(resolutionformat,titling,pdfresolution,resolutionpar0Name);//Kspring+10
+  getGraph(resolutionformat,titling,pdfresolution,resolutionpar0Name,3);//Kspring+10
   // c1->Draw();
   c->Modified();
   c->Update();
  
   c->cd(2);
-  getGraph(interceptformat,intercepttitling,interceptpdf,interceptpar0Name);//422->Cyan-10
+  getGraph(interceptformat,intercepttitling,interceptpdf,interceptpar0Name,6,29);//422->Cyan-10
   // c2->Draw();
    c->Modified();
    c->Update();
@@ -52,11 +52,11 @@ TCanvas * FinalPlotModified()
   return c;
 }
 
-TCanvas * getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,
-			 int setfillcolor=0,int framecolor=10,const char * datafile=inputdata) //frame color and input data default
+ TCanvas* getGraph(TString formatting,TString title,TString pdfname,TString par0name,int markerColor=4,int markerStyle=21,
+			 int setfillcolor=0,int framecolor=10,TString datafile=inputdata) //frame color and input data default
 {
   TCanvas* can=new TCanvas();
-  // gPad->SetTicks(1,1);
+  gPad->SetTicks(1,1);
   checkFileOpening(inputdata);
   can->SetGrid();
   can->SetFillColor(setfillcolor); //setfillcolor 20
@@ -64,14 +64,17 @@ TCanvas * getGraph(const char * formatting,const char * title,const char * pdfna
   graph->SetTitle(title);//title of the plot,x title,ytitle
   graph->GetYaxis()->SetTitleOffset(1.2);
   graph->GetXaxis()->SetTitleOffset(1.2);
-  graph->SetMarkerColor(4);
-  graph->SetMarkerStyle(21);
+  //graph->SetMarkerColor(4);
+  graph->SetMarkerColor(markerColor);
+  // graph->SetMarkerStyle(21);
+  graph->SetMarkerStyle(markerStyle);
   graph->SetLineColor(9);
   graph->SetLineWidth(2);
   //Trying to draw line to seperate peaks before 25 th and after 25 th line
-  TLine *line=new TLine(3500000,0,3500000,1);
-  line->SetLineColor(kBlue);
-  line->Draw();
+  // TLine *line=new TLine(3500000.0,0.0,3500000.0,1.0);
+  // line->SetLineColor(kBlue);
+  // line->Draw();
+  // can->Update();
   graph->Draw("AP");
   graph->Fit("pol0");
   graph->GetFunction("pol0")->SetParName(0,par0name); //par0name
@@ -80,7 +83,7 @@ TCanvas * getGraph(const char * formatting,const char * title,const char * pdfna
   gStyle->SetStatX(0.9);
   gStyle->SetStatY(0.92);
   gStyle->SetOptFit();
-  gPad->SetTicks(1,1);
+  //gPad->SetTicks(1,1);
   can->Update();
   can->SaveAs(pdfname);
   return can;
