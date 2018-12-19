@@ -1,4 +1,4 @@
-int file=41;
+int file=53;
 const  int peakNo=15;
 
 //Original Data File
@@ -85,7 +85,7 @@ void finalCode()
     resolution();
     random_resolution();
     
-   // initialpeakcheck();
+    // initialpeakcheck();
    // finalpeakcheck();
    
    cout<<"successfully completed "<<endl;
