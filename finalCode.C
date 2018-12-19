@@ -1,5 +1,5 @@
-int file=40;
-const  int peakNo=17;
+int file=41;
+const  int peakNo=15;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -36,7 +36,7 @@ double Emin=0;
 double correctedEmin,correctedEmax;
 const int numberOfChannels=16384;
 double Emax=numberOfChannels;
-const int NUMBER_OF_FILES =40;
+const int NUMBER_OF_FILES =81; //total number of files 
 string desiredFile[]={};
 string  File[]={};
 
@@ -78,12 +78,12 @@ void finalCode()
    
    initialrootfile();
    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
-   etruevsecaldata();
+     etruevsecaldata();
    etruevsecal();
-   finalrootfile();
-   combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
-   resolution();
-   random_resolution();
+    finalrootfile();
+    combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
+    resolution();
+    random_resolution();
     
    // initialpeakcheck();
    // finalpeakcheck();
