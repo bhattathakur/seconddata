@@ -1,4 +1,4 @@
-int file=53;
+int file=67;
 const  int peakNo=15;
 
 //Original Data File
