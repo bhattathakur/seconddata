@@ -26,7 +26,7 @@ const char * slopepar0Name="#bar{slope}";
 void getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,
 		  int setfillcolor,int pad,int framecolor=30,const char * datafile=inputdata);
 void checkFileOpening(const char *);
-auto can=new TCanvas();
+//auto can=new TCanvas();
  
 void plotTimeResolutionInterceptSlope()
 {

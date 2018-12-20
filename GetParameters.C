@@ -65,7 +65,7 @@ TCanvas * CheckAllPeaks(int fileNumber,int status)
 
 void GetParameters()
 {
-  cout<<"Enter file number(1-40), file(initial/final):(1/2)"<<endl;
+  cout<<"Enter file number(1-81), file(initial/final):(1/2)"<<endl;
   int fileNumber,status;
   cin>>fileNumber>>status;
   CheckAllPeaks(fileNumber,status);
