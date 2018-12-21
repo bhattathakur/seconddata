@@ -14,7 +14,7 @@ void readingfile(TString basicFormat,int jLimit);
 
 void getcombinedslopeintercept()
 {
-  readingfile("slopeintercept",40); //total number of files 40
+  readingfile("slopeintercept",81); //total number of files 81
   return;
 }
 
