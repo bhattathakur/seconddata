@@ -1,14 +1,16 @@
 TString file="ORIGINAL_DATA/originalfilelist.dat";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Function to convert given string format of Month into integer form
-string getMonth(string s)
+TString getMonth(TString s)
 {
   if(s=="Sep")return "09";
   if(s=="Oct")return "10";
+  if(s=="Nov")return "11";
+  if(s=="Dec")return "12";
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Adds 0 at the begining of integer if it is less than 10
-string modified(int a)
+TString modified(int a)
 {
   return ((a<10)?("0"+to_string(a)):to_string(a));
 }
@@ -17,7 +19,7 @@ string modified(int a)
 void TestForFile()
 {
   ifstream input(file);
-  ofstream output("testoutput.txt");
+  //  ofstream output("testoutput.txt");
   if(input)cout<<"Successfully opned the file: "<<file<<endl;
   else cout<<"Error in opening the file: "<<file<<endl;
 
@@ -35,6 +37,7 @@ void TestForFile()
 	//Displaying the line 1 of the given file:
 	
 	TString intermediatefile="ORIGINAL_DATA/"+fileorder;
+	cout<<"Input File: "<<intermediatefile<<endl;
 	ifstream temp(intermediatefile);
 	if(temp)cout<<"Successful to open : "<<fileorder<<endl;
 	else cout<<"Failure to open the file: "<<fileorder<<endl;
@@ -54,23 +57,26 @@ void TestForFile()
 		  //Manipulting the given lines
 		   //Defining the stringstream
 	    // Run started....................:  Mon Sep 17 10:56:44 2018 Run  time......................:       86408.22 s
-	    stringstream ss;
+		   stringstream ss;
 	    ss<<line1; //line1 as stringstream object
 	    string run,start,weekday,month,run1,time;
 	    int day,hour, minute,second,year;
 	    double runtime;
 	    char dummy;
-	    
+	    cout<<"Before stringstream"<<endl;
 	    // Run started....................:  Mon Sep 17 10:56:44 2018 Run  time......................:       86408.22 s
-	    ss>>run>>start>>weekday>>month>>day>>hour>>dummy>>minute>>dummy>>second>>year>>run1>>time>>runtime>>dummy;
+						   ss>>run>>start>>weekday>>month>>day>>hour>>dummy>>minute>>dummy>>second>>year>>run1>>time>>runtime>>dummy;
+	    cout<<"After stringstream"<<endl;
+						  cout<<run<<start<<weekday<<month<<day<<hour<<dummy<<minute<<dummy<<second<<year<<run1<<time<<runtime<<dummy<<endl;
 
 	    //editing time and date for less than 10
-	    string time1=modified(hour)+modified(minute)+modified(second);
+	    TString time1=modified(hour)+modified(minute)+modified(second);
+																								   cout<<"day: "<<day<<endl;
 	    cout<<"time:    \t "<<time1<<endl;
-	    string date=modified(year)+getMonth(month)+modified(day);//getMonth helps to get in integer form
-	    cout<<"date:    \t "<<date<<endl;
+						   //  TString date=modified(year)+getMonth(month)+modified(day);//getMonth helps to get in integer form
+						   //   cout<<"date:    \t "<<date<<endl;
 	    cout<<"runtime: \t "<<runtime<<endl;
-	    
+						     // */
 	    //Checking if the given file is open for storing the manipulated data
 	    // 	     if(timedateinfo.is_open())cout<<timestamp<<" opened successfully to store output\v"<<endl;
 	    //  else
@@ -82,11 +88,10 @@ void TestForFile()
 	    //  timedateinfo<<fixed<<setprecision(1)<<showpoint;
 	     
 	    // timedateinfo<<setw(10)<<date<<setw(15)<<time1<<setw(15)<<runtime<<endl;
-
-	
+    
     }
   cout<<"\v";
   cout<<"_________________________________________________________________________________________________________________________________"<<endl;
-	cout<<"\v";
+  cout<<"\v";
  
 }
