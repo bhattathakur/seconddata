@@ -14,14 +14,14 @@ void readingfile(string basicFormat,int jLimit);
 
 void allrandomdatareading()
 {
-  readingfile("randomdata",40);
+  readingfile("randomdata",81); //number of datafiles
 }
 
 //reads all the files starting with basic formit upto jLimit//
 void readingfile(string basicFormat,int jLimit) 
 {
   cout<<" ------------------------------------------------------------"<<endl;
-    	for(int j=0;j<=jLimit;j++)
+    	for(int j=1;j<=jLimit;j++)
 	  {
 	    string input="FINAL/"+basicFormat+""+to_string(j)+".dat";
 	    cout<<"input = "<<input<<endl;
