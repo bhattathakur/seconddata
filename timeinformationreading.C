@@ -15,6 +15,37 @@ string getMonth(string s);//get month
 string modified(int a); 
 void readingfile(string basicFormat,int iLimit,int jLimit);
 
+/*
+///////////////////////////////////////////////////////////////////
+Given files:
+                                     
+bkg_000.dat                          bkg_03_000.dat    bkg_04_000.dat
+bkg_001.dat          bkg_01_014.dat  bkg_03_001.dat	 bkg_04_001.dat
+bkg_002.dat          bkg_01_015.dat  bkg_03_002.dat	 bkg_04_002.dat
+bkg_01_000.dat       bkg_01_016.dat  bkg_03_003.dat	 bkg_04_003.dat
+bkg_01_001.dat       bkg_01_017.dat  bkg_03_004.dat	 bkg_04_004.dat
+bkg_01_002.dat       bkg_01_018.dat  bkg_03_005.dat	 bkg_04_005.dat
+bkg_01_003.dat       bkg_01_019.dat  bkg_03_006.dat	 bkg_04_006.dat
+bkg_01_004.dat       bkg_02_000.dat  bkg_03_007.dat	 bkg_04_007.dat
+bkg_01_005.dat       bkg_02_001.dat  bkg_03_008.dat	 bkg_04_008.dat
+bkg_01_006.dat       bkg_02_002.dat  bkg_03_009.dat	 bkg_04_009.dat
+bkg_01_007.dat       bkg_02_003.dat  bkg_03_010.dat	 bkg_04_010.dat
+bkg_01_008.dat       bkg_02_004.dat  bkg_03_011.dat	 bkg_04_011.dat
+bkg_01_009.dat       bkg_02_005.dat  bkg_03_012.dat	 bkg_04_012.dat
+bkg_01_010.dat       bkg_02_006.dat  bkg_03_013.dat	 bkg_04_013.dat
+bkg_01_011.dat       bkg_02_007.dat	 bkg_03_014.dat	 bkg_04_014.dat
+bkg_01_012.dat       bkg_02_008.dat	 bkg_03_015.dat	 bkg_04_015.dat
+bkg_01_013.dat       bkg_02_009.dat	 bkg_03_016.dat	 bkg_04_016.dat
+						 bkg_03_017.dat	 bkg_04_017.dat
+						 bkg_03_018.dat	 bkg_04_018.dat
+						 bkg_03_019.dat	 bkg_04_019.dat
+						 bkg_03_020.dat	 bkg_04_020.dat
+						 bkg_03_021.dat	 bkg_04_021.dat
+						 bkg_03_022.dat	 bkg_04_022.dat
+									 bkg_04_023.dat
+									 bkg_04_024.dat
+////////////////////////////////////////////////////////////////////
+*/
 //main file
 void timeinformationreading()
 {
@@ -22,32 +53,18 @@ void timeinformationreading()
   string file2="bkg_01_0";
   string file3="bkg_02_0";
   string file4="bkg_03_0";
+  string file5="bkg_03_";
+  string file6="bkg_04_0";
+  string file7="bkg_04_";
+  
   readingfile(file1,0,2);
   readingfile(file2,1,9);
   readingfile(file3,0,9);
-  readingfile(file4,0,6);
+  readingfile(file4,0,9);
+  readingfile(file5,10,22);
+  readingfile(file6,0,9);
+  readingfile(file7,10,24);
 }
-/*
-Given files:
-                                     
-bkg_000.dat                          bkg_03_000.dat
-bkg_001.dat          bkg_01_014.dat  bkg_03_001.dat
-bkg_002.dat          bkg_01_015.dat  bkg_03_002.dat
-bkg_01_000.dat       bkg_01_016.dat  bkg_03_003.dat
-bkg_01_001.dat       bkg_01_017.dat  bkg_03_004.dat
-bkg_01_002.dat       bkg_01_018.dat  bkg_03_005.dat
-bkg_01_003.dat       bkg_01_019.dat  bkg_03_006.dat
-bkg_01_004.dat       bkg_02_000.dat  
-bkg_01_005.dat       bkg_02_001.dat  
-bkg_01_006.dat       bkg_02_002.dat  
-bkg_01_007.dat       bkg_02_003.dat  
-bkg_01_008.dat       bkg_02_004.dat  
-bkg_01_009.dat       bkg_02_005.dat  
-bkg_01_010.dat       bkg_02_006.dat  
-bkg_01_011.dat       bkg_02_007.dat
-bkg_01_012.dat       bkg_02_008.dat
-bkg_01_013.dat       bkg_02_009.dat
-*/
 //Function to convert given string format of Month into integer form
 string getMonth(string s)
 {
