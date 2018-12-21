@@ -1,5 +1,5 @@
-int file=81;
-const  int peakNo=15;
+int file=2;
+const  int peakNo=23;
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
