@@ -4,7 +4,7 @@ error in time is taken as runnumber/2
 This script also puts zero infront of numbers which are less than 10.
 This script changes literal name of month into numeric form: sep->09
  */
-const char * timestamp="FINAL/datetimeruntime.dat"; //file for storing final results:date time runtime
+//const char * timestamp="FINAL/datetimeruntime.dat"; //file for storing final results:date time runtime
 ofstream timedateinfo(timestamp);
 static int countFile=1;
 
