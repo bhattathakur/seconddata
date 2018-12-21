@@ -1,3 +1,9 @@
+
+  /*
+This script will help to put time results and resolution results in a file
+also used the base time as 20180901
+  */
+  
 void timedata_resolutioncompilation()
 {
 
