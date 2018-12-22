@@ -1,8 +1,10 @@
 #include "Checkingfile.h" //preprocessor for checking if the file is opened successfully or not
+#include "DividingData.h" //This macro helps to breakdown the given data into two parts-first one upto rownumber and secondone after rownumber
 //inputfile
-const char * inputdata="FINAL/TimeInterceptSlopeResolution.dat"; //input data file has time->resolution->intercept->slope->timeerror->resolutionerror->intercept error->slope error
+TString root="FINAL/TimeInterceptSlopeResolution";
+TString inputdata=root+".dat"; //input data file has time->resolution->intercept->slope->timeerror->resolutionerror->intercept error->slope error
 //resolution vs time
-const char * pdfresolution="FINAL/resolutionvstime.pdf"; //pdf file location
+TString pdfresolution="FINAL/resolutionvstime.pdf"; //pdf file location
 const char * resolutionformat="%lg%lg%*lg%*lg%lg%lg%*lg%*lg";
 const char * titling="FWHM vs Time  Plot;time (s); FWHM (eV);";
 const char * resolutionpar0Name="#bar{FWHM}";
@@ -25,12 +27,13 @@ const char * slopepar0Name="#bar{slope}";
 
 void getGraph(const char * formatting,const char * title,const char * pdfname,const char * par0name,
 		  int setfillcolor,int pad,int framecolor=30,const char * datafile=inputdata);
-void checkFileOpening(const char *);
-//auto can=new TCanvas();
+//void checkFileOpening(const char *);
+auto can=new TCanvas();
  
 void plotTimeResolutionInterceptSlope()
 {
   //  auto can=new TCanvas();
+  DividingData(root,25);
   can->Divide(1,3);
    
   getGraph(resolutionformat,titling,pdfresolution,resolutionpar0Name,20,1);

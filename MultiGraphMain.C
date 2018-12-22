@@ -1,4 +1,5 @@
 #include "Checkingfile.h" //preprocessor for checking if the file is opened successfully or not
+#include "DividingData.h" //for diving the data into two partss based on file name and rownumber
 //inputfile
 TString inputdata1="TimeInterceptSlopeResolution1.dat"; //input data file has time->resolution->intercept->slope->timeerror->resolutionerror->intercept error->slope error
 TString inputdata2="TimeInterceptSlopeResolution2.dat"; //input data file has time->resolution->intercept->slope->timeerror->resolutionerror->intercept error->slope error
@@ -18,7 +19,7 @@ TString interceptpar0Name="<Intercept>";
 //TString slopepdf="FINAL/combinedslopevstime.pdf";
 TString slopeformat="%lg%*lg%*lg%lg%lg%*lg%*lg%lg";
 //TString slopetitle="Slope vs Time Plot;time(s);Slope(keV/chn);";
-TString slopepar0Name="<slope>"; 
+TString slopepar0Name="<Slope>"; 
 
 //void checkFileOpening(TString);
 TGraphErrors * getErrorGraph(TString datafile,TString formatting,TString graphTitle,Int_t markerColor=2,Int_t markerStyle=10);
