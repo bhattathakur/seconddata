@@ -6,12 +6,16 @@ also used the base time as 20180901
   
 void timedata_resolutioncompilation()
 {
-
+  //removing the file if that already exists
+  Int_t isRemoved=remove("FINAL/compiledtimeresolution.dat");
   //Data file storing input file and output file
   const char * inputfile="FINAL/datetimeruntime.dat";
   const char * inputresolution="FINAL/allrandomdata.dat";
   const char * outfile="FINAL/compiledtimeresolution.dat";
 
+  //For counting the number of files
+ static int count=1;
+  
   //Check if inputfile is opened successfully
   //Defining the variables to store date and time
   Int_t date,tim,nanosec=0;
@@ -43,7 +47,8 @@ void timedata_resolutioncompilation()
 	//Manipulating the data
 	while(1)
 	  {
-	    
+	    cout<<"Number of file :"<<count<<endl;
+							 count++;
 	    datainput>>resolution>>error_resolution;//Reading resolution and errro
 	    datain>>date>>tim>>runtime; //
 	   
