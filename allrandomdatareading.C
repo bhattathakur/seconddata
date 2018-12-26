@@ -23,6 +23,7 @@ void readingfile(string basicFormat,int jLimit)
   cout<<" ------------------------------------------------------------"<<endl;
     	for(int j=1;j<=jLimit;j++)
 	  {
+	    
 	    string input="FINAL/"+basicFormat+""+to_string(j)+".dat";
 	    cout<<"input = "<<input<<endl;
 	    ifstream inputfile(input);

@@ -1,5 +1,6 @@
-int file=2;
-const  int peakNo=23;
+int file=84;
+const  int peakNo=15;
+const int NUMBER_OF_FILES =86; //total number of files 
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -36,7 +37,7 @@ double Emin=0;
 double correctedEmin,correctedEmax;
 const int numberOfChannels=16384;
 double Emax=numberOfChannels;
-const int NUMBER_OF_FILES =81; //total number of files 
+
 string desiredFile[]={};
 string  File[]={};
 
@@ -452,7 +453,7 @@ void random_resolution()
   TCanvas *can=new TCanvas();
 
   //Defining the histogram to will with random numbers
-  TH1F *  ranhis=new TH1F("ranhis","Histogram filled with Random resolution values",TRIALS/25,0.94,1.1);
+  TH1F *  ranhis=new TH1F("ranhis","Histogram filled with Random resolution values",TRIALS/25,0.85,1.15);
 
   //Checking if the input file is open
   ifstream inputfromran(errors_fromresolution.c_str());
@@ -464,6 +465,9 @@ void random_resolution()
 	while(1)
 	  {
 	    inputfromran>>m>>dm>>b>>db;
+	    cout<<"From the resolution plot: \n";
+	    cout<<"m\tdm\tb\tdb"<<endl;
+	    cout<<m<<'\t'<<dm<<'\t'<<b<<'\t'<<db;
 	    if(!inputfromran.good())break;
 	  }
 	  
