@@ -1,7 +1,9 @@
 /*
 This script reads intercepts from individual files and stores in a single file
  */
-TString slopedata="FINAL/allinterceptslope.dat"; //this is the file to store all the  intercepts and slopes in one file
+TString slopedata="FINAL/originalinterceptslope.dat"; //this is the file to store all the  intercepts and slopes in one file
+TString basic_format="bnewmnew";
+const Int_t totalFiles=86;
 
 double m,merror,b,berror; //data in the sequence b, berror, m , merror
 
@@ -14,7 +16,8 @@ void readingfile(TString basicFormat,int jLimit);
 
 void getcombinedslopeintercept()
 {
-  readingfile("slopeintercept",81); //total number of files 81
+  //readingfile("slopeintercept",86); //total number of files 81
+  readingfile(basic_format,totalFiles); //total number of files 81
   return;
 }
 

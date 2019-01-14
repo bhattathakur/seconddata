@@ -14,7 +14,7 @@ void readingfile(string basicFormat,int jLimit);
 
 void allrandomdatareading()
 {
-  readingfile("randomdata",81); //number of datafiles
+  readingfile("randomdata",86); //number of datafiles
 }
 
 //reads all the files starting with basic formit upto jLimit//

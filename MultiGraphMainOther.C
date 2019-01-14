@@ -118,7 +118,7 @@ TCanvas * graphCanvas(TString format,TString title,TString par0,TString pdfname,
    // info.SetTextSize(0.04);
    // info.DrawLatex(0.5,0.5,"data taken");
    TText * info1=new TText(0.12,0.25,"Data taken from 09/17/2018 to 10/12/2018");
-   TText * info2=new TText(0.50,0.25,"Data taken from 10/13/2018 to 12/10/2018");
+   TText * info2=new TText(0.50,0.25,"Data taken from 10/13/2018 to 12/17/2018");
   
    //info->DrawNDC();
    info1->SetNDC();
@@ -134,7 +134,7 @@ TCanvas * graphCanvas(TString format,TString title,TString par0,TString pdfname,
   info2->Draw();
   if(fileCount==1)
     {
-	TText * info3=new TText(0.65,0.38,"Data taken from 11/16/2018 to 12/10/2018");
+	TText * info3=new TText(0.65,0.38,"Data taken from 11/16/2018 to 12/17/2018");
 	info3->SetNDC();
 	info3->SetTextColor(kBlue);
 	info3->SetTextSize(0.02);

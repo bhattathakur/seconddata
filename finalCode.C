@@ -1,6 +1,6 @@
-int file=84;
+int file=49;
 const  int peakNo=15;
-const int NUMBER_OF_FILES =86; //total number of files 
+const int NUMBER_OF_FILES =88; //total number of files 
 
 //Original Data File
 string fileDirectory="ORIGINAL_DATA/"; //basic format for the input files 
@@ -81,10 +81,11 @@ void finalCode()
    combofit(initialEstimatedParameters,initial_root_file,initialhistoname,initialallhistoroot,outputErrorFile); //initial combo fit
      etruevsecaldata();
    etruevsecal();
-    finalrootfile();
+   finalrootfile();
     combofit(finalEstimatedParameters,final_root_file,finalhisto,allhistogramsfinal,outputfilefinal);//final combo fit
     resolution();
     random_resolution();
+   
     
     // initialpeakcheck();
    // finalpeakcheck();
@@ -453,7 +454,7 @@ void random_resolution()
   TCanvas *can=new TCanvas();
 
   //Defining the histogram to will with random numbers
-  TH1F *  ranhis=new TH1F("ranhis","Histogram filled with Random resolution values",TRIALS/25,0.85,1.15);
+  TH1F *  ranhis=new TH1F("ranhis","Histogram filled with Random resolution values",TRIALS/25,-1.0,1.5);
 
   //Checking if the input file is open
   ifstream inputfromran(errors_fromresolution.c_str());
@@ -465,9 +466,9 @@ void random_resolution()
 	while(1)
 	  {
 	    inputfromran>>m>>dm>>b>>db;
-	    cout<<"From the resolution plot: \n";
-	    cout<<"m\tdm\tb\tdb"<<endl;
-	    cout<<m<<'\t'<<dm<<'\t'<<b<<'\t'<<db;
+	    // cout<<"From the resolution plot: \n";
+	    //cout<<"m\tdm\tb\tdb"<<endl;
+	    //cout<<m<<'\t'<<dm<<'\t'<<b<<'\t'<<db;
 	    if(!inputfromran.good())break;
 	  }
 	  

@@ -1,0 +1,425 @@
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.15/01                  https://root.cern |
+  |                               (c) 1995-2018, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 30 2018, 20:59:31           |
+  | From heads/master@v6-13-04-1542-g1cdcd9e41c                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing AtOnceFinalCode.C...
+####################### file: 32 ####################################
+Successfully opened the file ORIGINAL_DATA/originalfilelist.dat
+filelist 32 :bkg_02_008.dat 
+inputFile: ORIGINAL_DATA/bkg_02_008.dat
+Trying to open the file :ORIGINAL_DATA/bkg_02_008.dat
+Successfully opened the file :ORIGINAL_DATA/bkg_02_008.dat
+---------------------------------------------------
+Reading the calibration
+successfully opened: DATA/bnewmnew31.dat
+ b = 0.488323 m = 0.388278 bError = 0.602956 and mError = 8.70333e-06
+Working on initial root file 
+ b1 = 0.488323 m1 = 0.388278 b1Error = 0.602956 m1Error = 8.70333e-06 Emin = 0 Emax = 16384
+correctedEmin = 0.488323
+correctedEmax = 6362.04
+---------------------------------------------------
+Run started....................:  Sat Oct 20 06:24:13 2018
+Successfully read data file ORIGINAL_DATA/bkg_02_008.dat to create the histogram
+Total lines = 16384
+stored histogram in the root file : ROOTFILES/initial32.root
+sotred the pdf plot in the   file : PLOTS/initialhisto32.pdf
+---------------------------------------------------
+Initial root file created successfully 
+---------------------------------------------------
+---------------------------------------------------
+Working on combo fit for the file ROOTFILES/initial32.root
+ File reading for estimated parameters is done successfully from the file DATA/initialestimates32.dat
+Successfully created a file ROOTFILES/initialallhistograms32.root to store all histograms with fit
+ROOTFILES/initial32.root file opened successfully
+
+########################  Peak 1  #########################     
+
+ FCN=30.9078 FROM MINOS     STATUS=SUCCESSFUL     36 CALLS         609 TOTAL
+                     EDM=6.0688e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            6.15687e+01   5.59364e+00   1.68119e-02   1.36481e-04
+   2  #mu          2.41968e+02   7.73401e-02   3.14833e-04   1.22471e-02
+   3  #sigma       7.33085e-01   4.99367e-02   4.35427e-04  -1.11845e-02
+   4  a1           4.04353e+00   5.69288e-01  -5.74444e-04   1.18796e-04
+   5  b1           1.59537e+00   4.63530e-01   4.63530e-01   8.24339e-05
+
+########################  Peak 2  #########################     
+
+ FCN=13.1999 FROM MINOS     STATUS=SUCCESSFUL     72 CALLS         567 TOTAL
+                     EDM=2.16765e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            1.40944e+02   8.35800e+00   3.86399e-02  -3.42308e-06
+   2  #mu          2.95181e+02   4.70295e-02   2.68542e-04   3.07956e-03
+   3  #sigma       7.19396e-01   3.70467e-02   3.16514e-04  -9.24551e-04
+   4  a1           3.23808e+00   7.62774e-01  -1.22967e-03  -6.02220e-05
+   5  b1           1.45763e+00   1.16610e+00   1.16610e+00   3.79258e-04
+
+########################  Peak 3  #########################     
+
+ FCN=8.72874 FROM MINOS     STATUS=SUCCESSFUL     72 CALLS         456 TOTAL
+                     EDM=1.04549e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            2.65735e+02   1.11580e+01   2.75491e-02   9.48191e-07
+   2  #mu          3.51911e+02   3.31588e-02   1.24875e-04   2.31355e-03
+   3  #sigma       7.19694e-01   2.50096e-02   1.26149e-04  -1.77219e-03
+   4  a1           2.02028e+00   8.35720e-01  -1.00980e-03  -2.92668e-05
+   5  b1           3.10688e+00   1.51821e+00   1.51821e+00   2.85013e-04
+
+########################  Peak 4  #########################     
+
+ FCN=11.2902 FROM MINOS     STATUS=SUCCESSFUL     36 CALLS         434 TOTAL
+                     EDM=3.5874e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            2.00182e+02   9.25621e+00   5.84795e-03   1.11947e-05
+   2  #mu          6.09382e+02   3.91887e-02   2.41283e-05   1.40625e-03
+   3  #sigma       7.84186e-01   2.79327e-02   7.44877e-05  -2.25521e-03
+   4  a1           2.29456e+00   7.51326e-01  -4.40714e-04   3.57401e-05
+   5  b1           1.00029e+00   4.66944e-01   4.66944e-01   1.32384e-04
+
+########################  Peak 5  #########################     
+
+ FCN=9.01052 FROM MINOS     STATUS=SUCCESSFUL     93 CALLS        2347 TOTAL
+                     EDM=1.56764e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            1.14371e+01   2.76583e+00   1.52232e-02   3.94239e-05
+   2  #mu          7.68835e+02   2.10536e-01   1.45436e-03  -1.20650e-03
+   3  #sigma       7.08071e-01   1.71201e-01   1.12236e-03  -2.25029e-04
+   4  a1           1.02298e+00   3.07935e-01  -2.06632e-04   8.31120e-05
+   5  b1           1.51460e+00   4.58945e-01   4.58945e-01   1.89124e-03
+
+########################  Peak 6  #########################     
+
+ FCN=2.99029 FROM MINOS     STATUS=SUCCESSFUL     68 CALLS        4349 TOTAL
+                     EDM=2.85173e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            2.86913e+00   1.41150e+00   1.68799e-02   1.05701e-03
+   2  #mu          7.86503e+02   1.32876e-01  -4.47530e-04   1.79343e-02
+   3  #sigma       2.34255e-01   1.02667e-01   3.98923e-04  -2.49672e-02
+   4  a1           1.30432e+00   4.37906e-01  -7.67031e-04  -2.08336e-04
+   5  b1           1.19653e+00   5.50389e-01   5.50389e-01  -2.01884e-04
+
+########################  Peak 7  #########################     
+
+ FCN=10.9337 FROM MINOS     STATUS=SUCCESSFUL    584 CALLS        4709 TOTAL
+                     EDM=6.86737e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            3.38955e+00   2.31032e+00   1.65941e-04  -9.34058e-05
+   2  #mu          9.32837e+02   4.22879e-01   4.19915e-08  -3.62564e-01
+   3  #sigma       5.25175e-01   4.86047e-01   2.84350e-05   3.58089e-04
+   4  a1           8.35352e-01   8.71550e-01   1.09872e-05   1.86305e-03
+   5  b1           1.36123e+00   3.94056e-01   3.94056e-01   3.01346e-05
+
+########################  Peak 8  #########################     
+
+ FCN=12.5906 FROM MINOS     STATUS=SUCCESSFUL     36 CALLS        1669 TOTAL
+                     EDM=1.19882e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            4.00168e+01   4.46016e+00   1.26447e-02   1.36127e-04
+   2  #mu          1.12054e+03   1.02058e-01   2.24352e-04   7.37308e-03
+   3  #sigma       8.21527e-01   7.55016e-02   4.39887e-04  -8.18588e-04
+   4  a1           1.52319e+00   4.68475e-01  -4.15616e-04   1.21948e-04
+   5  b1           9.77910e-01   3.29475e-01   3.29475e-01   4.30051e-04
+
+########################  Peak 9  #########################     
+
+ FCN=2.57209 FROM MINOS     STATUS=SUCCESSFUL    197 CALLS        1144 TOTAL
+                     EDM=3.30708e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            8.72059e+00   2.92497e+00   9.54891e-03   3.61883e-05
+   2  #mu          1.23841e+03   2.76930e-01   2.63532e-07  -3.24635e-01
+   3  #sigma       7.64438e-01   2.87634e-01   3.71837e-04  -5.71624e-04
+   4  a1           1.17670e+00   4.89708e-01  -7.42783e-04  -3.79577e-04
+   5  b1           9.69531e-01   6.95358e-01   6.95358e-01  -8.52003e-04
+
+########################  Peak 10  #########################     
+
+ FCN=4.30482 FROM MINOS     STATUS=SUCCESSFUL     82 CALLS         830 TOTAL
+                     EDM=3.90122e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            8.93766e+00   2.62452e+00   9.22913e-03   1.00669e-05
+   2  #mu          1.37812e+03   2.14073e-01   6.81718e-04   1.30812e-04
+   3  #sigma       5.76744e-01   1.32937e-01   2.85222e-04   2.00106e-04
+   4  a1           1.29237e+00   4.71783e-01  -2.27059e-05   3.00954e-05
+   5  b1           1.06006e+00   5.01392e-01   5.01392e-01  -1.17832e-04
+
+########################  Peak 11  #########################     
+
+ FCN=5.06742 FROM MIGRAD    STATUS=FAILED        405 CALLS         406 TOTAL
+                     EDM=78.1206    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            5.53443e+00   1.56977e+01   0.00000e+00   1.17581e-03
+   2  #mu          1.50992e+03   1.16278e-02  -0.00000e+00   1.52718e+03
+   3  #sigma       1.93691e+00   8.29443e+00  -0.00000e+00   3.84734e-03
+   4  a1           1.00295e+00   1.01886e+00   0.00000e+00   1.63682e-02
+   5  b1           3.14106e-01   6.24304e+00  -0.00000e+00  -1.27013e-02
+
+########################  Peak 12  #########################     
+
+ FCN=3.87653 FROM MINOS     STATUS=SUCCESSFUL    126 CALLS        2531 TOTAL
+                     EDM=9.38724e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            5.58162e+00   2.04476e+00   2.14392e-02   9.73045e-05
+   2  #mu          1.73010e+03   1.42506e-01   1.34618e-03   3.90826e-03
+   3  #sigma       3.38141e-01   1.38500e-01   1.10682e-03   4.64744e-05
+   4  a1           1.37619e+00   4.68199e-01  -4.20692e-04   6.72052e-04
+   5  b1           1.84661e+00   9.20619e-01   9.20619e-01   1.83823e-04
+Creating the file with A,eA,u,eu,6,e6,N
+successfully stored output data in the file DATA/initialEnergyerror32.dat
+Done with combo fit
+---------------------------------------------------
+---------------------------------------------------
+Working to get e true and e calcualted data:
+DATA/initialEnergyerror32.dat successfully opened
+DATA/tabulatedenergy32.dat successfully opened
+successfully stored the E-true,E-Calc,E-true-error and E-Calc-error in the file DATA/dataEcalEtrue32.dat
+Done with etrue and ecalc data creation 
+---------------------------------------------------
+---------------------------------------------------
+Working to plot etrue vs ecal
+ FCN=34.9558 FROM MIGRAD    STATUS=CONVERGED      40 CALLS          41 TOTAL
+                     EDM=1.74214e-10    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0          -2.52847e-01   2.85969e-02   3.37366e-05  -1.25777e-03
+   2  p1           1.00063e+00   2.24923e-05   4.77138e-07  -1.98661e+00
+Writing the etrue-ecalc plot in the root file
+ROOTFILES/true_estimatedplot32.root opened successfully
+intercept slope  and errrors 
+           -0.252847             1.00063           0.0285969         2.24923e-05
+Successfully stored intercept,slope and errors in the fileDATA/slopeintercept32.dat
+etrue vs ecalc plot created 
+---------------------------------------------------
+---------------------------------------------------
+Working on final root file 
+Reading the slope and intercept of the plot 
+successfully opened: DATA/slopeintercept32.dat
+ b = -0.252847 m = 1.00063 bError = 0.0285969 and mError = 2.24923e-05
+ b2 = -0.252847 m2 = 1.00063 b2Error = 0.0285969 m2Error = 2.24923e-05 Emin = 0 Emax = 16384
+Finally we have :
+ b1 = 0.488323 m1 = 0.388278 b1Error = 0.602956 m1Error = 8.70333e-06
+ b2 = -0.252847 m2 = 1.00063 b2Error = 0.0285969 m2Error = 2.24923e-05
+ Emin = 0 Emax = 16384
+bnew (b2/m2+b1) = 0.741011 mnew (m1/m2) = 0.388034
+bnewError:  0.083808
+mnewError:  8.72227e-06
+correctedEmin = 0.741011
+correctedEmax = 6358.28
+Successfully opened the file :DATA/bnewmnew32.dat
+bnew<<setw(20)<<mnew<<setw(20)<<bnewError<<setw(20)<<mnewError
+0.741011            0.388034            0.083808         8.72227e-06
+---------------------------------------------------
+Run started....................:  Sat Oct 20 06:24:13 2018
+Successfully read data file ORIGINAL_DATA/bkg_02_008.dat to create the histogram
+Total lines = 16384
+stored histogram in the root file : ROOTFILES/final32.root
+sotred the pdf plot in the   file : PLOTS/finalhisto32.pdf
+---------------------------------------------------
+Final root file created successfully 
+---------------------------------------------------
+---------------------------------------------------
+Working on combo fit for the file ROOTFILES/final32.root
+ File reading for estimated parameters is done successfully from the file DATA/finalestimates32.dat
+Successfully created a file ROOTFILES/finalallhistogram32.root to store all histograms with fit
+ROOTFILES/final32.root file opened successfully
+
+########################  Peak 1  #########################     
+
+ FCN=30.9078 FROM MINOS     STATUS=SUCCESSFUL     36 CALLS         564 TOTAL
+                     EDM=1.07696e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            6.15300e+01   5.58995e+00   1.72822e-02   1.38068e-04
+   2  #mu          2.42069e+02   7.72908e-02   3.16334e-04   1.23734e-02
+   3  #sigma       7.32622e-01   4.99023e-02   4.39521e-04  -1.12674e-02
+   4  a1           4.04357e+00   5.69291e-01  -6.14492e-04   1.20327e-04
+   5  b1           1.59536e+00   4.63525e-01   4.63525e-01   8.32003e-05
+
+########################  Peak 2  #########################     
+
+ FCN=13.1999 FROM MINOS     STATUS=SUCCESSFUL     72 CALLS         559 TOTAL
+                     EDM=9.68073e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            1.40858e+02   8.35268e+00   3.96140e-02  -3.87758e-06
+   2  #mu          2.95248e+02   4.69988e-02   2.74769e-04   3.32985e-03
+   3  #sigma       7.18959e-01   3.70229e-02   3.20586e-04  -1.09402e-03
+   4  a1           3.23782e+00   7.62779e-01  -1.23353e-03  -6.63424e-05
+   5  b1           1.45793e+00   1.16611e+00   1.16611e+00   3.52724e-04
+
+########################  Peak 3  #########################     
+
+ FCN=8.72874 FROM MINOS     STATUS=SUCCESSFUL     72 CALLS         415 TOTAL
+                     EDM=8.30255e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            2.65567e+02   1.11507e+01   2.79990e-02   8.47285e-07
+   2  #mu          3.51942e+02   3.31376e-02   1.26369e-04   2.30587e-03
+   3  #sigma       7.19241e-01   2.49937e-02   1.27353e-04  -1.76368e-03
+   4  a1           2.02035e+00   8.35725e-01  -1.01906e-03  -2.99172e-05
+   5  b1           3.10706e+00   1.51819e+00   1.51819e+00   2.83959e-04
+
+########################  Peak 4  #########################     
+
+ FCN=11.2902 FROM MINOS     STATUS=SUCCESSFUL     36 CALLS         506 TOTAL
+                     EDM=3.31992e-05    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            2.00060e+02   9.25030e+00   3.59112e-03  -4.99639e-06
+   2  #mu          6.09251e+02   3.91619e-02  -2.56214e-05  -4.58191e-04
+   3  #sigma       7.83792e-01   2.79173e-02  -1.90956e-05   1.02010e-03
+   4  a1           2.29436e+00   7.51354e-01  -2.59736e-04  -4.22124e-06
+   5  b1           9.99744e-01   4.66949e-01   4.66949e-01   3.89852e-05
+
+########################  Peak 5  #########################     
+
+ FCN=9.00994 FROM MINOS     STATUS=SUCCESSFUL     93 CALLS         938 TOTAL
+                     EDM=2.25768e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            1.14248e+01   2.77210e+00   1.52547e-02   3.86592e-05
+   2  #mu          7.68604e+02   2.10819e-01   1.45012e-03  -1.19118e-03
+   3  #sigma       7.07422e-01   1.71218e-01   1.12261e-03  -2.38700e-04
+   4  a1           1.02538e+00   3.23628e-01  -2.28548e-04   8.17762e-05
+   5  b1           1.51466e+00   4.58931e-01   4.58931e-01   4.57052e-05
+
+########################  Peak 6  #########################     
+
+ FCN=2.99029 FROM MINOS     STATUS=SUCCESSFUL     68 CALLS        4423 TOTAL
+                     EDM=2.89706e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            2.86713e+00   1.41057e+00   1.71414e-02   1.09419e-03
+   2  #mu          7.86261e+02   1.32802e-01  -4.61647e-04   1.81168e-02
+   3  #sigma       2.34111e-01   1.02580e-01   4.17856e-04  -2.52322e-02
+   4  a1           1.30440e+00   4.37905e-01  -8.32689e-04  -2.02356e-04
+   5  b1           1.19638e+00   5.50383e-01   5.50383e-01  -2.18768e-04
+
+########################  Peak 7  #########################     
+
+ FCN=10.9516 FROM MINOS     STATUS=SUCCESSFUL    390 CALLS        5972 TOTAL
+                     EDM=7.30115e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            5.27345e+00   6.81076e+00  -2.31294e-03  -3.56289e-04
+   2  #mu          9.32237e+02   7.76736e-01  -2.69952e-04  -1.30654e-02
+   3  #sigma       6.33693e-01   3.74782e-01  -4.37839e-04   3.51613e-04
+   4  a1          -5.22594e-01   4.44023e+00   2.91876e-03  -1.43771e-03
+   5  b1           1.38580e+00   3.64821e-01   3.64821e-01  -9.50191e-01
+
+########################  Peak 8  #########################     
+
+ FCN=12.2404 FROM MINOS     STATUS=SUCCESSFUL     36 CALLS         755 TOTAL
+                     EDM=1.69442e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            3.96303e+01   4.48271e+00   1.23813e-02   1.16762e-04
+   2  #mu          1.12010e+03   1.03260e-01   1.93680e-04   6.63289e-03
+   3  #sigma       8.15214e-01   7.53796e-02   4.03002e-04  -6.57868e-04
+   4  a1           1.66972e+00   5.27836e-01  -5.19834e-04   1.10194e-04
+   5  b1           9.81763e-01   3.12829e-01   3.12829e-01  -6.56481e-06
+
+########################  Peak 9  #########################     
+
+ FCN=2.53111 FROM MINOS     STATUS=SUCCESSFUL    124 CALLS        3203 TOTAL
+                     EDM=8.49868e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            8.58946e+00   2.94973e+00  -1.20253e-03  -6.94018e-04
+   2  #mu          1.23790e+03   2.79913e-01   2.15661e-06  -6.23841e-01
+   3  #sigma       7.51565e-01   2.82549e-01   6.97045e-05  -1.23876e-03
+   4  a1           1.23169e+00   5.54110e-01   3.70280e-03  -8.18558e-04
+   5  b1           9.71671e-01   6.95365e-01   6.95365e-01   2.27050e-06
+
+########################  Peak 10  #########################     
+
+ FCN=12.4203 FROM MIGRAD    STATUS=FAILED        326 CALLS         327 TOTAL
+                     EDM=2.19707e+08    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            1.43006e+01   6.49167e+00  -0.00000e+00  -8.47209e-05
+   2  #mu          1.37884e+03   6.15528e-04  -0.00000e+00   5.36334e+03
+   3  #sigma       2.06542e+00   5.55506e-01  -0.00000e+00   2.30809e-04
+   4  a1           1.18644e+00   5.72217e-01   0.00000e+00  -6.90131e-04
+   5  b1          -4.81935e-01   8.13022e-01   0.00000e+00   1.47601e-03
+
+########################  Peak 11  #########################     
+
+ FCN=2.89173 FROM MIGRAD    STATUS=FAILED        456 CALLS         457 TOTAL
+                     EDM=0.00341097    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   8.1 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            2.83553e+00   1.60476e+00  -0.00000e+00   4.05261e-03
+   2  #mu          1.50845e+03   1.67434e-02   0.00000e+00  -3.41743e+01
+   3  #sigma       3.84262e-01   1.41313e-01   0.00000e+00  -2.13832e-02
+   4  a1           1.02566e+00   6.20849e-01  -0.00000e+00   4.55945e-02
+   5  b1           1.10328e+00   6.89723e-01   0.00000e+00  -1.18025e-02
+
+########################  Peak 12  #########################     
+
+ FCN=5.94249 FROM MIGRAD    STATUS=FAILED        400 CALLS         401 TOTAL
+                     EDM=445.832    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  A            1.40060e+01   1.73493e+01   0.00000e+00  -1.83856e-02
+   2  #mu          1.73001e+03   5.15914e-03  -0.00000e+00   8.18306e+03
+   3  #sigma       1.17974e+00   2.13626e+00  -0.00000e+00   2.05905e-01
+   4  a1           1.04549e+00   1.94215e+00   0.00000e+00   8.73866e-02
+   5  b1          -1.84421e+00   8.12529e+00  -0.00000e+00  -7.10662e-02
+Creating the file with A,eA,u,eu,6,e6,N
+successfully stored output data in the file DATA/finalEnergyError32.dat
+Done with combo fit
+---------------------------------------------------
+---------------------------------------------------
+working on resolution 
+successfully opend the file DATA/finalEnergyError32.dat
+ FCN=40.8733 FROM MIGRAD    STATUS=CONVERGED      68 CALLS          69 TOTAL
+                     EDM=7.97957e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           7.44159e-01   3.20261e-02   4.46777e-05   2.73035e-02
+   2  p1          -4.36800e-05   6.46591e-05   9.02019e-08   1.37218e+01
+slope = -0.00004368
+slope error = 0.00006466
+intercept = 0.74415928
+intercept error = 0.03202615
+Corresponding to E = 1332 keV for (Co-60)): 
+sigma = 0.686
+FWHM  = 1.615
+Successfully stored the m, dm , b and db in the file DATA/results_from_resolution32.dat
+resolution successful
+---------------------------------------------------
+---------------------------------------------------
+working in random resolution 
+Successfully opened DATA/results_from_resolution32.dat
+ FCN=7594.3 FROM MIGRAD    STATUS=CALL LIMIT   1345 CALLS        1346 TOTAL
+                     EDM=0.389955    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  43.1 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     6.46637e+04   6.40825e+03   1.97771e+03  -2.68097e-03
+   2  Mean        -2.70932e-02   1.44799e-02  -1.54579e-03  -3.46243e+03
+   3  Sigma        2.07916e-01   2.68291e-03   3.02017e-05  -2.41323e+03
+Parameters and random errors: 
+64663.740            6408.254
+-0.027               0.014
+0.208               0.003
+successfully stored random resolution mc data into file FINAL/randomdata32.dat
+random resolution done successfully
+---------------------------------------------------
+successfully completed 
